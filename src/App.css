@@ -45,7 +45,30 @@
 .day-page .crescent-portal {
   pointer-events: none !important;
   z-index: 5 !important;
-} 
+}
+
+/* --- PHOTO GALLERY GLOBAL STYLES --- */
+/* --- PHOTO GALLERY GLOBAL STYLES --- */
+.photo-gallery img,
+.photo-gallery * img {
+  width: 100% !important;
+  max-width: 140px !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: 12px;
+  display: block;
+}
+
+.photo-grid img,
+.photo-grid * img {
+  width: 100% !important;
+  max-width: 140px !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: 12px;
+  display: block;
+}
+
 
 .calendar-container {
   /*background: url('./assets/marble-grey-white.png');*/
