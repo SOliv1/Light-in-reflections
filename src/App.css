@@ -6,6 +6,7 @@
   filter 0.6s ease;
 }
 
+
 .App-logo {
   height: 48px;
   width: auto;
@@ -23,9 +24,15 @@
 }
 
 
-
-
 .crescent-portal {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+  pointer-events: auto;
+
   transition: filter 0.4s ease, transform 0.4s ease;
 }
 
@@ -34,6 +41,11 @@
   transform: scale(1.05);
 }
 
+
+.day-page .crescent-portal {
+  pointer-events: none !important;
+  z-index: 5 !important;
+} 
 
 .calendar-container {
   /*background: url('./assets/marble-grey-white.png');*/
@@ -195,4 +207,43 @@ button:hover {
 .mood-orb:active {
   transform: scale(0.94);
 }
+
+
+/* ==== MOOD SELECTOR ==== */
+.mood-selector {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 30px 0;
+  padding: 12px 0;
+}
+
+.mood-selector button {
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
+  color: #333;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.mood-selector button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.mood-selector button.selected {
+  background: linear-gradient(135deg, #c7dfff, #e8f1ff);
+  color: #1a3a6b;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(150, 180, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+
 

@@ -17,6 +17,18 @@ body {
   height: 100vh;
   overflow: hidden;
   z-index: 0;
+  pointer-events: none;
+}
+
+.constellation-wrapper,
+.constellation-wrapper.interactive,
+.constellation-wrapper.interactive.active {
+  pointer-events: none !important;
+}
+
+.constellation-wrapper .star,
+.constellation-wrapper .shooting-star {
+  pointer-events: auto;
 }
 
 /* Evening veil overlay */
@@ -29,6 +41,7 @@ body {
   z-index: 2;
   pointer-events: none; /* ← THIS FIXES EVERYTHING */
 }
+
 
 .constellation-overlay.active {
   opacity: 1;

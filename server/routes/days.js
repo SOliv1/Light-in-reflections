@@ -1,9 +1,17 @@
+// -----------------------------
+// 🌿 Imports (top of file)
+// -----------------------------
 import express from "express";
 import client from "../db.js";
 
+// -----------------------------
+// 🌙 Setup
+// -----------------------------
 const router = express.Router();
 
-// Add a photo to a specific day
+// -----------------------------
+// 📸 Add a photo to a specific day
+// -----------------------------
 router.post("/add-photo", async (req, res) => {
   try {
     const { date, photoUrl } = req.body;
@@ -26,7 +34,9 @@ router.post("/add-photo", async (req, res) => {
   }
 });
 
-// Save or update mood for a specific day
+// -----------------------------
+// 🌤️ Save or update mood for a specific day
+// -----------------------------
 router.post("/set-mood", async (req, res) => {
   try {
     const { date, mood } = req.body;
@@ -49,4 +59,31 @@ router.post("/set-mood", async (req, res) => {
   }
 });
 
+// -----------------------------
+// 🌙 Fetch a day by UI date (16-03-26)
+// -----------------------------
+router.get("/:uiDate", async (req, res) => {
+  try {
+    const uiDate = req.params.uiDate; // "16-03-26"
+
+    // Convert UI date → ISO date
+    const [day, month, year] = uiDate.split("-");
+    const isoDate = `20${year}-${month}-${day}`; // "2026-03-16"
+
+    const db = client.db("reflections");
+    const dayDoc = await db.collection("days").findOne({ date: isoDate });
+
+    if (!dayDoc) {
+      return res.status(404).json({ error: "Day not found" });
+    }
+
+    res.json(dayDoc);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// -----------------------------
+// 🌺 Export
+// -----------------------------
 export default router;

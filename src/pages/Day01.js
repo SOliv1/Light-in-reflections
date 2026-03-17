@@ -1,5 +1,5 @@
 // src/pages/Day01.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PhotoGallery from "../components/PhotoGallery";
 import { Link } from "react-router-dom";
 import { Portal } from "../components/Portal/Portal";
@@ -8,12 +8,56 @@ const Day01 = () => {
   const [favourites, setFavourites] = useState({});
   const [mood, setMood] = useState(null);
 
- // ✔ Test images reinstated
-  const images = [
-    { id: "test1", src: "https://picsum.photos/300?random=1", alt: "Test image 1" },
-    { id: "test2", src: "https://picsum.photos/300?random=2", alt: "Test image 2" },
-    { id: "test3", src: "https://picsum.photos/300?random=3", alt: "Test image 3" },
-  ];
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  // NEW: real photos from backend
+  const [photos, setPhotos] = useState([]);
+
+  // Fetch real data for this day
+  useEffect(() => {
+    fetch("http://localhost:5000/days/16-03-26")
+      .then((res) => res.json())
+      .then((data) => {
+        setPhotos(data.photos || []);
+        setMood(data.mood || null);
+      })
+      .catch(() => {
+        console.log("No data found for this day yet.");
+      });
+  }, []);
+
+  function handleFileChange(e) {
+    setSelectedFile(e.target.files[0]);
+  }
+
+  async function handleUpload() {
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+
+    // Upload to backend → Cloudinary
+    const uploadRes = await fetch("http://localhost:5000/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const uploadData = await uploadRes.json();
+
+    // Save Cloudinary URL into MongoDB
+    await fetch("http://localhost:5000/days/add-photo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date: "2026-03-16",
+        photoUrl: uploadData.url,
+      }),
+    });
+
+    window.location.reload();
+  }
+
+  const [selectedMood, setSelectedMood] = useState("");
 
   const toggleFavourite = (id) => {
     setFavourites((prev) => ({
@@ -22,14 +66,31 @@ const Day01 = () => {
     }));
   };
 
+  async function saveMood() {
+    if (!selectedMood) return;
+
+    setMood(selectedMood);
+
+    await fetch("http://localhost:5000/days/set-mood", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date: "2026-03-16",
+        mood: selectedMood,
+      }),
+    });
+  }
+
   return (
     <div className="day-page">
       <Link to="/" className="crescent-portal"></Link>
 
+      <input type="file" accept="image/*" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload Photo</button>
+
       <h2>Day 1 Reflection</h2>
       <p>Soft morning light on the water…</p>
 
-      {/* 🌤️ SEASONAL PORTAL */}
       <div className="seasonal-portal">
         <div className="seasonal-portal-heading">
           <div className="seasonal-portal-line">The Light Awaits</div>
@@ -45,24 +106,28 @@ const Day01 = () => {
       />
 
       <PhotoGallery
-        images={images}
+        images={photos.map((url, index) => ({
+          id: index,
+          src: url,
+          alt: `Reflection ${index}`,
+        }))}
         favourites={favourites}
         toggleFavourite={toggleFavourite}
         season="winter"
       />
 
-
-      {/* Mood picker stays — this is fine */}
-      <div className="mood-picker">
-        <button onClick={() => setMood("calm")}>Calm</button>
-        <button onClick={() => setMood("warm")}>Warm</button>
-        <button onClick={() => setMood("bright")}>Bright</button>
-        <button onClick={() => setMood("reflective")}>Reflective</button>
-        <button onClick={() => setMood("playful")}>Playful</button>
-      </div>
-
       {mood && <p className="mood-label">Mood: {mood}</p>}
 
+      <div className="mood-selector">
+        <button onClick={() => setSelectedMood("calm")}>Calm</button>
+        <button onClick={() => setSelectedMood("joyful")}>Joyful</button>
+        <button onClick={() => setSelectedMood("stormy")}>Stormy</button>
+        <button onClick={() => setSelectedMood("reflective")}>Reflective</button>
+
+        <button onClick={saveMood} disabled={!selectedMood}>
+          Save Mood
+        </button>
+      </div>
     </div>
   );
 };

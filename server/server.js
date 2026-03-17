@@ -1,23 +1,35 @@
+// -----------------------------
+// 🌿 Imports (top of file)
+// -----------------------------
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import client from "./db.js";   // already connected client
 
+// Database client
+import client from "./db.js";
+
+// Routes
+import uploadRoute from "./routes/upload.js";
+import daysRoute from "./routes/days.js";
+
+// -----------------------------
+// 🌙 App Setup
+// -----------------------------
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Upload route
-import uploadRoute from "./routes/upload.js";
+// -----------------------------
+// 🌼 Route Mounting
+// -----------------------------
 app.use("/upload", uploadRoute);
-
-// Days route
-import daysRoute from "./routes/days.js";
 app.use("/days", daysRoute);
 
-// Start server — NO client.connect() here
+// -----------------------------
+// 🌺 Start Server
+// -----------------------------
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });

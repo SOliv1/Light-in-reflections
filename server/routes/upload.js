@@ -13,18 +13,24 @@ router.post("/", upload.single("image"), async (req, res) => {
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    const result = await cloudinary.uploader.upload_stream(
-      { folder: "reflections" },
-      (error, uploadResult) => {
-        if (error) {
-          return res.status(500).json({ error: error.message });
-        }
-        res.json({ url: uploadResult.secure_url });
-      }
-    );
+    // Wrap Cloudinary upload_stream in a Promise
+    const uploadToCloudinary = () => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "reflections" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
 
-    // Pipe the buffer into Cloudinary
-    result.end(file.buffer);
+        stream.end(file.buffer);
+      });
+    };
+
+    const result = await uploadToCloudinary();
+
+    res.json({ url: result.secure_url });
 
   } catch (err) {
     res.status(500).json({ error: err.message });
