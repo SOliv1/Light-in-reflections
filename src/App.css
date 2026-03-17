@@ -349,3 +349,52 @@ button:hover {
   filter: none !important;
 }
 
+
+/* Let the gallery “breathe” with the mood */
+.day-page,
+.day-page .photo-gallery,
+.day-page .photo-grid,
+.day-page .photo-tile img {
+  transition: filter 0.6s ease, opacity 0.6s ease;
+}
+.day-page.stormy .photo-gallery {
+  animation: stormyPulse 6s ease-in-out infinite;
+}
+@keyframes stormyPulse {
+  0% { opacity: 0.95; }
+  50% { opacity: 0.88; }
+  100% { opacity: 0.95; }
+}
+.day-page.calm .photo-gallery {
+  animation: calmGlow 8s ease-in-out infinite;
+}
+@keyframes calmGlow {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.05); }
+  100% { filter: brightness(1); }
+}
+.day-page.joyful .photo-gallery {
+  animation: joyfulWarmth 7s ease-in-out infinite;
+}
+@keyframes joyfulWarmth {
+  0% { filter: saturate(1.1); }
+  50% { filter: saturate(1.2); }
+  100% { filter: saturate(1.1); }
+}
+.day-page.reflective .photo-gallery {
+  animation: reflectiveFade 10s ease-in-out infinite;
+}
+
+@keyframes reflectiveFade {
+  0% { opacity: 1; }
+  50% { opacity: 0.92; }
+  100% { opacity: 1; }
+}
+.day-page.natural .photo-gallery {
+  animation: none;
+  filter: none !important;
+}
+
+
+
+
