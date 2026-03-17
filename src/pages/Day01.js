@@ -123,11 +123,22 @@ const Day01 = () => {
       {mood && <p className="mood-label">Mood: {mood}</p>}
 
       <div className="mood-selector">
-        <button onClick={() => setSelectedMood("calm")}>Calm</button>
-        <button onClick={() => setSelectedMood("joyful")}>Joyful</button>
-        <button onClick={() => setSelectedMood("stormy")}>Stormy</button>
-        <button onClick={() => setSelectedMood("reflective")}>Reflective</button>
 
+        <button onClick={() => { setMood("calm"); setSelectedMood("calm"); }}>
+          Calm
+        </button>
+        <button onClick={() => { setMood("joyful"); setSelectedMood("joyful"); }}>
+          Joyful
+        </button>
+        <button onClick={() => { setMood("stormy"); setSelectedMood("stormy"); }}>
+          Stormy
+        </button>
+        <button onClick={() => { setMood("reflective"); setSelectedMood("reflective"); }}>
+          Reflective
+        </button>
+        <button onClick={() => { setMood("natural"); setSelectedMood("natural"); }}>
+          Natural
+        </button>
         <button onClick={saveMood} disabled={!selectedMood}>
           Save Mood
         </button>
