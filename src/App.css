@@ -323,25 +323,25 @@ button:hover {
 .day-page.calm .photo-tile img {
   filter: hue-rotate(0deg) brightness(1.05) saturate(0.9);
 }
-
 .day-page.joyful .photo-gallery,
 .day-page.joyful .photo-grid,
 .day-page.joyful .photo-tile img {
-  filter: hue-rotate(40deg) brightness(1.1) saturate(1.2);
+  filter: sepia(0.45)
+          hue-rotate(-10deg)
+          brightness(1.12)
+          saturate(1.22)
+          contrast(1.08);
 }
-
 .day-page.stormy .photo-gallery,
 .day-page.stormy .photo-grid,
 .day-page.stormy .photo-tile img {
-  filter: hue-rotate(-60deg) brightness(0.85) saturate(0.8) contrast(1.1);
+  filter: hue-rotate(-70deg) brightness(0.78) saturate(0.65) contrast(1.18);
 }
-
 .day-page.reflective .photo-gallery,
 .day-page.reflective .photo-grid,
 .day-page.reflective .photo-tile img {
   filter: hue-rotate(-20deg) brightness(0.9) saturate(0.8);
 }
-
 .day-page.natural,
 .day-page.natural .photo-gallery,
 .day-page.natural .photo-grid,
