@@ -1,6 +1,6 @@
 import "./Portal.css";
 
-export function Portal({ dayIndex, season, mood, cueText, type }) {
+export function Portal({ dayIndex, season, mood, cueText, type, onClick, macroMood }) {
   // 1. Build the base day class (1–7)
   const dayClass = dayIndex ? `portal--day-${dayIndex}` : "";
 
@@ -26,31 +26,32 @@ export function Portal({ dayIndex, season, mood, cueText, type }) {
 
   // 5. Combine all classes
   const classes = [
-    "portal",
-    typeClass,
-    dayClass,
-    seasonClass,
-    moodClass,
-    pulseClass,
-    glowClass
+  "portal",
+  typeClass,
+  dayClass,
+  seasonClass,
+  moodClass,
+  pulseClass,
+  glowClass,
+  macroMood   // ← add this
   ]
-    .filter(Boolean)
-    .join(" ");
+  .filter(Boolean)
+  .join(" ");
 
   return (
-    <div className={classes}>
-      <div className="portal__core">
-        <div className="portal__crescent"></div>
-        <div className="portal__shimmer"></div>
-      </div>
-
-      {cueText && (
-        <div className="portal__cue">
-          {cueText}
-        </div>
-      )}
+  <div className={classes} onClick={onClick}>
+    <div className="portal__core">
+      <div className="portal__crescent"></div>
+      <div className="portal__shimmer"></div>
     </div>
-  );
+
+    {cueText && (
+      <div className="portal__cue">
+        {cueText}
+      </div>
+    )}
+  </div>
+);
 }
 
 export default Portal;

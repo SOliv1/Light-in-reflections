@@ -26,6 +26,14 @@
   --mood-playful-neon-rose: #FF5FA2;
 }
 
+.portal.mode-water {
+  box-shadow:
+    0 0 24px var(--mode-shadow),
+    0 0 32px var(--mode-accent),
+    0 0 48px var(--season-glow-inner);
+}
+
+
 /* ------------------------------------------------------ */
 /* PORTAL BASE                                             */
 /* ------------------------------------------------------ */
@@ -363,7 +371,7 @@
   background: radial-gradient(circle at 50% 35%,
       rgba(var(--season-rgb), 0.42),
       rgba(var(--season-rgb), 0.22) 55%,
-      transparent 85%) !important;
+      transparent 85%);
 
   border: 2px solid rgba(255, 255, 255, 0.78);
 
@@ -421,10 +429,6 @@
 }
 
 /* Internals */
-.portal--seasonal .portal__core {
-  opacity: 0.55;
-  box-shadow: 0 0 22px rgba(255, 255, 255, 0.32);
-}
 
 .portal--seasonal .portal__crescent {
   opacity: 0.32;
@@ -482,4 +486,11 @@
   box-shadow:
     0 0 22px rgba(0, 0, 0, 0.35),
     0 0 38px var(--season-tint) !important;
+}
+
+.portal {
+  box-shadow: 0 0 24px var(--mode-shadow, rgba(0,0,0,0.45));
+  background: radial-gradient(circle at 30% 30%,
+      var(--mode-glow, rgba(255,255,255,0.35)),
+      transparent 60%);
 }

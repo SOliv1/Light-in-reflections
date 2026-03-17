@@ -14,6 +14,9 @@ const Day01 = () => {
   // NEW: real photos from backend
   const [photos, setPhotos] = useState([]);
 
+  const [macroMood, setMacroMood] = useState(null);
+
+
   // Fetch real data for this day
   useEffect(() => {
     fetch(`${API_BASE_URL}/days/16-03-26`)
@@ -83,11 +86,14 @@ const Day01 = () => {
     });
   }
 
+
+
+
   return (
   <>
     <Link to="/" className="crescent-portal"></Link>
 
-    <div className={`day-page ${mood || ""}`}>
+    <div className={`day-page ${mood || ""} ${macroMood || ""}`}>
 
       <input type="file" accept="image/*" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload Photo</button>
@@ -101,13 +107,16 @@ const Day01 = () => {
         </div>
       </div>
 
-      <Portal
-        type="seasonal"
-        dayIndex={1}
-        season="winter"
-        mood={mood}
-        cueText="Enter"
-      />
+     <Portal
+      type="seasonal"
+      dayIndex={1}
+      season="winter"
+      mood={mood}
+      cueText="Enter"
+      macroMood={macroMood}   // ← THIS MUST BE HERE
+      onClick={() => setMacroMood("mode-water")}
+     />
+
 
       <PhotoGallery
         images={photos.map((url, index) => ({

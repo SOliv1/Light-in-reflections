@@ -109,6 +109,18 @@
     --mode-shadow:rgba(120, 0, 60, 0.15);
     --mode-glow:rgba(255, 180, 220, 0.25);
 }
+.day-page {
+  box-shadow: 0 0 20px var(--mode-shadow);
+}
+
+.portal-glow {
+  background: var(--mode-glow);
+}
+
+.accent-line {
+  border-color: var(--mode-accent);
+}
+
 
 
 button {
