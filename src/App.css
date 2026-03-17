@@ -4,8 +4,8 @@
   transition: background 0.6s ease,
   color 0.6s ease,
   filter 0.6s ease;
+  position: relative;
 }
-
 
 .App-logo {
   height: 48px;
@@ -23,32 +23,46 @@
   filter: brightness(1.2) saturate(1.15) hue-rotate(5deg);
 }
 
+#root {
+  position: relative;
+}
 
 .crescent-portal {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 40px;
-  height: 40px;
-  z-index: 10;
+  top: 12px;
+  left: 12px;
+  width: 48px;
+  height: 48px;
+  display: block;
+  z-index: 9999;
   pointer-events: auto;
-
-  transition: filter 0.4s ease, transform 0.4s ease;
 }
+
+
 
 .crescent-portal:hover {
   filter: brightness(1.25) saturate(1.1);
   transform: scale(1.05);
 }
 
-
 .day-page .crescent-portal {
-  pointer-events: none !important;
-  z-index: 5 !important;
+  pointer-events: auto !important;
+  z-index: 9999 !important;
+}
+
+.day-page {
+  position: relative;
 }
 
 /* --- PHOTO GALLERY GLOBAL STYLES --- */
-/* --- PHOTO GALLERY GLOBAL STYLES --- */
+
+
+.day-page.reflective .photo-gallery,
+.day-page.reflective .photo-grid {
+  filter: hue-rotate(-20deg) brightness(0.9) saturate(0.8);
+}
+
+
 .photo-gallery img,
 .photo-gallery * img {
   width: 100% !important;
@@ -268,5 +282,19 @@ button:hover {
   transform: translateY(-2px);
 }
 
+/* ---- MOOD COLOURS FOR THE DAY PAGES ---- */
+.day-page.calm {
+  filter: hue-rotate(0deg) brightness(1.05) saturate(0.9);
+}
 
+.day-page.joyful {
+  filter: hue-rotate(40deg) brightness(1.1) saturate(1.2);
+}
 
+.day-page.stormy {
+  filter: hue-rotate(-60deg) brightness(0.85) saturate(0.8);
+}
+
+.day-page.reflective {
+  filter: hue-rotate(-20deg) brightness(0.9) saturate(0.8);
+}

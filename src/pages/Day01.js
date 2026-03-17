@@ -84,8 +84,10 @@ const Day01 = () => {
   }
 
   return (
-    <div className="day-page">
-      <Link to="/" className="crescent-portal"></Link>
+  <>
+    <Link to="/" className="crescent-portal"></Link>
+
+    <div className={`day-page ${mood || ""}`}>
 
       <input type="file" accept="image/*" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload Photo</button>
@@ -131,6 +133,7 @@ const Day01 = () => {
         </button>
       </div>
     </div>
+  </>
   );
 };
 
