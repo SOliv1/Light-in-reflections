@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import PhotoGallery from "../components/PhotoGallery";
 import { Link } from "react-router-dom";
 import { Portal } from "../components/Portal/Portal";
+import { API_BASE_URL } from "../config";
 
 const Day01 = () => {
   const [favourites, setFavourites] = useState({});
@@ -15,7 +16,7 @@ const Day01 = () => {
 
   // Fetch real data for this day
   useEffect(() => {
-    fetch("http://localhost:5000/days/16-03-26")
+    fetch(`${API_BASE_URL}/days/16-03-26`)
       .then((res) => res.json())
       .then((data) => {
         setPhotos(data.photos || []);
@@ -37,7 +38,7 @@ const Day01 = () => {
     formData.append("image", selectedFile);
 
     // Upload to backend → Cloudinary
-    const uploadRes = await fetch("http://localhost:5000/upload", {
+    const uploadRes = await fetch(`${API_BASE_URL}/upload`, {
       method: "POST",
       body: formData,
     });
@@ -45,7 +46,8 @@ const Day01 = () => {
     const uploadData = await uploadRes.json();
 
     // Save Cloudinary URL into MongoDB
-    await fetch("http://localhost:5000/days/add-photo", {
+    await fetch(`${API_BASE_URL}/days/add-photo`, {
+
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -71,7 +73,7 @@ const Day01 = () => {
 
     setMood(selectedMood);
 
-    await fetch("http://localhost:5000/days/set-mood", {
+    await fetch(`${API_BASE_URL}/days/set-mood`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
