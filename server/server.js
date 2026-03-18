@@ -18,11 +18,25 @@ import daysRoute from "./routes/days.js";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// -----------------------------
+// 🌼 CORS (must come BEFORE routes)
+// -----------------------------
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://reflections-in-light.onrender.com"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
+
 app.use(express.json());
 
 // -----------------------------
-// 🌼 Route Mounting
+// 🌺 Route Mounting
 // -----------------------------
 app.use("/upload", uploadRoute);
 app.use("/days", daysRoute);

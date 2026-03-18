@@ -19,7 +19,8 @@ const Day01 = () => {
 
   // Fetch real data for this day
   useEffect(() => {
-    fetch(`${API_BASE_URL}/days/16-03-26`)
+    fetch(`${API_BASE_URL}/days/18-04-2026`)
+
       .then((res) => res.json())
       .then((data) => {
         setPhotos(data.photos || []);
@@ -54,7 +55,7 @@ const Day01 = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        date: "2026-03-16",
+        date: "18-03-2026",
         photoUrl: uploadData.url,
       }),
     });
@@ -80,7 +81,7 @@ const Day01 = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        date: "2026-03-16",
+        date: "18-03-2026",
         mood: selectedMood,
       }),
     });
