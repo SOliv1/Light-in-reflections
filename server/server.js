@@ -15,9 +15,12 @@ import daysRoute from "./routes/days.js";
 // -----------------------------
 // 🌙 App Setup
 // -----------------------------
-dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 
 const app = express();
+
 
 // -----------------------------
 // 🌼 CORS (must come BEFORE routes)
