@@ -1,7 +1,10 @@
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
-dotenv.config();
+// Load .env ONLY in development
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 
 const client = new MongoClient(process.env.MONGODB_URI);
 
