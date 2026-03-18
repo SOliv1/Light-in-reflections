@@ -19,7 +19,7 @@ const Day01 = () => {
 
   // Fetch real data for this day
   useEffect(() => {
-    fetch(`${API_BASE_URL}/days/18-04-2026`)
+    fetch(`${API_BASE_URL}/days/18-03-2026`)
 
       .then((res) => res.json())
       .then((data) => {
