@@ -7,4 +7,4 @@ const isLocalhost = window.location.hostname === "localhost";
 
 export const API_BASE_URL = isLocalhost
   ? "http://localhost:5000"  // local backend
-  : "https://reflections-in-light.onrender.com";  // deployed backend
+  : "https://reflections-hcjq.onrender.com";  // deployed backend
