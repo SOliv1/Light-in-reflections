@@ -1,17 +1,20 @@
 import express from "express";
 import multer from "multer";
-import { cloudinary } from "../cloudinary.js";
-
-
+import cloudinary from "../cloudinary.js";
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/", upload.single("image"), async (req, res) => {
+  // 🌟 DEBUG LOGS — these tell us what is happening
+  console.log("📸 Upload route hit");
+  console.log("File received:", req.file ? "YES" : "NO");
+
   try {
     const file = req.file;
 
     if (!file) {
+      console.log("❌ Multer did NOT receive a file");
       return res.status(400).json({ error: "No file uploaded" });
     }
 
@@ -21,8 +24,13 @@ router.post("/", upload.single("image"), async (req, res) => {
         const stream = cloudinary.uploader.upload_stream(
           { folder: "reflections" },
           (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
+            if (error) {
+              console.log("❌ Cloudinary error:", error);
+              reject(error);
+            } else {
+              console.log("✅ Cloudinary upload success");
+              resolve(result);
+            }
           }
         );
 
@@ -35,6 +43,7 @@ router.post("/", upload.single("image"), async (req, res) => {
     res.json({ url: result.secure_url });
 
   } catch (err) {
+    console.log("❌ Upload route crashed:", err.message);
     res.status(500).json({ error: err.message });
   }
 });

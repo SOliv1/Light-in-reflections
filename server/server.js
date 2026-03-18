@@ -25,6 +25,7 @@ const app = express();
 app.use(
   cors({
     origin: [
+      "http://localhost",
       "http://localhost:3000",
       "https://reflections-in-light.onrender.com"
     ],
