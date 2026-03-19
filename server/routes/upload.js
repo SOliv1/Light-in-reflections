@@ -9,7 +9,7 @@ router.post("/", upload.single("image"), async (req, res) => {
   console.log("Upload route hit");
   console.log("req.file exists:", !!req.file );
   console.log("req.body", req.body);
-  
+
   try {
     const file = req.file;
 
