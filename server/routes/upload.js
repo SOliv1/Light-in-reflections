@@ -1,9 +1,12 @@
 import express from "express";
-import multer from "multer";
 import cloudinary from "../cloudinary.js";
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+
+const upload = multer({ storage });
 
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/", upload.single("image"), async (req, res) => {
   console.log("Upload route hit");
@@ -12,6 +15,8 @@ router.post("/", upload.single("image"), async (req, res) => {
 
   try {
     const file = req.file;
+
+    console.log("file.buffer exists:", !!file?.buffer);
 
     if (!file) {
       console.log("No file received by multer");
