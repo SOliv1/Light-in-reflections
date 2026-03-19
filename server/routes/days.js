@@ -14,6 +14,8 @@ const router = express.Router();
 // -----------------------------
 router.post("/add-photo", async (req, res) => {
   try {
+    console.log("add-photo route hit");
+    console.log("req.body:", req.body);
     const { date, photoUrl } = req.body;
 
     if (!date || !photoUrl) {
@@ -27,6 +29,8 @@ router.post("/add-photo", async (req, res) => {
       { $push: { photos: photoUrl } },
       { upsert: true }
     );
+
+    console.log("Mongo update result:", result);
 
     res.json({ message: "Photo saved successfully" });
   } catch (err) {
@@ -63,19 +67,15 @@ router.post("/set-mood", async (req, res) => {
 // -----------------------------
 // 🌙 Fetch a day by UI date (16-03-26)
 // -----------------------------
-router.post("/:uiDate", async (req, res) => {
+router.get("/:date", async (req, res) => {
   try {
-    const uiDate = req.params.uiDate; // "16-03-26"
-
-    // Convert UI date → ISO date
-    const [day, month, year] = uiDate.split("-");
-    const isoDate = `20${year}-${month}-${day}`; // "2026-03-16"
+    const uiDate = req.params.date;
 
     const db = client.db("reflections");
-    const dayDoc = await db.collection("days").findOne({ date: isoDate });
+    const dayDoc = await db.collection("days").findOne({ date: uiDate });
 
     if (!dayDoc) {
-      return res.status(404).json({ error: "Day not found" });
+      return res.json({ date: uiDate, photos: [], mood: null });
     }
 
     res.json(dayDoc);
