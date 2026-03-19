@@ -22,7 +22,7 @@ router.post("/add-photo", async (req, res) => {
 
     const db = client.db("reflections");
 
-    await db.collection("days").updateOne(
+    const result = await db.collection("days").updateOne(
       { date },
       { $push: { photos: photoUrl } },
       { upsert: true }
@@ -30,6 +30,7 @@ router.post("/add-photo", async (req, res) => {
 
     res.json({ message: "Photo saved successfully" });
   } catch (err) {
+    console.log("add-photo error:", err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -62,7 +63,7 @@ router.post("/set-mood", async (req, res) => {
 // -----------------------------
 // 🌙 Fetch a day by UI date (16-03-26)
 // -----------------------------
-router.get("/:uiDate", async (req, res) => {
+router.post("/:uiDate", async (req, res) => {
   try {
     const uiDate = req.params.uiDate; // "16-03-26"
 
