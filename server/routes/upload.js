@@ -1,7 +1,14 @@
+import express from "express";
+import multer from "multer";
+import cloudinary from "../cloudinary.js";
+
+const router = express.Router();
+const upload = multer({ storage: multer.memoryStorage() });
+
 router.post("/", upload.single("image"), async (req, res) => {
   console.log("Upload route hit");
   console.log("req.file exists:", !!req.file);
-  console.log("req.body", req.body);
+  console.log("req.body:", req.body);
 
   try {
     const file = req.file;
@@ -39,3 +46,5 @@ router.post("/", upload.single("image"), async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+export default router;
