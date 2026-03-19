@@ -6,40 +6,27 @@ const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/", upload.single("image"), async (req, res) => {
-  console.log("📸 Upload route hit");
-  console.log("File received:", req.file ? "YES" : "NO");
-
   try {
     const file = req.file;
 
     if (!file) {
-      console.log("❌ Multer did NOT receive a file");
+
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    const uploadToCloudinary = () => {
-      return new Promise((resolve, reject) => {
+    const result = await new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
           { folder: "reflections" },
           (error, result) => {
-            if (error) {
-              console.log("❌ Cloudinary error:", error);
-              reject(error);
-            } else {
-              console.log("✅ Cloudinary upload success");
-              resolve(result);
-            }
+            if (error) return reject(error);
+            resolve(result);
           }
         );
 
         stream.end(file.buffer);
       });
-    };
 
-    const result = await uploadToCloudinary();
-
-    res.json({ url: result.secure_url });
-
+    res.json({ photoUrl: result.secure_url });
   } catch (err) {
     console.log("❌ Upload route crashed:", err.message);
     res.status(500).json({ error: err.message });
