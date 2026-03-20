@@ -56,6 +56,10 @@ const Day01 = () => {
     setSelectedFile(null);
   }
 
+  function handleDeletePhoto(photoSrcToDelete) {
+  setPhotos((prev) => prev.filter((url) => url !== photoSrcToDelete));
+  }
+
   const toggleFavourite = (id) => {
     setFavourites((prev) => ({
       ...prev,
@@ -77,6 +81,7 @@ const Day01 = () => {
       }),
     });
   }
+
 
   return (
     <>
@@ -107,13 +112,14 @@ const Day01 = () => {
 
         <PhotoGallery
           images={photos.map((url, index) => ({
-            id: index,
+            id: url,
             src: url,
-            alt: `Reflection ${index}`,
+            alt: `Reflection ${index + 1}`,
           }))}
           favourites={favourites}
           toggleFavourite={toggleFavourite}
           season="winter"
+          onDelete={handleDeletePhoto}
         />
 
         {mood && <p className="mood-label">Mood: {mood}</p>}
