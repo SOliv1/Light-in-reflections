@@ -14,8 +14,7 @@ const router = express.Router();
 // -----------------------------
 router.post("/add-photo", async (req, res) => {
   try {
-    console.log("add-photo route hit");
-    console.log("req.body:", req.body);
+
     const { date, photoUrl } = req.body;
 
     if (!date || !photoUrl) {
@@ -30,11 +29,11 @@ router.post("/add-photo", async (req, res) => {
       { upsert: true }
     );
 
-    console.log("Mongo update result:", result);
+
 
     res.json({ message: "Photo saved successfully" });
   } catch (err) {
-    console.log("add-photo error:", err);
+
     res.status(500).json({ error: err.message });
   }
 });
@@ -85,9 +84,6 @@ router.get("/:date", async (req, res) => {
 });
 
 // -----------------------------
-// 🌙 Delete a day by UI date (16-03-26)
-// -----------------------------
-// -----------------------------
 // 🌙 Delete a photo from a specific day
 // -----------------------------
 router.post("/delete-photo", async (req, res) => {
@@ -105,8 +101,6 @@ router.post("/delete-photo", async (req, res) => {
       { $pull: { photos: photoUrl } }
     );
 
-    console.log("delete-photo result:", result);
-
     const updatedDay = await db.collection("days").findOne({ date });
 
     res.json({
@@ -114,7 +108,7 @@ router.post("/delete-photo", async (req, res) => {
       day: updatedDay || { date, photos: [], mood: null },
     });
   } catch (err) {
-    console.log("delete-photo error:", err);
+
     res.status(500).json({ error: err.message });
   }
 });

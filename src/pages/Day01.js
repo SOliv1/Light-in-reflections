@@ -21,8 +21,7 @@ const Day01 = () => {
         setMood(data.mood || null);
       })
       .catch(() => {
-        console.log("No data found for this day yet.");
-      });
+
   }, []);
 
   function handleFileChange(e) {
@@ -41,7 +40,7 @@ const Day01 = () => {
     });
 
     const uploadData = await uploadRes.json();
-    console.log("uploadData:", uploadData);
+
 
     await fetch(`${API_BASE_URL}/days/add-photo`, {
       method: "POST",
@@ -79,12 +78,11 @@ const Day01 = () => {
     });
 
     const data = await res.json();
-    console.log("delete response:", data);
+
   } catch (err) {
-    console.log("delete failed:", err);
+
   }
 }
-
 
   const toggleFavourite = (id) => {
     setFavourites((prev) => ({
