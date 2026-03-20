@@ -1,4 +1,4 @@
-import { Archive } from "lucide-react";
+
 
 const PhotoTile = ({
   img,
@@ -42,10 +42,10 @@ const PhotoTile = ({
           e.stopPropagation();
           onDelete(photo.src);
         }}
-        aria-label="Move photo to storage box"
-        title="Move to storage box"
+        aria-label="Move photo to basket"
+        title="Move to basket"
       >
-        <Archive size={16} />
+        🧺
       </button>
     </div>
   );
