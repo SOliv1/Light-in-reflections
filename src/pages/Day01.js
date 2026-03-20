@@ -56,11 +56,35 @@ const Day01 = () => {
     setSelectedFile(null);
   }
 
-  function handleDeletePhoto(photoIdToDelete) {
+  async function handleDeletePhoto(photoIdToDelete) {
+  // Extract the actual URL from your id format
+  const photoUrlToDelete = photoIdToDelete.split("-").slice(1).join("-");
+
+  // 1. Update UI immediately
   setPhotos((prev) =>
     prev.filter((url, index) => `${index}-${url}` !== photoIdToDelete)
   );
+
+  // 2. Persist delete to backend
+  try {
+    const res = await fetch(`${API_BASE_URL}/days/delete-photo`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        date: "18-03-2026",
+        photoUrl: photoUrlToDelete,
+      }),
+    });
+
+    const data = await res.json();
+    console.log("delete response:", data);
+  } catch (err) {
+    console.log("delete failed:", err);
   }
+}
+
 
   const toggleFavourite = (id) => {
     setFavourites((prev) => ({

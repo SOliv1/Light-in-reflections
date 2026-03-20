@@ -85,6 +85,41 @@ router.get("/:date", async (req, res) => {
 });
 
 // -----------------------------
+// 🌙 Delete a day by UI date (16-03-26)
+// -----------------------------
+// -----------------------------
+// 🌙 Delete a photo from a specific day
+// -----------------------------
+router.post("/delete-photo", async (req, res) => {
+  try {
+    const { date, photoUrl } = req.body;
+
+    if (!date || !photoUrl) {
+      return res.status(400).json({ error: "Missing date or photoUrl" });
+    }
+
+    const db = client.db("reflections");
+
+    const result = await db.collection("days").updateOne(
+      { date },
+      { $pull: { photos: photoUrl } }
+    );
+
+    console.log("delete-photo result:", result);
+
+    const updatedDay = await db.collection("days").findOne({ date });
+
+    res.json({
+      message: "Photo deleted successfully",
+      day: updatedDay || { date, photos: [], mood: null },
+    });
+  } catch (err) {
+    console.log("delete-photo error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// -----------------------------
 // 🌺 Export
 // -----------------------------
 export default router;
