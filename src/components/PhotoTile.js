@@ -1,4 +1,14 @@
-const PhotoTile = ({ img, onClick, isFavourite, onToggle, season }) => {
+import { Archive } from "lucide-react";
+
+const PhotoTile = ({
+  img,
+  onClick,
+  isFavourite,
+  onToggle,
+  season,
+  photo,
+  onDelete
+}) => {
   const seasonalGlow = {
     winter: "#7fc8ff",
     spring: "#ff8fb1",
@@ -6,7 +16,7 @@ const PhotoTile = ({ img, onClick, isFavourite, onToggle, season }) => {
     autumn: "#ffb36b",
   };
 
-  const glow = seasonalGlow[season] || "#ffd700"; // fallback gold
+  const glow = seasonalGlow[season] || "#ffd700";
 
   return (
     <div className="photo-tile" onClick={onClick}>
@@ -24,6 +34,18 @@ const PhotoTile = ({ img, onClick, isFavourite, onToggle, season }) => {
         }}
       >
         {isFavourite ? "❤️" : "🤍"}
+      </button>
+
+      <button
+        className="photo-delete-btn"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete(photo.src);
+        }}
+        aria-label="Move photo to storage box"
+        title="Move to storage box"
+      >
+        <Archive size={16} />
       </button>
     </div>
   );
