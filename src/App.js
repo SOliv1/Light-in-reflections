@@ -78,7 +78,7 @@ function App() {
       {/* Constellation now receives veilOn */}
       <Constellation veilOn={veilOn} />
 
-      <div className={`App mode-${mode} mood-${currentMood} ${veilOn ? "veil-on" : "veil-off"}`}>
+      <div className={`App mode-${mode} ${veilOn ? "veil-on" : "veil-off"}`}>
 
 
         <img src={logo} alt="My Reflections Glow logo" className="App-logo" />
