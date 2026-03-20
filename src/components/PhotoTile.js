@@ -40,12 +40,13 @@ const PhotoTile = ({
         className="photo-delete-btn"
         onClick={(e) => {
           e.stopPropagation();
-          onDelete(photo.src);
+          console.log("Deleting photo:", photo);
+          onDelete(photo.id);   // or photo.src if you are still using src
         }}
         aria-label="Move photo to basket"
         title="Move to basket"
       >
-        🧺
+      🧺
       </button>
     </div>
   );
