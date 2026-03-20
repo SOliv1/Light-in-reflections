@@ -407,6 +407,37 @@ button:hover {
   filter: none !important;
 }
 
+/* ——— Global Mood Filters ——— */
+
+.mood-stormy {
+  filter: brightness(0.8) contrast(1.2) hue-rotate(20deg);
+}
+
+.mood-sunny {
+  filter: brightness(1.15) saturate(1.2);
+}
+
+.mood-dreamy {
+  filter: brightness(1.1) blur(1px) hue-rotate(40deg);
+}
+
+.mood-soft {
+  filter: brightness(1.05) saturate(0.9);
+}
+
+.mood-night {
+  filter: brightness(0.6) contrast(1.1);
+}
+
+
+
+
+
+
+@media (max-width: 600px) {
+  /* mobile-specific adjustments */
+}
+
 
 
 
