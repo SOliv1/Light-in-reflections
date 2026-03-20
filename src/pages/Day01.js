@@ -21,7 +21,8 @@ const Day01 = () => {
         setMood(data.mood || null);
       })
       .catch(() => {
-
+        console.log("No data found for this day yet.");
+      });
   }, []);
 
   function handleFileChange(e) {
@@ -41,7 +42,6 @@ const Day01 = () => {
 
     const uploadData = await uploadRes.json();
 
-
     await fetch(`${API_BASE_URL}/days/add-photo`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -56,33 +56,29 @@ const Day01 = () => {
   }
 
   async function handleDeletePhoto(photoIdToDelete) {
-  // Extract the actual URL from your id format
-  const photoUrlToDelete = photoIdToDelete.split("-").slice(1).join("-");
+    const photoUrlToDelete = photoIdToDelete.split("-").slice(1).join("-");
 
-  // 1. Update UI immediately
-  setPhotos((prev) =>
-    prev.filter((url, index) => `${index}-${url}` !== photoIdToDelete)
-  );
+    setPhotos((prev) =>
+      prev.filter((url, index) => `${index}-${url}` !== photoIdToDelete)
+    );
 
-  // 2. Persist delete to backend
-  try {
-    const res = await fetch(`${API_BASE_URL}/days/delete-photo`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        date: "18-03-2026",
-        photoUrl: photoUrlToDelete,
-      }),
-    });
+    try {
+      const res = await fetch(`${API_BASE_URL}/days/delete-photo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: "18-03-2026",
+          photoUrl: photoUrlToDelete,
+        }),
+      });
 
-    const data = await res.json();
-
-  } catch (err) {
-
+      await res.json();
+    } catch (err) {
+      console.log("delete failed:", err);
+    }
   }
-}
 
   const toggleFavourite = (id) => {
     setFavourites((prev) => ({
@@ -105,7 +101,6 @@ const Day01 = () => {
       }),
     });
   }
-
 
   return (
     <>
