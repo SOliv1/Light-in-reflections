@@ -2,23 +2,29 @@ import { useState } from "react";
 import PhotoTile from "./PhotoTile";
 import "./PhotoGallery.css";
 
-const PhotoGallery = ({ images, favourites, toggleFavourite, season }) => {
-
+const PhotoGallery = ({
+  images,
+  favourites,
+  toggleFavourite,
+  season,
+  onDelete,
+}) => {
   const [expandedPhoto, setExpandedPhoto] = useState(null);
 
   return (
     <>
       <div className="photo-grid">
-        {images.map((img) => (
+        {images.map((image) => (
           <PhotoTile
-        key={img.id}
-        img={img}
-        isFavourite={favourites[img.id]}
-        onToggle={() => toggleFavourite(img.id)}
-        onClick={() => setExpandedPhoto(img.src)}
-        season={season}
-    />
-
+            key={image.id}
+            img={image}
+            photo={image}
+            isFavourite={!!favourites[image.id]}
+            onToggle={() => toggleFavourite(image.id)}
+            onClick={() => setExpandedPhoto(image.src)}
+            season={season}
+            onDelete={onDelete}
+          />
         ))}
       </div>
 
