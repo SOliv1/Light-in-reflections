@@ -18,6 +18,13 @@ const PhotoGallery = ({
   autumn: "hue-rotate(20deg) brightness(1.05)",
 };
 
+const seasonalBorderGlow = {
+  winter: "rgba(127, 200, 255, 0.45)",
+  spring: "rgba(255, 143, 177, 0.45)",
+  summer: "rgba(255, 215, 0, 0.45)",
+  autumn: "rgba(255, 179, 107, 0.45)",
+};
+
 
   return (
     <>
@@ -41,7 +48,8 @@ const PhotoGallery = ({
         <img
           src={expandedPhoto}
           alt="Expanded"
-          style={{ filter: seasonalTint[season] || "none" }}
+          className="seasonal-border"
+          style={{ "--season-glow": seasonalBorderGlow[season] }}
         />
       </div>
      )}
