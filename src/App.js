@@ -48,6 +48,7 @@ function App() {
   const [veilOn, setVeilOn] = useState(true);   // ✔ inside App()
 
 
+
   useEffect(() => {
     let ticking = false;
 
@@ -78,6 +79,7 @@ function App() {
       <Constellation veilOn={veilOn} />
 
       <div className={`App mode-${mode} mood-${currentMood} ${veilOn ? "veil-on" : "veil-off"}`}>
+
 
         <img src={logo} alt="My Reflections Glow logo" className="App-logo" />
 

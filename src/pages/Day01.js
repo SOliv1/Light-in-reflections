@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { Portal } from "../components/Portal/Portal";
 import { API_BASE_URL } from "../config";
 
+
+
 const Day01 = () => {
   const [favourites, setFavourites] = useState({});
   const [mood, setMood] = useState(null);
@@ -12,7 +14,8 @@ const Day01 = () => {
   const [photos, setPhotos] = useState([]);
   const [macroMood, setMacroMood] = useState(null);
   const [selectedMood, setSelectedMood] = useState("");
-  const [currentMood, setCurrentMood] = useState(null);
+
+
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/days/18-03-2026`)
@@ -124,8 +127,8 @@ const Day01 = () => {
           type="mood"
           dayIndex={1}
           season="winter"
-          mood={currentMood}
-          setMood={setCurrentMood}
+          mood={mood}
+          setMood={setMood}
           cueText="Begin"
         />
 
