@@ -56,8 +56,10 @@ const Day01 = () => {
     setSelectedFile(null);
   }
 
-  function handleDeletePhoto(photoSrcToDelete) {
-  setPhotos((prev) => prev.filter((url) => url !== photoSrcToDelete));
+  function handleDeletePhoto(photoIdToDelete) {
+  setPhotos((prev) =>
+    prev.filter((url, index) => `${index}-${url}` !== photoIdToDelete)
+  );
   }
 
   const toggleFavourite = (id) => {
