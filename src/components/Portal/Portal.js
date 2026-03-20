@@ -1,6 +1,15 @@
 import "./Portal.css";
 
-export function Portal({ dayIndex, season, mood, cueText, type, onClick, macroMood }) {
+export function Portal({
+  dayIndex,
+  season,
+  mood,
+  cueText,
+  type,
+  onClick,
+  macroMood,
+  setMood   // ← added here
+}) {
   // 1. Build the base day class (1–7)
   const dayClass = dayIndex ? `portal--day-${dayIndex}` : "";
 
@@ -26,32 +35,39 @@ export function Portal({ dayIndex, season, mood, cueText, type, onClick, macroMo
 
   // 5. Combine all classes
   const classes = [
-  "portal",
-  typeClass,
-  dayClass,
-  seasonClass,
-  moodClass,
-  pulseClass,
-  glowClass,
-  macroMood   // ← add this
+    "portal",
+    typeClass,
+    dayClass,
+    seasonClass,
+    moodClass,
+    pulseClass,
+    glowClass,
+    macroMood
   ]
-  .filter(Boolean)
-  .join(" ");
+    .filter(Boolean)
+    .join(" ");
 
   return (
-  <div className={classes} onClick={onClick}>
-    <div className="portal__core">
-      <div className="portal__crescent"></div>
-      <div className="portal__shimmer"></div>
-    </div>
+    <div
+      className={classes}
+      onClick={() => {
+        // If this is a mood portal, set the global mood
+        if (type === "mood" && setMood) {
+          setMood(mood);
+        }
 
-    {cueText && (
-      <div className="portal__cue">
-        {cueText}
+        // Preserve any additional click behaviour
+        if (onClick) onClick();
+      }}
+    >
+      <div className="portal__core">
+        <div className="portal__crescent"></div>
+        <div className="portal__shimmer"></div>
       </div>
-    )}
-  </div>
-);
+
+      {cueText && <div className="portal__cue">{cueText}</div>}
+    </div>
+  );
 }
 
 export default Portal;

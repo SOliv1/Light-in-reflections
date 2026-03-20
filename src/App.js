@@ -41,6 +41,8 @@ import Day30 from "./pages/Day30";
 import Day31 from "./pages/Day31";
 
 
+
+
 function App() {
   const [mode, setMode] = useState("architectural");
   const [veilOn, setVeilOn] = useState(true);   // ✔ inside App()
@@ -75,7 +77,7 @@ function App() {
       {/* Constellation now receives veilOn */}
       <Constellation veilOn={veilOn} />
 
-      <div className={`App mode-${mode} ${veilOn ? "veil-on" : "veil-off"}`}>
+      <div className={`App mode-${mode} mood-${currentMood} ${veilOn ? "veil-on" : "veil-off"}`}>
 
         <img src={logo} alt="My Reflections Glow logo" className="App-logo" />
 

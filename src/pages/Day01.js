@@ -12,6 +12,7 @@ const Day01 = () => {
   const [photos, setPhotos] = useState([]);
   const [macroMood, setMacroMood] = useState(null);
   const [selectedMood, setSelectedMood] = useState("");
+  const [currentMood, setCurrentMood] = useState(null);
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/days/18-03-2026`)
@@ -120,13 +121,12 @@ const Day01 = () => {
         </div>
 
         <Portal
-          type="seasonal"
+          type="mood"
           dayIndex={1}
           season="winter"
-          mood={mood}
-          cueText="Enter"
-          macroMood={macroMood}
-          onClick={() => setMacroMood("mode-water")}
+          mood={currentMood}
+          setMood={setCurrentMood}
+          cueText="Begin"
         />
 
         <PhotoGallery
