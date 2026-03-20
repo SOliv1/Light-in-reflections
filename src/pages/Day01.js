@@ -112,7 +112,7 @@ const Day01 = () => {
 
         <PhotoGallery
           images={photos.map((url, index) => ({
-            id: url,
+            id: `${index}-${url}`,
             src: url,
             alt: `Reflection ${index + 1}`,
           }))}
