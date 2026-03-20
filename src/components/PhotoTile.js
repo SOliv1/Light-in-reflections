@@ -1,4 +1,4 @@
-
+import { useRef } from "react";
 
 const PhotoTile = ({
   img,
@@ -9,6 +9,8 @@ const PhotoTile = ({
   photo,
   onDelete
 }) => {
+  const tileRef = useRef(null);
+
   const seasonalGlow = {
     winter: "#7fc8ff",
     spring: "#ff8fb1",
@@ -18,24 +20,22 @@ const PhotoTile = ({
 
   const glow = seasonalGlow[season] || "#ffd700";
 
-  const PhotoTile = ({ photo, onDelete }) => {
-  const tileRef = useRef(null);
-
-  const handleDelete = () => {
+  const handleDelete = (e) => {
+    e.stopPropagation();
     if (!tileRef.current) return;
 
     // Add the glow class
     tileRef.current.classList.add("photo-glow");
 
-    // Wait for the glow to finish
+    // Wait for the glow to finish before deleting
     setTimeout(() => {
-      onDelete(photo.id); // PhotoGallery handles the actual removal
-    }, 180); // matches the CSS animation duration
+      onDelete(photo.id);
+    }, 180);
   };
 
   return (
-    <div className="photo-tile" onClick={onClick}>
-      <img src={img.src} alt={img.alt} />
+    <div ref={tileRef} className="photo-tile" onClick={onClick}>
+      <img src={img.src} alt={img.alt} className="photo-tile-image" />
 
       <button
         className="photo-tile-heart"
@@ -53,10 +53,7 @@ const PhotoTile = ({
 
       <button
         className="photo-delete-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(photo.id);
-        }}
+        onClick={handleDelete}
         aria-label="Move photo to basket"
         title="Move to basket"
       >
