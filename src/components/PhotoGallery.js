@@ -11,6 +11,14 @@ const PhotoGallery = ({
 }) => {
   const [expandedPhoto, setExpandedPhoto] = useState(null);
 
+  const seasonalTint = {
+  winter: "hue-rotate(180deg) brightness(1.05)",
+  spring: "hue-rotate(320deg) brightness(1.08)",
+  summer: "hue-rotate(40deg) brightness(1.1)",
+  autumn: "hue-rotate(20deg) brightness(1.05)",
+};
+
+
   return (
     <>
       <div className="photo-grid">
@@ -23,16 +31,21 @@ const PhotoGallery = ({
             onToggle={() => toggleFavourite(image.id)}
             onClick={() => setExpandedPhoto(image.src)}
             season={season}
-            onDelete={onDelete}
+            onDelete={() => onDelete(image.id)}   // ← gentle fix
           />
         ))}
       </div>
 
-      {expandedPhoto && (
-        <div className="photo-modal" onClick={() => setExpandedPhoto(null)}>
-          <img src={expandedPhoto} alt="Expanded" />
-        </div>
-      )}
+     {expandedPhoto && (
+      <div className="photo-modal" onClick={() => setExpandedPhoto(null)}>
+        <img
+          src={expandedPhoto}
+          alt="Expanded"
+          style={{ filter: seasonalTint[season] || "none" }}
+        />
+      </div>
+     )}
+
     </>
   );
 };
