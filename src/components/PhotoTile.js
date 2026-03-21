@@ -33,21 +33,31 @@ export default function PhotoTile({
   };
 
   return (
-    <div
-      ref={tileRef}
-      className="photo-tile"
-      onClick={(e) => {
-        // ⭐ FIRST HINGE — notify the Portal
-        if (onApproachPortal) {
-          onApproachPortal(photo);
-        }
+      <div
+          ref={tileRef}
+          className="photo-tile"
 
-        // ⭐ Preserve existing click behaviour
-        if (onClick) {
-          onClick(e);
-        }
-      }}
-    >
+          // ⭐ HOVER — soft awareness glow
+          onMouseEnter={() => {
+            if (onApproachPortal) {
+              onApproachPortal(photo);
+            }
+          }}
+
+          // ⭐ CLICK — dramatic glow, then modal opens after 350ms
+          onClick={(e) => {
+            // First: notify the Portal immediately
+            if (onApproachPortal) {
+              onApproachPortal(photo);
+            }
+
+          // Then: delay the modal so the glow is visible
+          if (onClick) {
+            setTimeout(() => onClick(e), 350);
+          }
+        }}
+      >
+
       <img
         src={img.src}
         alt={img.alt}

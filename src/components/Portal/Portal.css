@@ -198,18 +198,6 @@
 }
 
 /* When the Door senses a photo approaching — dramatic cinematic glow */
-.portal--aware {
-  transform: scale(1.18) translateY(-4px);
-  filter:
-    drop-shadow(0 0 22px var(--season-glow-inner))
-    drop-shadow(0 0 42px var(--season-glow-outer))
-    brightness(1.25);
-  animation: portal-aware-pulse 1.6s ease-in-out infinite;
-  transition:
-    transform 0.45s ease,
-    filter 0.6s ease,
-    box-shadow 0.6s ease;
-}
 
 /* A slow, magical breathing pulse */
 @keyframes portal-aware-pulse {
@@ -536,4 +524,14 @@
   background: radial-gradient(circle at 30% 30%,
       var(--mode-glow, rgba(255,255,255,0.35)),
       transparent 60%);
+}
+
+/* Force the Door to visually awaken */
+.portal--aware {
+  transform: scale(1.18) translateY(-4px) !important;
+  filter:
+    drop-shadow(0 0 22px var(--season-glow-inner))
+    drop-shadow(0 0 42px var(--season-glow-outer))
+    brightness(1.25) !important;
+  animation: portal-aware-pulse 1.6s ease-in-out infinite !important;
 }
