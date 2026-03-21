@@ -8,8 +8,10 @@ const PhotoGallery = ({
   toggleFavourite,
   season,
   onDelete,
+  onApproachPortal,
 }) => {
   const [expandedPhoto, setExpandedPhoto] = useState(null);
+  console.log("Gallery images:", images);
 
   const seasonalTint = {
   winter: "hue-rotate(180deg) brightness(1.05)",
@@ -38,7 +40,9 @@ const seasonalBorderGlow = {
             onToggle={() => toggleFavourite(image.id)}
             onClick={() => setExpandedPhoto(image.src)}
             season={season}
-            onDelete={() => onDelete(image.id)}   // ← gentle fix
+            onDelete={() => onDelete(image.id)}
+            onApproachPortal={onApproachPortal}
+
           />
         ))}
       </div>
