@@ -12,6 +12,7 @@ const Day01 = () => {
   const [mood, setMood] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [photos, setPhotos] = useState([]);
+  console.log("Photos:", photos);
   const [macroMood, setMacroMood] = useState(null);
   const [selectedMood, setSelectedMood] = useState("");
 
