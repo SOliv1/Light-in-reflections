@@ -106,6 +106,17 @@ const Day01 = () => {
     });
   }
 
+  const [portalState, setPortalState] = useState("resting");
+  console.log("Portal state:", portalState);
+
+  function handlePhotoApproach(photo) {
+  setPortalState("aware");
+}
+  useEffect(() => {
+    setMacroMood("spring-soft");
+  }, []);
+
+
   return (
     <>
       <Link to="/" className="crescent-portal"></Link>
@@ -113,6 +124,7 @@ const Day01 = () => {
       <div className={`day-page ${mood || ""} ${macroMood || ""}`}>
         <input type="file" accept="image/*" onChange={handleFileChange} />
         <button onClick={handleUpload}>Upload Photo</button>
+        <div class="day-page spring-soft"></div>
 
         <h2>Day 1 Reflection</h2>
         <p>Soft morning light on the water…</p>
@@ -120,17 +132,20 @@ const Day01 = () => {
         <div className="seasonal-portal">
           <div className="seasonal-portal-heading">
             <div className="seasonal-portal-line">The Light Awaits</div>
+
           </div>
         </div>
 
         <Portal
-          type="mood"
+          type="seasonal"
           dayIndex={1}
           season="winter"
           mood={mood}
           setMood={setMood}
           cueText="Begin"
+          portalState={portalState}
         />
+
 
         <PhotoGallery
           images={photos.map((url, index) => ({
@@ -142,6 +157,7 @@ const Day01 = () => {
           toggleFavourite={toggleFavourite}
           season="winter"
           onDelete={handleDeletePhoto}
+          onApproachPortal={handlePhotoApproach}
         />
 
         {mood && <p className="mood-label">Mood: {mood}</p>}

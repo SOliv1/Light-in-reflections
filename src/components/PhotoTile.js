@@ -1,14 +1,15 @@
 import { useRef } from "react";
 
-const PhotoTile = ({
-  img,
+export default function PhotoTile({
+  photo,
+  img = photo,          // fallback for older props
   onClick,
   isFavourite,
   onToggle,
   season,
-  photo,
-  onDelete
-}) => {
+  onDelete,
+  onApproachPortal
+}) {
   const tileRef = useRef(null);
 
   const seasonalGlow = {
@@ -24,18 +25,34 @@ const PhotoTile = ({
     e.stopPropagation();
     if (!tileRef.current) return;
 
-    // Add the glow class
     tileRef.current.classList.add("photo-glow");
 
-    // Wait for the glow to finish before deleting
     setTimeout(() => {
       onDelete(photo.id);
     }, 180);
   };
 
   return (
-    <div ref={tileRef} className="photo-tile" onClick={onClick}>
-      <img src={img.src} alt={img.alt} className="photo-tile-image" />
+    <div
+      ref={tileRef}
+      className="photo-tile"
+      onClick={(e) => {
+        // ⭐ FIRST HINGE — notify the Portal
+        if (onApproachPortal) {
+          onApproachPortal(photo);
+        }
+
+        // ⭐ Preserve existing click behaviour
+        if (onClick) {
+          onClick(e);
+        }
+      }}
+    >
+      <img
+        src={img.src}
+        alt={img.alt}
+        className="photo-tile-image"
+      />
 
       <button
         className="photo-tile-heart"
@@ -61,6 +78,4 @@ const PhotoTile = ({
       </button>
     </div>
   );
-};
-
-export default PhotoTile;
+}

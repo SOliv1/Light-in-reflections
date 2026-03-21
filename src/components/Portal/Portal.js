@@ -8,7 +8,8 @@ export function Portal({
   type,
   onClick,
   macroMood,
-  setMood   // ← added here
+  setMood,   // ← added here
+  portalState
 }) {
   // 1. Build the base day class (1–7)
   const dayClass = dayIndex ? `portal--day-${dayIndex}` : "";
@@ -33,6 +34,9 @@ export function Portal({
   // 4c. Glow only for mood portal
   const glowClass = type === "mood" ? "portal--glow" : "";
 
+  // 4d. Door aware and glow widens
+  const awareClass = portalState === "aware" ? "portal--aware" : "";
+
   // 5. Combine all classes
   const classes = [
     "portal",
@@ -42,10 +46,14 @@ export function Portal({
     moodClass,
     pulseClass,
     glowClass,
+    awareClass,
     macroMood
   ]
     .filter(Boolean)
     .join(" ");
+
+
+
 
   return (
     <div
