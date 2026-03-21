@@ -535,3 +535,18 @@
     brightness(1.25) !important;
   animation: portal-aware-pulse 1.6s ease-in-out infinite !important;
 }
+
+/* ⭐ SUPER DRAMATIC HOVER FLASH */
+.portal--aware.portal--hover {
+  transform: scale(1.32) translateY(-10px);
+  filter:
+    drop-shadow(0 0 48px var(--season-glow-inner))
+    drop-shadow(0 0 96px var(--season-glow-outer))
+    saturate(2.8)
+    brightness(1.65)
+    contrast(1.3);
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
