@@ -20,7 +20,12 @@ export function Portal({
   // 3. Build the mood override class
   const moodClass = mood ? `portal--mood-${mood}` : "";
 
-  // 4. Pulse speed logic
+  // 4. ⭐ NEW: Hover awareness — dramatic colour flash
+  const hoverClass = document.body.classList.contains("portal-hovering")
+    ? "portal--hover"
+    : "";
+
+  // 4a. Pulse speed logic
   const pulseClass =
     mood === "calm"
       ? "portal--pulse-slow"
@@ -47,13 +52,11 @@ export function Portal({
     pulseClass,
     glowClass,
     awareClass,
+    hoverClass,
     macroMood
   ]
     .filter(Boolean)
     .join(" ");
-
-
-
 
   return (
     <div
