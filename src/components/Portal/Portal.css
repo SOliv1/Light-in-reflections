@@ -197,6 +197,46 @@
   animation: portal-pulse 3s ease-in-out infinite;
 }
 
+/* When the Door senses a photo approaching — dramatic cinematic glow */
+.portal--aware {
+  transform: scale(1.18) translateY(-4px);
+  filter:
+    drop-shadow(0 0 22px var(--season-glow-inner))
+    drop-shadow(0 0 42px var(--season-glow-outer))
+    brightness(1.25);
+  animation: portal-aware-pulse 1.6s ease-in-out infinite;
+  transition:
+    transform 0.45s ease,
+    filter 0.6s ease,
+    box-shadow 0.6s ease;
+}
+
+/* A slow, magical breathing pulse */
+@keyframes portal-aware-pulse {
+  0% {
+    transform: scale(1.16) translateY(-4px);
+    filter:
+      drop-shadow(0 0 18px var(--season-glow-inner))
+      drop-shadow(0 0 32px var(--season-glow-outer))
+      brightness(1.2);
+  }
+  50% {
+    transform: scale(1.22) translateY(-6px);
+    filter:
+      drop-shadow(0 0 28px var(--season-glow-inner))
+      drop-shadow(0 0 52px var(--season-glow-outer))
+      brightness(1.35);
+  }
+  100% {
+    transform: scale(1.16) translateY(-4px);
+    filter:
+      drop-shadow(0 0 18px var(--season-glow-inner))
+      drop-shadow(0 0 32px var(--season-glow-outer))
+      brightness(1.2);
+  }
+}
+
+
 
 /* Hover cue */
 .portal__cue {
