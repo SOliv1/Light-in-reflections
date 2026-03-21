@@ -29,7 +29,7 @@ const Day01 = () => {
         console.log("No data found for this day yet.");
       });
   }, []);
-  console.log("Photos:", photos);
+
 
   function handleFileChange(e) {
     setSelectedFile(e.target.files[0]);
