@@ -5,18 +5,14 @@ import { Link } from "react-router-dom";
 import { Portal } from "../components/Portal/Portal";
 import { API_BASE_URL } from "../config";
 
-
-
 const Day01 = () => {
   const [favourites, setFavourites] = useState({});
   const [mood, setMood] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [photos, setPhotos] = useState([]);
-  console.log("Photos:", photos);
   const [macroMood, setMacroMood] = useState(null);
   const [selectedMood, setSelectedMood] = useState("");
-
-
+  const [portalState, setPortalState] = useState("resting");
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/days/18-03-2026`)
@@ -30,6 +26,9 @@ const Day01 = () => {
       });
   }, []);
 
+  useEffect(() => {
+    setMacroMood("architectural-water"); // or "macro" depending on your logic
+  }, []);
 
   function handleFileChange(e) {
     setSelectedFile(e.target.files[0]);
@@ -71,9 +70,7 @@ const Day01 = () => {
     try {
       const res = await fetch(`${API_BASE_URL}/days/delete-photo`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           date: "18-03-2026",
           photoUrl: photoUrlToDelete,
@@ -108,55 +105,64 @@ const Day01 = () => {
     });
   }
 
-  const [portalState, setPortalState] = useState("resting");
-  console.log("Portal state:", portalState);
-
   function handlePhotoApproach(photo) {
-  setPortalState("aware");
-}
-  useEffect(() => {
-    setMacroMood("spring-soft");
-  }, []);
+    setPortalState("aware");
+  }
 
+  // Human-readable macro mood label
+  const macroMoodLabel =
+    macroMood === "architectural-water"
+      ? "Architectural Water"
+      : macroMood === "macro"
+      ? "Macro"
+      : "";
 
   return (
     <>
       <Link to="/" className="crescent-portal"></Link>
 
       <div className={`day-page ${mood || ""} ${macroMood || ""}`}>
+
+        {/* Upload controls */}
         <input type="file" accept="image/*" onChange={handleFileChange} />
         <button onClick={handleUpload}>Upload Photo</button>
-        <div class="day-page spring-soft"></div>
 
-        <h2>Day 1 Reflection</h2>
+        {/* Title */}
+        <h2 className="day-title">Day 1 Reflection</h2>
 
-        <p>Soft morning light on the water…</p>
+        {/* Macro mood tags */}
+        {macroMoodLabel && (
+          <div className="day-tags">
+            <span>{macroMoodLabel}</span>
+          </div>
+        )}
+
+        {/* Subtitle */}
         <div className="seasonal-portal-line">The Light Awaits</div>
 
-        <div className="seasonal-portal">
-          <div className="seasonal-portal-heading">
-          </div>
-        </div>
-
+        {/* Door */}
         <div className="portal-wrapper">
           <Portal
-          type="seasonal"
-          dayIndex={1}
-          season="winter"
-          mood={mood}
-          setMood={setMood}
-          cueText="Begin"
-          portalState={portalState}
+            type="seasonal"
+            dayIndex={1}
+            season="winter"
+            mood={mood}
+            setMood={setMood}
+            cueText="Begin"
+            portalState={portalState}
           />
-
         </div>
 
+        {/* Photos — newest first */}
         <PhotoGallery
-          images={photos.map((url, index) => ({
-            id: `${index}-${url}`,
-            src: url,
-            alt: `Reflection ${index + 1}`,
-          }))}
+          images={photos
+            .slice()
+            .reverse()
+            .map((url, index) => ({
+              id: `${index}-${url}`,
+              src: url,
+              alt: `Reflection ${index + 1}`,
+            }))}
           favourites={favourites}
           toggleFavourite={toggleFavourite}
           season="winter"
@@ -164,53 +170,22 @@ const Day01 = () => {
           onApproachPortal={handlePhotoApproach}
         />
 
+        {/* Mood label */}
         {mood && <p className="mood-label">Mood: {mood}</p>}
 
+        {/* Mood selector */}
         <div className="mood-selector">
-          <button
-            onClick={() => {
-              setMood("calm");
-              setSelectedMood("calm");
-            }}
-          >
-            Calm
-          </button>
-
-          <button
-            onClick={() => {
-              setMood("joyful");
-              setSelectedMood("joyful");
-            }}
-          >
-            Joyful
-          </button>
-
-          <button
-            onClick={() => {
-              setMood("stormy");
-              setSelectedMood("stormy");
-            }}
-          >
-            Stormy
-          </button>
-
-          <button
-            onClick={() => {
-              setMood("reflective");
-              setSelectedMood("reflective");
-            }}
-          >
-            Reflective
-          </button>
-
-          <button
-            onClick={() => {
-              setMood("natural");
-              setSelectedMood("natural");
-            }}
-          >
-            Natural
-          </button>
+          {["calm", "joyful", "stormy", "reflective", "natural"].map((m) => (
+            <button
+              key={m}
+              onClick={() => {
+                setMood(m);
+                setSelectedMood(m);
+              }}
+            >
+              {m.charAt(0).toUpperCase() + m.slice(1)}
+            </button>
+          ))}
 
           <button onClick={saveMood} disabled={!selectedMood}>
             Save Mood

@@ -104,7 +104,6 @@
 
 @media (max-width: 600px) {
 
-  /* Divider + spacing */
   .calendar-container {
     margin-top: 36px;
     padding-top: 14px;
@@ -117,49 +116,45 @@
     display: none;
   }
 
-  /* Horizontal strip */
   .calendar-grid {
     display: flex;
     gap: 12px;
   }
 
-  /* Override desktop min-height */
   .calendar-grid > * {
     min-height: 52px !important;
   }
 
   /* Mini circular tiles */
-  .calendar-tile {
-    flex: 0 0 auto !important;
-    width: 52px !important;
-    height: 52px !important;
-    border-radius: 50% !important;
-    font-size: .7rem !important;
-    padding: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: rgba(255,255,255,0.08) !important;
-    box-shadow: 0 0 6px var(--mode-shadow) !important;
-    text-decoration: none !important;
-    color: inherit !important;
-  }
+.calendar-tile {
+  flex: 0 0 auto !important;
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 50% !important;
+  font-size: .7rem !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(255,255,255,0.08) !important;
+  box-shadow: 0 0 6px var(--mode-shadow) !important;
+  text-decoration: none !important;
+  color: inherit !important;
+}
 
-  /* Seasonal tinting (mobile) */
   .calendar-wrapper.season-spring .calendar-tile {
     background: var(--tint-spring) !important;
     border-color: var(--tint-spring-border) !important;
   }
 
-  /* Selected day */
   .calendar-tile.selected {
     transform: scale(1.15) !important;
     background: rgba(255,255,255,0.18) !important;
     box-shadow: 0 0 12px var(--mode-shadow) !important;
   }
 
-  /* Hide big title */
   .calendar-title {
     display: none !important;
   }
 }
+
