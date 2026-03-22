@@ -158,10 +158,10 @@ const Day01 = () => {
           images={photos
             .slice()
             .reverse()
-            .map((url, index) => ({
-              id: `${index}-${url}`,
+            .map((url) => ({
+              id: url,        // stable ID
               src: url,
-              alt: `Reflection ${index + 1}`,
+              alt: "Reflection",
             }))}
           favourites={favourites}
           toggleFavourite={toggleFavourite}
@@ -169,6 +169,7 @@ const Day01 = () => {
           onDelete={handleDeletePhoto}
           onApproachPortal={handlePhotoApproach}
         />
+
 
         {/* Mood label */}
         {mood && <p className="mood-label">Mood: {mood}</p>}
