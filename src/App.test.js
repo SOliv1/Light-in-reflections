@@ -1,8 +1,14 @@
+// 1. Mock FIRST — before imports
+jest.mock('react-router-dom', () => ({
+  Link: ({ children }) => <div>{children}</div>
+}));
+
+// 2. Then imports
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+// 3. Then your test
+test('renders app without crashing', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByText(/reflections/i)).toBeInTheDocument();
 });

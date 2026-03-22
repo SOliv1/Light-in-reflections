@@ -60,28 +60,31 @@ const Day01 = () => {
     setSelectedFile(null);
   }
 
-  async function handleDeletePhoto(photoIdToDelete) {
-    const photoUrlToDelete = photoIdToDelete.split("-").slice(1).join("-");
+  async function handleDeletePhoto(photoUrlToDelete) {
 
-    setPhotos((prev) =>
-      prev.filter((url, index) => `${index}-${url}` !== photoIdToDelete)
-    );
+  // 1. Remove from UI immediately
+  setPhotos((prev) =>
+    prev.filter((url) => url !== photoUrlToDelete)
+  );
 
-    try {
-      const res = await fetch(`${API_BASE_URL}/days/delete-photo`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          date: "18-03-2026",
-          photoUrl: photoUrlToDelete,
-        }),
-      });
+  // 2. Remove from database
+  try {
+    const res = await fetch(`${API_BASE_URL}/days/delete-photo`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        date: "18-03-2026",
+        photoUrl: photoUrlToDelete,
+      }),
+    });
 
-      await res.json();
-    } catch (err) {
-      console.log("delete failed:", err);
-    }
+    await res.json();
+  } catch (err) {
+    console.log("delete failed:", err);
   }
+}
 
   const toggleFavourite = (id) => {
     setFavourites((prev) => ({
