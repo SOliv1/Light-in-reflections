@@ -563,10 +563,13 @@
   margin-top: 12px;
   text-align: center;
   font-size: 0.95rem;
-  opacity: 0.75;
+  opacity: 0;
   letter-spacing: 0.4px;
   font-style: italic;
   transition: opacity 0.6s ease;
 }
 
+.portal-wrapper.aware + .portal-subtitle {
+  opacity: 0.75;
+}
 

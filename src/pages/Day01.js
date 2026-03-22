@@ -109,8 +109,15 @@ const Day01 = () => {
   }
 
   function handlePhotoApproach(photo) {
-    setPortalState("aware");
+  setPortalState("aware");
+
+  // The Door begins the story — choose a random mood
+  const moods = ["calm", "joyful", "stormy", "reflective", "natural"];
+  const randomMood = moods[Math.floor(Math.random() * moods.length)];
+
+  setMood(randomMood);
   }
+
 
   // Human-readable macro mood label
   const macroMoodLabel =
@@ -144,16 +151,24 @@ const Day01 = () => {
         <div className="seasonal-portal-line">The Light Awaits</div>
 
         {/* Door */}
-        <div className="portal-wrapper">
+        <div className={`portal-wrapper ${portalState}`}>
+
           <Portal
             type="seasonal"
             dayIndex={1}
             season="winter"
             mood={mood}
             setMood={setMood}
-            cueText="Begin"
+            cueText="The Door begins the story"
             portalState={portalState}
           />
+
+          {portalState === "aware" && (
+        <div className="portal-subtitle">
+          You can change the ending if you want.
+        </div>
+      )}
+
         </div>
 
         {/* Photos — newest first */}
