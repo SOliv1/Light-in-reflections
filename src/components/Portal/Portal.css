@@ -573,3 +573,23 @@
   opacity: 0.75;
 }
 
+.portal--aware.portal--mood-calm {
+  box-shadow: 0 0 28px rgba(120, 180, 255, 0.7);
+}
+
+.portal--aware.portal--mood-joyful {
+  box-shadow: 0 0 32px rgba(255, 200, 80, 0.8);
+}
+
+.portal--aware.portal--mood-stormy {
+  box-shadow: 0 0 34px rgba(80, 80, 120, 0.8);
+}
+
+.portal--aware.portal--mood-reflective {
+  box-shadow: 0 0 28px rgba(200, 200, 255, 0.7);
+}
+
+.portal--aware.portal--mood-natural {
+  box-shadow: 0 0 28px rgba(120, 200, 120, 0.7);
+}
+
