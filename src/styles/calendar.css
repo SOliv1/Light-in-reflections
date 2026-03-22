@@ -1,11 +1,113 @@
-/* ==== MOBILE: Mini Calendar Below the Door ==== */
+/* ————————————————————————————————
+   CALM CLARITY GRID LAYOUT (DESKTOP)
+——————————————————————————————— */
+
+.calendar-container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 22px;
+}
+
+.calendar-grid > * {
+  min-height: 140px;
+}
+
+/* ————————————————————————————————
+   CALM CLARITY TILE BASE STYLE
+——————————————————————————————— */
+
+.calendar-tile {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(120, 140, 160, 0.18);
+  border-radius: 12px;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.45s ease,
+    background 0.45s ease;
+}
+
+/* Hover — gentle, airy lift */
+.calendar-tile:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.18),
+    0 0 12px rgba(180, 220, 200, 0.25);
+}
+
+/* Day number — calmer typography */
+.day-number {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+/* Empty tiles (before day 1) */
+.calendar-tile.empty {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* ————————————————————————————————
+   TODAY HIGHLIGHT — Calm, Cool, Present
+——————————————————————————————— */
+
+.calendar-tile.today {
+  border: 2px solid rgba(120, 170, 255, 0.55);
+  background: rgba(120, 170, 255, 0.10);
+}
+
+/* ————————————————————————————————
+   SEASONAL TINTING (Spring)
+——————————————————————————————— */
+
+:root {
+  --tint-spring: rgba(140, 190, 150, 0.10);
+  --tint-spring-border: rgba(140, 190, 150, 0.25);
+}
+
+.calendar-wrapper.season-spring .calendar-tile {
+  background: var(--tint-spring);
+  border-color: var(--tint-spring-border);
+}
+
+/* ————————————————————————————————
+   FADE-IN ARRIVAL (Calm Clarity)
+——————————————————————————————— */
+
+.calendar-grid {
+  opacity: 0;
+  animation: fadeInCalm 1.4s ease-out forwards;
+}
+
+@keyframes fadeInCalm {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ————————————————————————————————
+   MOBILE: MINI CALENDAR BELOW THE DOOR
+——————————————————————————————— */
 
 @media (max-width: 600px) {
 
   /* Divider + spacing */
   .calendar-container {
-    margin-top: 24px;
-    padding-top: 12px;
+    margin-top: 36px;
+    padding-top: 14px;
     border-top: 1px solid rgba(255,255,255,0.12);
     overflow-x: auto;
     scrollbar-width: none;
@@ -17,8 +119,8 @@
 
   /* Horizontal strip */
   .calendar-grid {
-    display: flex !important;
-    gap: 10px !important;
+    display: flex;
+    gap: 12px;
   }
 
   /* Override desktop min-height */
@@ -26,7 +128,7 @@
     min-height: 52px !important;
   }
 
-  /* Mini tiles */
+  /* Mini circular tiles */
   .calendar-tile {
     flex: 0 0 auto !important;
     width: 52px !important;
@@ -43,11 +145,11 @@
     color: inherit !important;
   }
 
+  /* Seasonal tinting (mobile) */
   .calendar-wrapper.season-spring .calendar-tile {
-  background: var(--tint-spring) !important;
-  border-color: var(--tint-spring-border) !important;
-}
-
+    background: var(--tint-spring) !important;
+    border-color: var(--tint-spring-border) !important;
+  }
 
   /* Selected day */
   .calendar-tile.selected {
