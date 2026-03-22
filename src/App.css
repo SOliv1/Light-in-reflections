@@ -502,57 +502,6 @@ button:hover {
   }
 }
 
-/* ==== MOBILE: Mini Calendar Below the Door ==== */
-
-@media (max-width: 600px) {
-
-  /* Make the calendar a horizontal strip */
-  .calendar-container {
-    margin-top: 20px;
-    overflow-x: auto;
-    padding: 8px 0;
-    display: flex;
-    justify-content: flex-start;
-    scrollbar-width: none;
-  }
-
-  .calendar-container::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Replace the grid with a horizontal row */
-  .calendar-grid {
-    display: flex;
-    gap: 8px;
-  }
-
-  /* Each day becomes a small tile */
-  .calendar-tile {
-    flex: 0 0 auto;
-    width: 52px;
-    height: 52px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: .7rem;
-    background: rgba(255,255,255,0.08);
-    box-shadow: 0 0 6px var(--mode-shadow);
-    transition: transform .3s ease, box-shadow .3s ease;
-  }
-
-  /* Highlight the selected day */
-  .calendar-tile.today {
-    transform: scale(1.12);
-    box-shadow: 0 0 12px var(--mode-shadow);
-    background: rgba(255,255,255,0.15);
-  }
-
-  /* Hide the big title on mobile */
-  .calendar-title {
-    display: none;
-  }
-}
 
 
 

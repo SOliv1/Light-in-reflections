@@ -114,15 +114,16 @@
 
 /* ==== MOBILE: Mini Calendar Below the Door ==== */
 
+/* ==== MOBILE: Mini Calendar Below the Door ==== */
+
 @media (max-width: 600px) {
 
-  /* Horizontal strip */
+  /* Divider + spacing */
   .calendar-container {
-    margin-top: 20px;
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.12);
     overflow-x: auto;
-    padding: 8px 0;
-    display: flex;
-    justify-content: flex-start;
     scrollbar-width: none;
   }
 
@@ -130,10 +131,10 @@
     display: none;
   }
 
-  /* Replace grid with a horizontal row */
+  /* Horizontal strip */
   .calendar-grid {
     display: flex;
-    gap: 8px;
+    gap: 10px;
   }
 
   /* Mini tiles */
@@ -141,17 +142,24 @@
     flex: 0 0 auto;
     width: 52px;
     height: 52px;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: .7rem;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255,255,255,0.08);
     box-shadow: 0 0 6px var(--mode-shadow);
-    transition: transform .3s ease, box-shadow .3s ease;
+    transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
   }
 
-  /* Hide the big title */
+  /* Selected day */
+  .calendar-tile.selected {
+    transform: scale(1.15);
+    background: rgba(255,255,255,0.18);
+    box-shadow: 0 0 12px var(--mode-shadow);
+  }
+
+  /* Hide big title */
   .calendar-title {
     display: none;
   }
