@@ -460,48 +460,6 @@ button:hover {
   }
 }
 
-/* ==== MOBILE: Mini Calendar Below the Door ==== */
-
-@media (max-width: 600px) {
-
-  /* Container that holds the mini calendar */
-  .calendar-container {
-    margin-top: 16px;
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    padding: 8px 0;
-    opacity: .85;
-    scrollbar-width: none; /* hide scrollbar on Firefox */
-  }
-
-  .calendar-container::-webkit-scrollbar {
-    display: none; /* hide scrollbar on Chrome/Safari */
-  }
-
-  /* Each day tile in the mini calendar */
-  .calendar-container .day-tile {
-    flex: 0 0 auto;
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    font-size: .7rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.08);
-    box-shadow: 0 0 6px var(--mode-shadow);
-    transition: transform .3s ease, box-shadow .3s ease;
-  }
-
-  /* Highlight the selected day */
-  .calendar-container .day-tile.selected {
-    transform: scale(1.12);
-    box-shadow: 0 0 12px var(--mode-shadow);
-    background: rgba(255,255,255,0.15);
-  }
-}
-
 
 
 
