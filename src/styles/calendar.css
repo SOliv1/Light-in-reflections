@@ -111,3 +111,48 @@
     transform: translateY(0);
   }
 }
+
+/* ==== MOBILE: Mini Calendar Below the Door ==== */
+
+@media (max-width: 600px) {
+
+  /* Horizontal strip */
+  .calendar-container {
+    margin-top: 20px;
+    overflow-x: auto;
+    padding: 8px 0;
+    display: flex;
+    justify-content: flex-start;
+    scrollbar-width: none;
+  }
+
+  .calendar-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Replace grid with a horizontal row */
+  .calendar-grid {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Mini tiles */
+  .calendar-tile {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    font-size: .7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 0 6px var(--mode-shadow);
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+
+  /* Hide the big title */
+  .calendar-title {
+    display: none;
+  }
+}
