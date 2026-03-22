@@ -31,7 +31,7 @@
     flex: 0 0 auto !important;
     width: 52px !important;
     height: 52px !important;
-    border-radius: 12px !important;
+    border-radius: 50% !important;
     font-size: .7rem !important;
     padding: 0 !important;
     display: flex !important;
@@ -42,6 +42,12 @@
     text-decoration: none !important;
     color: inherit !important;
   }
+
+  .calendar-wrapper.season-spring .calendar-tile {
+  background: var(--tint-spring) !important;
+  border-color: var(--tint-spring-border) !important;
+}
+
 
   /* Selected day */
   .calendar-tile.selected {

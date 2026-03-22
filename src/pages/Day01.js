@@ -134,15 +134,12 @@ const Day01 = () => {
         <div className="seasonal-portal-line">The Light Awaits</div>
 
         <div className="seasonal-portal">
-
-
           <div className="seasonal-portal-heading">
-
-
           </div>
         </div>
 
-        <Portal
+        <div className="portal-wrapper">
+          <Portal
           type="seasonal"
           dayIndex={1}
           season="winter"
@@ -150,8 +147,9 @@ const Day01 = () => {
           setMood={setMood}
           cueText="Begin"
           portalState={portalState}
-        />
+          />
 
+        </div>
 
         <PhotoGallery
           images={photos.map((url, index) => ({

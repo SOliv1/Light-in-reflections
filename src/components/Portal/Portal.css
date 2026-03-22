@@ -550,3 +550,13 @@
     filter 0.35s ease;
 }
 
+.portal-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+
