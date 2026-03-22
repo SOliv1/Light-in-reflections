@@ -8,7 +8,7 @@ export function Portal({
   type,
   onClick,
   macroMood,
-  setMood,   // ← added here
+  setMood,
   portalState
 }) {
   // 1. Build the base day class (1–7)
@@ -17,10 +17,10 @@ export function Portal({
   // 2. Build the seasonal tint class
   const seasonClass = season ? `portal--season-${season}` : "";
 
-  // 3. Build the mood override class
+  // 3. Build the mood override class  ⭐ THIS IS WHAT LETS THE PORTAL GLOW BY MOOD
   const moodClass = mood ? `portal--mood-${mood}` : "";
 
-  // 4. ⭐ NEW: Hover awareness — dramatic colour flash
+  // 4. Hover awareness — dramatic colour flash
   const hoverClass = document.body.classList.contains("portal-hovering")
     ? "portal--hover"
     : "";
@@ -39,7 +39,7 @@ export function Portal({
   // 4c. Glow only for mood portal
   const glowClass = type === "mood" ? "portal--glow" : "";
 
-  // 4d. Door aware and glow widens
+  // 4d. Door aware and glow widens  ⭐ THIS IS WHAT TRIGGERS THE SUBTITLE + GLOW
   const awareClass = portalState === "aware" ? "portal--aware" : "";
 
   // 5. Combine all classes
@@ -48,10 +48,10 @@ export function Portal({
     typeClass,
     dayClass,
     seasonClass,
-    moodClass,
+    moodClass,   // ⭐ mood tint
     pulseClass,
     glowClass,
-    awareClass,
+    awareClass,  // ⭐ aware state
     hoverClass,
     macroMood
   ]
