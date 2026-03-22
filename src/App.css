@@ -430,9 +430,131 @@ button:hover {
 }
 
 
+/* ==== MOBILE FIRST ==== */
+
 @media (max-width: 600px) {
-  /* mobile-specific adjustments */
+
+  /* Make the Door a clear, inviting circle */
+  .portal--seasonal {
+    width: 90px !important;
+    height: 90px !important;
+    border-radius: 50% !important;
+  }
+
+  /* Glow intensifies only when touched or focused */
+  .portal--seasonal:active,
+  .portal--seasonal:focus {
+    box-shadow:
+      0 0 32px var(--mode-shadow),
+      0 0 48px var(--mode-accent),
+      0 0 72px var(--season-glow-inner);
+    transform: scale(1.06);
+    transition: box-shadow .4s ease, transform .4s ease;
+  }
+
+  /* Cue appears only on approach */
+  .portal--seasonal:active .portal__cue,
+  .portal--seasonal:focus .portal__cue {
+    opacity: 1;
+    transition: opacity .3s ease;
+  }
 }
+
+/* ==== MOBILE: Mini Calendar Below the Door ==== */
+
+@media (max-width: 600px) {
+
+  /* Container that holds the mini calendar */
+  .calendar-container {
+    margin-top: 16px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 8px 0;
+    opacity: .85;
+    scrollbar-width: none; /* hide scrollbar on Firefox */
+  }
+
+  .calendar-container::-webkit-scrollbar {
+    display: none; /* hide scrollbar on Chrome/Safari */
+  }
+
+  /* Each day tile in the mini calendar */
+  .calendar-container .day-tile {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    font-size: .7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 0 6px var(--mode-shadow);
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+
+  /* Highlight the selected day */
+  .calendar-container .day-tile.selected {
+    transform: scale(1.12);
+    box-shadow: 0 0 12px var(--mode-shadow);
+    background: rgba(255,255,255,0.15);
+  }
+}
+
+/* ==== MOBILE: Mini Calendar Below the Door ==== */
+
+@media (max-width: 600px) {
+
+  /* Make the calendar a horizontal strip */
+  .calendar-container {
+    margin-top: 20px;
+    overflow-x: auto;
+    padding: 8px 0;
+    display: flex;
+    justify-content: flex-start;
+    scrollbar-width: none;
+  }
+
+  .calendar-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Replace the grid with a horizontal row */
+  .calendar-grid {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Each day becomes a small tile */
+  .calendar-tile {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .7rem;
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 0 6px var(--mode-shadow);
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+
+  /* Highlight the selected day */
+  .calendar-tile.today {
+    transform: scale(1.12);
+    box-shadow: 0 0 12px var(--mode-shadow);
+    background: rgba(255,255,255,0.15);
+  }
+
+  /* Hide the big title on mobile */
+  .calendar-title {
+    display: none;
+  }
+}
+
+
 
 
 

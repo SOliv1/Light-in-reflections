@@ -129,11 +129,15 @@ const Day01 = () => {
         <div class="day-page spring-soft"></div>
 
         <h2>Day 1 Reflection</h2>
+
         <p>Soft morning light on the water…</p>
+        <div className="seasonal-portal-line">The Light Awaits</div>
 
         <div className="seasonal-portal">
+
+
           <div className="seasonal-portal-heading">
-            <div className="seasonal-portal-line">The Light Awaits</div>
+
 
           </div>
         </div>
