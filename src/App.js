@@ -91,7 +91,7 @@ function App() {
             dayIndex={1}
             season="winter"
             mood={null}
-            cueText="Begin"
+            cueText=""
           />
 
         </div>

@@ -219,6 +219,31 @@ button:hover {
   filter: hue-rotate(-25deg) saturate(1.35) brightness(1.1);
 }
 
+/* WINTER — cool blue glow */
+.season-winter .global-mood-orb {
+  filter: hue-rotate(-20deg) saturate(1.3) brightness(1.1);
+  --mode-glow: rgba(120, 180, 255, 0.9);
+}
+
+/* SPRING — green-gold glow */
+.season-spring .global-mood-orb {
+  filter: hue-rotate(40deg) saturate(1.4) brightness(1.15);
+  --mode-glow: rgba(160, 240, 160, 0.9);
+}
+
+/* SUMMER — warm gold-pink glow */
+.season-summer .global-mood-orb {
+  filter: hue-rotate(80deg) saturate(1.5) brightness(1.2);
+  --mode-glow: rgba(255, 200, 120, 0.9);
+}
+
+/* AUTUMN — amber-rose glow */
+.season-autumn .global-mood-orb {
+  filter: hue-rotate(-60deg) saturate(1.3) brightness(1.05);
+  --mode-glow: rgba(255, 150, 120, 0.9);
+}
+
+
 /* Hover + active */
 .global-mood-orb
 :hover {
@@ -461,6 +486,50 @@ button:hover {
   }
 }
 
+/* Season ripple effect */
+@keyframes seasonRipple {
+  0% {
+    filter: brightness(1) saturate(1);
+  }
+  40% {
+    filter: brightness(1.15) saturate(1.25);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+}
+
+/* Triggered when season class changes */
+.season-winter .day-page,
+.season-spring .day-page,
+.season-summer .day-page,
+.season-autumn .day-page {
+  animation: seasonRipple 1.8s ease-out;
+}
+
+/* Jewel orb season-change animation */
+@keyframes seasonOrbShift {
+  0% {
+    transform: scale(1);
+    filter: brightness(1) saturate(1);
+  }
+  40% {
+    transform: scale(1.08);
+    filter: brightness(1.25) saturate(1.35);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1) saturate(1);
+  }
+}
+
+/* Trigger when season class changes */
+.season-winter .global-mood-orb,
+.season-spring .global-mood-orb,
+.season-summer .global-mood-orb,
+.season-autumn .global-mood-orb {
+  animation: seasonOrbShift 1.6s ease-out;
+}
 
 
 
