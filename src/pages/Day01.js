@@ -159,9 +159,17 @@ const Day01 = () => {
             season="winter"
             mood={mood}
             setMood={setMood}
-            cueText=""
+            cueText="The Door begins the story"
             portalState={portalState}
           />
+
+          {/* Mood + override hint */}
+          {mood && (
+            <div className="portal-mood-tag">
+              Mood: {mood}
+              {macroMood && ` → ${macroMoodLabel}`}
+            </div>
+          )}
 
         </div>
 
