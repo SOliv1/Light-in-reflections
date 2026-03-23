@@ -230,7 +230,7 @@
   top: 100%;
   left: 50%;
   transform: translate(-50%, 12px);
-  color: var(--mood-reflective-mirror-silver);
+  color: #27219e;
   font-size: 0.8rem;
   letter-spacing: 0.04em;
   opacity: 1;
@@ -562,15 +562,16 @@
 .portal-subtitle {
   margin-top: 12px;
   text-align: center;
+  color: #27219e;
   font-size: 0.95rem;
   opacity: 1;
   letter-spacing: 0.4px;
   font-style: italic;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.4s ease;
 }
 
 .portal-wrapper.aware + .portal-subtitle {
-  opacity: 0.75;
+  opacity: 1;
 }
 
 .portal--aware.portal--mood-calm {
@@ -592,4 +593,13 @@
 .portal--aware.portal--mood-natural {
   box-shadow: 0 0 28px rgba(120, 200, 120, 0.7);
 }
+
+.portal-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 
