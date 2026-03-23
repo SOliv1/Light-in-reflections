@@ -71,7 +71,7 @@ export function Portal({
       {/* ⭐ SUBTITLE — now visible */}
       {portalState === "aware" && (
         <div className="portal-subtitle">
-          You can change the ending if you want.
+          The Door begins the story
         </div>
       )}
     </div>
