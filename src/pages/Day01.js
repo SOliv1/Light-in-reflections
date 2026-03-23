@@ -163,12 +163,6 @@ const Day01 = () => {
             portalState={portalState}
           />
 
-          {portalState === "aware" && (
-        <div className="portal-subtitle">
-          You can change the ending if you want.
-        </div>
-      )}
-
         </div>
 
         {/* Photos — newest first */}
