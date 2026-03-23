@@ -233,7 +233,7 @@
   color: var(--mood-reflective-mirror-silver);
   font-size: 0.8rem;
   letter-spacing: 0.04em;
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
   transition: opacity 0.4s ease;
   white-space: nowrap;
@@ -563,7 +563,7 @@
   margin-top: 12px;
   text-align: center;
   font-size: 0.95rem;
-  opacity: 0;
+  opacity: 1;
   letter-spacing: 0.4px;
   font-style: italic;
   transition: opacity 0.6s ease;
