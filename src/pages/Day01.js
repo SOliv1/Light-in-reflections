@@ -159,7 +159,7 @@ const Day01 = () => {
             season="winter"
             mood={mood}
             setMood={setMood}
-            cueText="The Door begins the story"
+            cueText=""
             portalState={portalState}
           />
 
