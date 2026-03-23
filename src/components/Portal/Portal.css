@@ -682,32 +682,30 @@
 /* 4. MOOD-BASED COLOUR SHIFTS                        */
 /* -------------------------------------------------- */
 
-.portal--mood-calm ~ .mood-orb {
+.portal-container.portal--mood-calm .mood-orb {
   background: radial-gradient(circle, #aeeaffaa, #aeeaff33);
   box-shadow: 0 0 12px #aeeaff88, 0 0 24px #aeeaff55;
 }
 
-.portal--mood-joyful ~ .mood-orb {
+.portal-container.portal--mood-joyful .mood-orb {
   background: radial-gradient(circle, #ffe8aaff, #ffe8aa33);
   box-shadow: 0 0 12px #ffe8aa88, 0 0 24px #ffe8aa55;
 }
 
-.portal--mood-stormy ~ .mood-orb {
+.portal-container.portal--mood-stormy .mood-orb {
   background: radial-gradient(circle, #8899ffaa, #8899ff33);
   box-shadow: 0 0 12px #8899ff88, 0 0 24px #8899ff55;
 }
 
-.portal--mood-reflective ~ .mood-orb {
+.portal-container.portal--mood-reflective .mood-orb {
   background: radial-gradient(circle, #d0d0d5aa, #d0d0d533);
   box-shadow: 0 0 12px #d0d0d588, 0 0 24px #d0d0d555;
 }
 
-.portal--mood-natural ~ .mood-orb {
+.portal-container.portal--mood-natural .mood-orb {
   background: radial-gradient(circle, #b8e6b8aa, #b8e6b833);
   box-shadow: 0 0 12px #b8e6b888, 0 0 24px #b8e6b855;
 }
-
-
 
 /* -------------------------------------------------- */
 /* 5. ORB PULSE ANIMATION                             */

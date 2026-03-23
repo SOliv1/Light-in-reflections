@@ -141,7 +141,7 @@ function App() {
           </Routes>
 
         <div
-          className="mood-orb"
+          className="global-mood-orb"
           onClick={() => {
             if (mode === "architectural") setMode("water");
             else if (mode === "water") setMode("macro");
