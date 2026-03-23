@@ -1008,4 +1008,88 @@
   animation: sparkleTwinkle 1.8s ease-out;
 }
 
+/* Sparkle trail */
+.portal-sparkle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: -10px;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  opacity: 0;
+  transform: scaleX(0.2);
+  pointer-events: none;
+}
+
+/* Season colours */
+.season-winter .portal-sparkle::after {
+  background: rgba(120, 180, 255, 0.8);
+}
+
+.season-spring .portal-sparkle::after {
+  background: rgba(160, 240, 160, 0.8);
+}
+
+.season-summer .portal-sparkle::after {
+  background: rgba(255, 200, 120, 0.8);
+}
+
+.season-autumn .portal-sparkle::after {
+  background: rgba(255, 150, 120, 0.8);
+}
+
+/* Trigger when Door awakens */
+.portal--aware~.portal-veil-stars .portal-veil-star {
+  animation: veilStarTwinkle 2.4s ease-out forwards;
+}
+
+/* Staggered delays for arc effect */
+.portal-veil-star:nth-child(1) {
+  left: 10%;
+  animation-delay: 0.1s;
+}
+
+.portal-veil-star:nth-child(2) {
+  left: 30%;
+  animation-delay: 0.2s;
+}
+
+.portal-veil-star:nth-child(3) {
+  left: 50%;
+  animation-delay: 0.3s;
+}
+
+.portal-veil-star:nth-child(4) {
+  left: 70%;
+  animation-delay: 0.4s;
+}
+
+.portal-veil-star:nth-child(5) {
+  left: 90%;
+  animation-delay: 0.5s;
+}
+
+/* Trail animation */
+@keyframes sparkleTrail {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.2);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleX(0.2);
+  }
+}
+
+/* Trigger with sparkle */
+.portal--aware~.portal-sparkle::after {
+  animation: sparkleTrail 1.8s ease-out;
+}
 

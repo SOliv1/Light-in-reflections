@@ -11,14 +11,22 @@ body {
 
 /* Constellation wrapper behind the whole calendar */
 .constellation-wrapper {
-  position: fixed;
+  position: relative;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   z-index: 0;
   pointer-events: none;
 }
+
+.constellation-container {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* or your preferred Veil height */
+  overflow: hidden;
+}
+
 
 .constellation-wrapper,
 .constellation-wrapper.interactive,
@@ -31,7 +39,7 @@ body {
   pointer-events: auto;
 }
 
-/* Evening veil overlay */
+/* Evening veil overlay 
 .constellation-overlay {
   position: absolute;
   inset: 0;
@@ -39,8 +47,19 @@ body {
   opacity: 0;
   transition: opacity 0.6s ease;
   z-index: 2;
-  pointer-events: none; /* ← THIS FIXES EVERYTHING */
+  pointer-events: none; /* ← THIS FIXES EVERYTHING 
+} */
+
+.constellation-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent; /* important */
+  z-index: 0; /* behind arcs */
 }
+
 
 
 .constellation-overlay.active {
@@ -298,7 +317,7 @@ body {
 /* Parallax does not cause jank  */
 
 @media (max-width: 600px) {
-  .constellation-container {
+  .constellation-overlay {
     transform: translateY(calc(var(--scroll) * 0.1));
   }
 }
@@ -404,6 +423,247 @@ body {
     filter 2s ease;
 }
 
+/* Container for constellation burst */
+.portal-veil-stars {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  width: 160px;
+  height: 80px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 22;
+}
 
+/* Individual stars */
+.portal-veil-star {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, rgba(255, 255, 255, 0));
+  opacity: 0;
+}
 
+/* Star twinkle animation */
+@keyframes veilStarTwinkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) translateY(0);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1) translateY(-6px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.4) translateY(-12px);
+  }
+}
+
+/* Seasonal arcs behind the Veil */
+.veil-season-arcs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  /* Behind stars, above background */
+  overflow: hidden;
+}
+
+/* Base arc shape */
+.veil-season-arcs::before,
+.veil-season-arcs::after {
+  content: "";
+  position: absolute;
+  width: 160%;
+  height: 60%;
+  border-radius: 50%;
+  top: -20%;
+  left: -30%;
+  opacity: 0.25;
+  transform: rotate(-8deg);
+  filter: blur(40px);
+}
+
+/* Second arc for depth */
+.veil-season-arcs::after {
+  top: 10%;
+  left: -20%;
+  opacity: 0.18;
+  transform: rotate(12deg);
+}
+
+/* Season colours */
+.season-winter .veil-season-arcs::before,
+.season-winter .veil-season-arcs::after {
+  background: radial-gradient(circle, rgba(120, 180, 255, 0.6), rgba(120, 180, 255, 0));
+}
+
+.season-spring .veil-season-arcs::before,
+.season-spring .veil-season-arcs::after {
+  background: radial-gradient(circle, rgba(160, 240, 160, 0.6), rgba(160, 240, 160, 0));
+}
+
+.season-summer .veil-season-arcs::before,
+.season-summer .veil-season-arcs::after {
+  background: radial-gradient(circle, rgba(255, 200, 120, 0.6), rgba(255, 200, 120, 0));
+}
+
+.season-autumn .veil-season-arcs::before,
+.season-autumn .veil-season-arcs::after {
+  background: radial-gradient(circle, rgba(255, 150, 120, 0.6), rgba(255, 150, 120, 0));
+}
+
+/* Aurora layer */
+.veil-aurora {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  /* Above arcs, below stars */
+  opacity: 0.35;
+  background-size: 200% 200%;
+  animation: auroraDrift 22s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+/* Aurora drift animation */
+@keyframes auroraDrift {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 60%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+/* Season colours */
+.season-winter .veil-aurora {
+  background-image: linear-gradient(120deg,
+      rgba(120, 180, 255, 0.45),
+      rgba(180, 220, 255, 0.25),
+      rgba(120, 180, 255, 0.45));
+}
+
+.season-spring .veil-aurora {
+  background-image: linear-gradient(120deg,
+      rgba(160, 240, 160, 0.45),
+      rgba(200, 255, 200, 0.25),
+      rgba(160, 240, 160, 0.45));
+}
+
+.season-summer .veil-aurora {
+  background-image: linear-gradient(120deg,
+      rgba(255, 200, 120, 0.45),
+      rgba(255, 230, 180, 0.25),
+      rgba(255, 200, 120, 0.45));
+}
+
+.season-autumn .veil-aurora {
+  background-image: linear-gradient(120deg,
+      rgba(255, 150, 120, 0.45),
+      rgba(255, 190, 160, 0.25),
+      rgba(255, 150, 120, 0.45));
+}
+
+/* Aurora parallax drift */
+.veil-aurora {
+  animation: auroraDrift 22s ease-in-out infinite,
+    auroraParallax 60s linear infinite;
+}
+
+@keyframes auroraParallax {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-4%) translateY(2%);
+  }
+
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
+
+/* Background (your page) — z-index: 0 */
+
+.veil-season-arcs {
+  z-index: 1;
+  /* brush strokes */
+}
+
+.veil-aurora {
+  z-index: 2;
+  /* drifting aurora */
+}
+
+.veil-nebula {
+  z-index: 3;
+  /* soft nebula cloud */
+}
+
+.star,
+.shooting-star {
+  z-index: 4;
+  /* stars above atmosphere */
+}
+
+.portal-veil-stars {
+  z-index: 5;
+  /* Door awakening stars */
+}
+
+.veil-season-arcs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.veil-nebula {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140%;
+  height: 140%;
+  z-index: 3;
+}
+
+.star, .shooting-star {
+  position: absolute;
+  z-index: 4;
+}
+
+.constellation-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  /* RESTORE SUMMER VEIL COLOUR */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 210, 160, 0.55) 0%,
+    rgba(255, 180, 140, 0.45) 40%,
+    rgba(255, 160, 130, 0.35) 70%,
+    rgba(255, 140, 120, 0.25) 100%
+  );
+}
 
