@@ -41,6 +41,16 @@ export default function Constellation({ veilOn }) {
         <div className="star" style={{ top: "14%", left: "70%" }}></div>
 
         <div className="shooting-star"></div>
+
+        <div class="constellation-layer">
+            <span class="star star-1"></span>
+            <span class="star star-2"></span>
+            <span class="star star-3"></span>
+
+            <span class="star star-4"></span>
+            <span class="star star-5"></span>
+        </div>
+
       </div>
     </div>
   );

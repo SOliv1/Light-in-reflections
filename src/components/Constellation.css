@@ -232,8 +232,8 @@ body {
 /* Stars twinkle */
 .star {
   position: absolute;
-  width: min(1vw, 4px);
-  height: min(1vw, 4px);
+  width: min(1vw, 3px, 4px);
+  height: min(1vw, 3px, 4px);
   border-radius: 50%;
   background: white;
   box-shadow:
@@ -244,6 +244,16 @@ body {
   animation: twinkle 4s ease-in-out infinite;
   z-index: 1;
 }
+
+/* Existing */
+.star-1 { top: 12%; left: 18%; }
+.star-2 { top: 30%; left: 40%; }
+.star-3 { top: 55%; left: 70%; }
+
+/* New – layout-only */
+.star-4 { top: 22%; left: 65%; }
+.star-5 { top: 68%; left: 28%; }
+
 
 @keyframes twinkle {
   0% { opacity: 0.6; transform: scale(1); }
@@ -310,8 +320,8 @@ body {
   position: absolute;
   top: 12%;
   right: 8%;
-  width: 240px;          /* bigger, more celestial */
-  height: 240px;
+  width: 220px;          /* bigger, more celestial */
+  height: 220px;
   border-radius: 50%;
 
   /* Mystical watercolor glow */
