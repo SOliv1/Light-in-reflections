@@ -99,13 +99,6 @@ export function Portal({
           <div className="portal__crescent"></div>
           <div className="portal__shimmer"></div>
         </div>
-        <div className="portal-veil-stars">
-          <div className="portal-veil-star"></div>
-          <div className="portal-veil-star"></div>
-          <div className="portal-veil-star"></div>
-          <div className="portal-veil-star"></div>
-          <div className="portal-veil-star"></div>
-        </div>
       </div>
 
       {/* ⭐ CUE TEXT */}

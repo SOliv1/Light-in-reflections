@@ -1,9 +1,8 @@
-
 .App {
   background: transparent;
   transition: background 0.6s ease,
-  color 0.6s ease,
-  filter 0.6s ease;
+    color 0.6s ease,
+    filter 0.6s ease;
   position: relative;
 }
 
@@ -95,20 +94,22 @@
 
 .mode-architectural {
   --mode-shadow: rgba(255, 255, 255, 0.2);
-  --mode-glow: rgba(255, 240, 220, 0.25);   /* soft peach glow */
+  --mode-glow: rgba(255, 240, 220, 0.25);
+  /* soft peach glow */
 }
 
 .mode-water {
-    --mode-accent:rgba(120, 180, 255, 0.35);
-    --mode-shadow:rgba(0, 60, 120, 0.15);
-    --mode-glow:rgba(150, 200, 255, 0.25);
+  --mode-accent: rgba(120, 180, 255, 0.35);
+  --mode-shadow: rgba(0, 60, 120, 0.15);
+  --mode-glow: rgba(150, 200, 255, 0.25);
 }
 
 .mode-macro {
-    --mode-accent:rgba(255, 200, 240,0.35);
-    --mode-shadow:rgba(120, 0, 60, 0.15);
-    --mode-glow:rgba(255, 180, 220, 0.25);
+  --mode-accent: rgba(255, 200, 240, 0.35);
+  --mode-shadow: rgba(120, 0, 60, 0.15);
+  --mode-glow: rgba(255, 180, 220, 0.25);
 }
+
 .day-page {
   box-shadow: 0 0 20px var(--mode-shadow);
 }
@@ -159,28 +160,24 @@ button:hover {
     linear-gradient(25deg,
       rgba(70, 180, 255, 0.98) 20%,
       rgba(70, 180, 255, 0.55) 40%,
-      transparent 60%
-    ),
+      transparent 60%),
 
     /* Rose beam */
     linear-gradient(150deg,
       rgba(255, 120, 180, 0.92) 20%,
       rgba(255, 120, 180, 0.20) 40%,
-      transparent 60%
-    ),
+      transparent 60%),
 
     /* Gold beam */
     linear-gradient(75deg,
       rgba(255, 220, 140, 0.90) 15%,
       rgba(255, 220, 140, 0.18) 35%,
-      transparent 55%
-    ),
+      transparent 55%),
 
     /* Glass core */
     radial-gradient(circle at 32% 28%,
       rgba(255, 255, 255, 0.88),
-      rgba(200, 200, 200, 0.18)
-    );
+      rgba(200, 200, 200, 0.18));
 
   border: 2px solid rgba(255, 255, 255, 0.55);
 
@@ -196,9 +193,17 @@ button:hover {
 
 /* Drifting shimmer */
 @keyframes orb-drift {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 .global-mood-orb {
@@ -245,8 +250,7 @@ button:hover {
 
 
 /* Hover + active */
-.global-mood-orb
-:hover {
+.global-mood-orb:hover {
   transform: scale(1.06);
 }
 
@@ -256,23 +260,47 @@ button:hover {
 
 /* Shimmer */
 @keyframes orb-shimmer {
-  0% { box-shadow: 0 0 18px var(--mode-glow); }
-  50% { box-shadow: 0 0 26px var(--mode-glow); }
-  100% { box-shadow: 0 0 18px var(--mode-glow); }
+  0% {
+    box-shadow: 0 0 18px var(--mode-glow);
+  }
+
+  50% {
+    box-shadow: 0 0 26px var(--mode-glow);
+  }
+
+  100% {
+    box-shadow: 0 0 18px var(--mode-glow);
+  }
 }
 
 /* Ripple */
 @keyframes orb-ripple {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.04); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Sparkle */
 @keyframes orb-sparkle {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.25); }
-  100% { filter: brightness(1); }
+  0% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.25);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
 }
 
 .global-mood-orb:hover {
@@ -304,12 +332,12 @@ button:hover {
   font-size: 0.9rem;
   letter-spacing: 0.5px;
   transition: all 0.25s ease;
-  box-shadow: 0 0 0 rgba(0,0,0,0);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
 .mood-selector button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .mood-selector button.selected {
@@ -347,8 +375,7 @@ button:hover {
 }
 
 .day-page.stormy {
-  filter: hue-rotate(-60deg) brightness(0.85) saturate(0.8)
-  contrast(1.1);
+  filter: hue-rotate(-60deg) brightness(0.85) saturate(0.8) contrast(1.1);
 }
 
 .day-page.reflective {
@@ -361,25 +388,25 @@ button:hover {
 .day-page.calm .photo-tile img {
   filter: hue-rotate(0deg) brightness(1.05) saturate(0.9);
 }
+
 .day-page.joyful .photo-gallery,
 .day-page.joyful .photo-grid,
 .day-page.joyful .photo-tile img {
-  filter: sepia(0.45)
-          hue-rotate(-10deg)
-          brightness(1.12)
-          saturate(1.22)
-          contrast(1.08);
+  filter: sepia(0.45) hue-rotate(-10deg) brightness(1.12) saturate(1.22) contrast(1.08);
 }
+
 .day-page.stormy .photo-gallery,
 .day-page.stormy .photo-grid,
 .day-page.stormy .photo-tile img {
   filter: hue-rotate(-70deg) brightness(0.78) saturate(0.65) contrast(1.18);
 }
+
 .day-page.reflective .photo-gallery,
 .day-page.reflective .photo-grid,
 .day-page.reflective .photo-tile img {
   filter: hue-rotate(-20deg) brightness(0.9) saturate(0.8);
 }
+
 .day-page.natural,
 .day-page.natural .photo-gallery,
 .day-page.natural .photo-grid,
@@ -395,39 +422,79 @@ button:hover {
 .day-page .photo-tile img {
   transition: filter 0.6s ease, opacity 0.6s ease;
 }
+
 .day-page.stormy .photo-gallery {
   animation: stormyPulse 6s ease-in-out infinite;
 }
+
 @keyframes stormyPulse {
-  0% { opacity: 0.95; }
-  50% { opacity: 0.88; }
-  100% { opacity: 0.95; }
+  0% {
+    opacity: 0.95;
+  }
+
+  50% {
+    opacity: 0.88;
+  }
+
+  100% {
+    opacity: 0.95;
+  }
 }
+
 .day-page.calm .photo-gallery {
   animation: calmGlow 8s ease-in-out infinite;
 }
+
 @keyframes calmGlow {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.05); }
-  100% { filter: brightness(1); }
+  0% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.05);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
 }
+
 .day-page.joyful .photo-gallery {
   animation: joyfulWarmth 7s ease-in-out infinite;
 }
+
 @keyframes joyfulWarmth {
-  0% { filter: saturate(1.1); }
-  50% { filter: saturate(1.2); }
-  100% { filter: saturate(1.1); }
+  0% {
+    filter: saturate(1.1);
+  }
+
+  50% {
+    filter: saturate(1.2);
+  }
+
+  100% {
+    filter: saturate(1.1);
+  }
 }
+
 .day-page.reflective .photo-gallery {
   animation: reflectiveFade 10s ease-in-out infinite;
 }
 
 @keyframes reflectiveFade {
-  0% { opacity: 1; }
-  50% { opacity: 0.92; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.92;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
+
 .day-page.natural .photo-gallery {
   animation: none;
   filter: none !important;
@@ -491,9 +558,11 @@ button:hover {
   0% {
     filter: brightness(1) saturate(1);
   }
+
   40% {
     filter: brightness(1.15) saturate(1.25);
   }
+
   100% {
     filter: brightness(1) saturate(1);
   }
@@ -513,10 +582,12 @@ button:hover {
     transform: scale(1);
     filter: brightness(1) saturate(1);
   }
+
   40% {
     transform: scale(1.08);
     filter: brightness(1.25) saturate(1.35);
   }
+
   100% {
     transform: scale(1);
     filter: brightness(1) saturate(1);
@@ -530,9 +601,3 @@ button:hover {
 .season-autumn .global-mood-orb {
   animation: seasonOrbShift 1.6s ease-out;
 }
-
-
-
-
-
-
