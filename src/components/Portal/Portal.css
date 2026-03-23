@@ -556,7 +556,6 @@
   text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
-
 .portal-wrapper {
   width: 100%;
   display: flex;
@@ -578,9 +577,53 @@
   transition: opacity 0.4s ease;
 }
 
+
+/* -------------------------------------------------- */
+/* 1. PORTAL WRAPPER + CUE + SUBTITLE (STRUCTURE)     */
+/* -------------------------------------------------- */
+
+.portal-container {
+  position: relative;
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  min-height: 150px;
+}
+
+.portal__cue {
+  position: absolute;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 4px);
+}
+
+.portal-wrapper.aware .portal__cue {
+  opacity: 1;
+  transform: translate(-50%, 16px);
+}
+
+.portal-mood-tag {
+  margin-top: 6px;
+  font-size: 0.7rem;
+  opacity: 0.85;
+  color: #e6e6eb;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+/* Subtitle fade */
 .portal-wrapper.aware + .portal-subtitle {
   opacity: 1;
 }
+
+
+
+/* -------------------------------------------------- */
+/* 2. PORTAL GLOW STATES (AWARE + MOOD)               */
+/* -------------------------------------------------- */
 
 .portal--aware.portal--mood-calm {
   box-shadow: 0 0 28px rgba(120, 180, 255, 0.7);
@@ -602,35 +645,200 @@
   box-shadow: 0 0 28px rgba(120, 200, 120, 0.7);
 }
 
-.portal-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 10;
-  min-height: 150px;
-}
-.portal__cue {
+
+
+/* -------------------------------------------------- */
+/* 3. MOOD ORB (BASE STYLES)                          */
+/* -------------------------------------------------- */
+
+.mood-orb {
   position: absolute;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  top: 100%;
-  left: 50%;
-  transform: translate(-50%, 4px);
+  top: -10px;
+  right: -10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffffaa, #ffffff33);
+  box-shadow: 0 0 12px #ffffff88, 0 0 24px #ffffff55;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+  z-index: 20;
+  animation: orbPulse 4s ease-in-out infinite;
 }
 
-.portal-wrapper.aware .portal__cue {
-  opacity: 1;
-  transform: translate(-50%, 16px);
+.mood-orb.open {
+  transform: scale(1.2);
+  animation: none;
 }
 
-.portal-mood-tag {
-  margin-top: 6px;
-  font-size: 0.7rem;
-  opacity: 0.85;
+.mood-orb:hover {
+  box-shadow: 0 0 16px #ffffffaa, 0 0 32px #ffffff88;
+  transform: scale(1.1);
+}
+
+
+
+/* -------------------------------------------------- */
+/* 4. MOOD-BASED COLOUR SHIFTS                        */
+/* -------------------------------------------------- */
+
+.portal--mood-calm ~ .mood-orb {
+  background: radial-gradient(circle, #aeeaffaa, #aeeaff33);
+  box-shadow: 0 0 12px #aeeaff88, 0 0 24px #aeeaff55;
+}
+
+.portal--mood-joyful ~ .mood-orb {
+  background: radial-gradient(circle, #ffe8aaff, #ffe8aa33);
+  box-shadow: 0 0 12px #ffe8aa88, 0 0 24px #ffe8aa55;
+}
+
+.portal--mood-stormy ~ .mood-orb {
+  background: radial-gradient(circle, #8899ffaa, #8899ff33);
+  box-shadow: 0 0 12px #8899ff88, 0 0 24px #8899ff55;
+}
+
+.portal--mood-reflective ~ .mood-orb {
+  background: radial-gradient(circle, #d0d0d5aa, #d0d0d533);
+  box-shadow: 0 0 12px #d0d0d588, 0 0 24px #d0d0d555;
+}
+
+.portal--mood-natural ~ .mood-orb {
+  background: radial-gradient(circle, #b8e6b8aa, #b8e6b833);
+  box-shadow: 0 0 12px #b8e6b888, 0 0 24px #b8e6b855;
+}
+
+
+
+/* -------------------------------------------------- */
+/* 5. ORB PULSE ANIMATION                             */
+/* -------------------------------------------------- */
+
+@keyframes orbPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+
+
+/* -------------------------------------------------- */
+/* 6. RADIAL MENU CONTAINER                           */
+/* -------------------------------------------------- */
+
+.mood-radial-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 160px;
+  height: 160px;
+  pointer-events: auto;
+  z-index: 30;
+  animation: radialBloom 0.35s ease-out forwards;
+  opacity: 0;
+}
+
+
+
+/* -------------------------------------------------- */
+/* 7. RADIAL BLOOM ANIMATION                          */
+/* -------------------------------------------------- */
+
+@keyframes radialBloom {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+
+/* -------------------------------------------------- */
+/* 8. MOOD OPTION BUTTONS                             */
+/* -------------------------------------------------- */
+
+.mood-option {
+  position: absolute;
+  width: 60px;
+  height: 24px;
+  border-radius: 12px;
+  background: #ffffff22;
   color: #e6e6eb;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-  pointer-events: none;
+  border: 1px solid #ffffff55;
+  font-size: 0.7rem;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: moodDrift 0.4s ease forwards;
 }
+
+/* Radial positions */
+.mood-option:nth-child(1) { top: 10px; left: 50%; transform: translateX(-50%); }
+.mood-option:nth-child(2) { top: 40px; right: 10px; }
+.mood-option:nth-child(3) { top: 90px; right: 0; }
+.mood-option:nth-child(4) { top: 120px; left: 50%; transform: translateX(-50%); }
+.mood-option:nth-child(5) { top: 90px; left: 0; }
+
+/* Staggered delays */
+.mood-option:nth-child(1) { animation-delay: 0.05s; }
+.mood-option:nth-child(2) { animation-delay: 0.1s; }
+.mood-option:nth-child(3) { animation-delay: 0.15s; }
+.mood-option:nth-child(4) { animation-delay: 0.2s; }
+.mood-option:nth-child(5) { animation-delay: 0.25s; }
+
+
+
+/* -------------------------------------------------- */
+/* 9. MOOD DRIFT ANIMATION                            */
+/* -------------------------------------------------- */
+
+@keyframes moodDrift {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* -------------------------------------------------- */
+/* 10. RESET BUTTON                                   */
+/* -------------------------------------------------- */
+
+.mood-reset {
+  position: absolute;
+  top: 65px;
+  left: 65px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ffffff33;
+  border: 1px solid #ffffff55;
+  color: #e6e6eb;
+  font-size: 0.6rem;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.6);
+  animation: resetPop 0.4s ease forwards 0.3s;
+}
+
+
+
+/* -------------------------------------------------- */
+/* 11. RESET POP ANIMATION                            */
+/* -------------------------------------------------- */
+
+@keyframes resetPop {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
 
 
 

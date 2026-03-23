@@ -1,4 +1,5 @@
 import "./Portal.css";
+import { useState } from "react";
 
 export function Portal({
   dayIndex,
@@ -11,6 +12,8 @@ export function Portal({
   cueText,
   portalState
 }) {
+  const [showMoodMenu, setShowMoodMenu] = useState(false);
+
   const dayClass = dayIndex ? `portal--day-${dayIndex}` : "";
   const seasonClass = season ? `portal--season-${season}` : "";
   const moodClass = mood ? `portal--mood-${mood}` : "";
@@ -46,6 +49,43 @@ export function Portal({
 
   return (
     <div className="portal-container">
+
+      {/* ⭐ EXISTING MOOD ORB — now interactive */}
+      <div
+        className={`mood-orb ${showMoodMenu ? "open" : ""}`}
+        onClick={() => setShowMoodMenu(!showMoodMenu)}
+      ></div>
+
+      {/* ⭐ RADIAL MOOD MENU */}
+      {showMoodMenu && (
+        <div className="mood-radial-menu">
+          {["calm", "joyful", "stormy", "reflective", "natural"].map((m) => (
+            <button
+              key={m}
+              className="mood-option"
+              onClick={() => {
+                setMood(m);
+                setShowMoodMenu(false);
+              }}
+            >
+              {m.charAt(0).toUpperCase() + m.slice(1)}
+            </button>
+          ))}
+
+          {/* ⭐ RESET BUTTON IN CENTRE */}
+          <button
+            className="mood-reset"
+            onClick={() => {
+              setMood(null);
+              setShowMoodMenu(false);
+            }}
+          >
+            Reset
+          </button>
+        </div>
+      )}
+
+      {/* ⭐ PORTAL CORE */}
       <div
         className={classes}
         onClick={() => {
@@ -61,14 +101,14 @@ export function Portal({
         </div>
       </div>
 
-      {/* ⭐ CUE TEXT — now visible */}
+      {/* ⭐ CUE TEXT */}
       {cueText && (
         <div className="portal__cue">
           {cueText}
         </div>
       )}
 
-      {/* ⭐ SUBTITLE — now visible */}
+      {/* ⭐ SUBTITLE */}
       {portalState === "aware" && (
         <div className="portal-subtitle">
           The Door begins the story
