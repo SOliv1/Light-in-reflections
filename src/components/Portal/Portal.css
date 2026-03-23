@@ -1004,6 +1004,28 @@
 }
 
 /* Trigger sparkle when Door becomes aware */
-.portal--aware~.portal-sparkle {
+.portal--aware .portal-sparkle {
   animation: sparkleTwinkle 1.8s ease-out;
 }
+
+.mood-option {
+  background: rgba(255, 255, 255, 0.05);   /* brighter, more visible */
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 0, 0, 0.15);   /* subtle dark border */
+  color: rgba(30, 30, 30, 0.9);            /* darker, readable text */
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;                        /* clearer text weight */
+  transition: box-shadow 0.4s ease;
+}
+
+.mood-option:hover {
+  box-shadow:
+  0 0 12px rgba(var(--season-light), 0.22),
+  0 0 24px var(--season-mid),
+  0 0 36px var(--season-dark);
+  transform: translateY(-2px);
+}
+
+
