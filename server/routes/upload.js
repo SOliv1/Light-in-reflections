@@ -20,7 +20,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
-        { folder: "reflections" },
+        { folder: "Sandbox" },
         (error, result) => {
           if (error) {
 

@@ -38,10 +38,15 @@ body {
   background: rgba(0, 0, 0, 0.22);
   opacity: 0;
   transition: opacity 0.6s ease;
-  z-index: 2;
-  pointer-events: none; /* ← THIS FIXES EVERYTHING */
+  z-index: 0;
+  pointer-events: none; /* ← THIS FIXES EVERYTHING*/
 }
 
+.no-veil .constellation-overlay {
+  opacity: 0 !important;
+  background: none !important;
+  backdrop-filter: none !important;
+}
 
 .constellation-overlay.active {
   opacity: 1;
@@ -78,36 +83,38 @@ body {
 
 /* Base styling */
 .veil-toggle {
+  position: relative;
+  overflow: visible;
   font-family: inherit;
   font-size: 1rem;
   letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.78);
+  background: linear-gradient(
+  145deg,
+  rgba(40, 20, 70, 0.42),
+  rgba(25, 12, 50, 0.32),
+  );
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+  0 0 8px rgba(255, 255, 255, 0.18),
+  inset 0 0 6px rgba(255, 255, 255, 0.12);
 
-  background: rgba(40, 20, 70, 0.35);
-  padding: 8px 18px;
-  border-radius: 12px;
-
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(4px) brightness(1.1);
-
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: visible;
 }
 
-/* Hover shimmer */
 .veil-toggle:hover {
-  background: rgba(70, 40, 110, 0.45);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: linear-gradient(
+    145deg,
+    rgba(70, 40, 110, 0.55),
+    rgba(40, 20, 70, 0.45)
+  );
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px) scale(1.03);
 }
+
+
 
 /* Tiny star-twinkle animation — more visible */
 /* Ensure the button can host sparkles */
-.veil-toggle {
-  position: relative;
-  overflow: visible;
-}
 
 /* ✨ Sparkle #1 — bright twinkle (already added, now drifting slightly) */
 .veil-toggle::after {

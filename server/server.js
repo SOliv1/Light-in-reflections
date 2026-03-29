@@ -11,6 +11,8 @@ import client from "./db.js";
 // Routes
 import uploadRoute from "./routes/upload.js";
 import daysRoute from "./routes/days.js";
+import weatherRoute from "./routes/weather.js";
+
 
 // -----------------------------
 // 🌙 App Setup
@@ -44,6 +46,8 @@ app.use(express.json());
 // -----------------------------
 app.use("/upload", uploadRoute);
 app.use("/days", daysRoute);
+app.use("/weather", weatherRoute);
+
 
 // -----------------------------
 // 🌺 Start Server

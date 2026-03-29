@@ -40,12 +40,15 @@ const Day01 = () => {
     const formData = new FormData();
     formData.append("image", selectedFile);
 
+
     const uploadRes = await fetch(`${API_BASE_URL}/upload`, {
       method: "POST",
       body: formData,
     });
 
     const uploadData = await uploadRes.json();
+
+    console.log("UPLOAD DATA:", uploadData);
 
     await fetch(`${API_BASE_URL}/days/add-photo`, {
       method: "POST",

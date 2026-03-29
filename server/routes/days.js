@@ -21,7 +21,7 @@ router.post("/add-photo", async (req, res) => {
       return res.status(400).json({ error: "Missing date or photoUrl" });
     }
 
-    const db = client.db("reflections");
+    const db = client.db("Sandbox");
 
     const result = await db.collection("days").updateOne(
       { date },
@@ -49,7 +49,7 @@ router.post("/set-mood", async (req, res) => {
       return res.status(400).json({ error: "Missing date or mood" });
     }
 
-    const db = client.db("reflections");
+    const db = client.db("Sandbox");
 
     await db.collection("days").updateOne(
       { date },
@@ -70,7 +70,7 @@ router.get("/:date", async (req, res) => {
   try {
     const uiDate = req.params.date;
 
-    const db = client.db("reflections");
+    const db = client.db("Sandbox");
     const dayDoc = await db.collection("days").findOne({ date: uiDate });
 
     if (!dayDoc) {
@@ -94,7 +94,7 @@ router.post("/delete-photo", async (req, res) => {
       return res.status(400).json({ error: "Missing date or photoUrl" });
     }
 
-    const db = client.db("reflections");
+    const db = client.db("Sandbox");
 
     const result = await db.collection("days").updateOne(
       { date },
@@ -112,6 +112,21 @@ router.post("/delete-photo", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// -----------------------------
+// 🌞 Fetch all days (for gallery & homepage)
+// -----------------------------
+router.get("/", async (req, res) => {
+  try {
+    const db = client.db("Sandbox");
+    const days = await db.collection("days").find().toArray();
+
+    res.json(days);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 // -----------------------------
 // 🌺 Export

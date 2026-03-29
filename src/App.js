@@ -3,10 +3,15 @@ import Constellation from "./components/Constellation";
 import Calendar from "./components/Calendar";
 import "./App.css";
 import logo from "./assets/logo.png";
+// eslint-disable-next-line no-unused-vars
 
 import { Portal } from "./components/Portal/Portal";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { getWeatherCondition } from "./utils/getWeatherCondition";
+import useWeatherPhotos from "./hooks/useWeatherPhotos";
+
+import BackgroundCarousel from "./components/BackgroundCarousel";
 
 import Day01 from "./pages/Day01";
 import Day02 from "./pages/Day02";
@@ -40,14 +45,101 @@ import Day29 from "./pages/Day29";
 import Day30 from "./pages/Day30";
 import Day31 from "./pages/Day31";
 
-
-
-
 function App() {
+
   const [mode, setMode] = useState("architectural");
-  const [veilOn, setVeilOn] = useState(true);   // ✔ inside App()
+
+  useEffect(() => {
+  async function loadDayPhotos() {
+    try {
+      const res = await fetch("http://localhost:5000/days");
+      const days = await res.json();
+
+      const allPhotos = days.flatMap(day => day.photos || []);
+
+      if (allPhotos.length > 0) {
+        setPhotos(allPhotos);
+      }
+    } catch (err) {
+      console.error("Error loading day photos:", err);
+    }
+  }
+
+  loadDayPhotos();
+}, []);
 
 
+  // 1. Weather state MUST come before using it
+  const [weather, setWeather] = useState(null);
+
+  const manualCategories = {
+  architectural: [
+    "/images/arch1.jpg",
+    "/images/arch2.jpg",
+    "/images/arch3.jpg"
+  ],
+  water: [
+    "/images/water1.jpg",
+    "/images/water2.jpg",
+    "/images/water3.jpg"
+  ],
+  macro: [
+    "/images/macro1.jpg",
+    "/images/macro2.jpg",
+    "/images/macro3.jpg"
+  ]
+};
+
+  // 2. Default fallback photos
+  const defaultPhotos = [
+  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+  "https://images.unsplash.com/photo-1501004318641-b39e6451bec6",
+  "https://images.unsplash.com/photo-1499084732479-de2c02d45fc4",
+  "https://images.unsplash.com/photo-1501785888041-af3ef285b470"
+];
+
+  // 3. Weather-based photos (safe)
+  const weatherData = useWeatherPhotos(weather);
+
+  // 4. Choose which photos to use
+
+    const [photos, setPhotos] = useState(defaultPhotos);
+
+    useEffect(() => {
+      async function decidePhotos() {
+        if (!weather) return;
+
+        // 1. Weather → MoodPhotos
+        if (weatherData && !weatherData.fallback && weatherData.photos?.length > 0) {
+          setPhotos(weatherData.photos);
+          return;
+        }
+
+        // 2. Fallback → Gallery
+        try {
+          const res = await fetch("http://localhost:5000/days");
+          const days = await res.json();
+
+          const galleryPhotos = days.flatMap(day => day.photos || []);
+
+          if (galleryPhotos.length > 0) {
+            setPhotos(galleryPhotos);
+            return;
+          }
+        } catch (err) {
+          console.error("Days fetch error:", err);
+        }
+
+        // 3. Final fallback → mode-based manual categories
+        setPhotos(manualCategories[mode] || defaultPhotos);
+      }
+
+      decidePhotos();
+    }, [weather, weatherData, mode]);
+
+    // 5. Mood (safe)
+    const mood = weatherData?.mood || null;
 
   useEffect(() => {
     let ticking = false;
@@ -72,28 +164,55 @@ function App() {
     };
   }, []);
 
+  const hour = new Date().getHours();
+
+    let timeOfDay = "day";
+    if (hour >= 19 || hour < 5) {
+      timeOfDay = "night";
+    } else if (hour >= 17) {
+      timeOfDay = "evening";
+    }
+
+    useEffect(() => {
+      async function loadWeather() {
+        const condition = await getWeatherCondition(52.09, -1.95); // Evesham coords
+        setWeather(condition);
+      }
+      loadWeather();
+    }, []);
+
+
+  const [veilMode, setVeilMode] = useState("veil-default");
+  const [veilOn, setVeilOn] = useState(true);
+
+
+
   return (
   <Router>
     <>
       {/* 🌌 SKY SECTION */}
       <div className="sky-wrapper">
         <Constellation veilOn={veilOn} />
-
-        <Portal
-          type="mood"
-          dayIndex={1}
-          season="winter"
-          mood={null}
-          cueText=""
-        />
+          <Portal
+            type="mood"
+            dayIndex={1}
+            season="winter"
+            mood={null}
+            cueText=""
+          />
       </div>
 
+
       {/* 🌙 MAIN APP SECTION */}
-      <div className={`App mode-${mode} ${veilOn ? "veil-on" : "veil-off"}`}>
+      <div className={`App mode-${mode}`}>
+        <BackgroundCarousel photos={photos} veilMode={veilMode} />
+          <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
 
-        <img src={logo} alt="My Reflections Glow logo" className="App-logo" />
-
-        <h1 className="calendar-title">A Month of Light</h1>
+        {/* 🌅 Background Carousel — perfect placement */}
+        <div className="content">
+          <h1>Today feels {mood}</h1>
+        </div>
+          <h1 className="calendar-title">A Month of Light</h1>
 
         {/* MODE BUTTONS */}
         <div style={{ marginBottom: "20px" }}>
@@ -149,22 +268,17 @@ function App() {
         ></div>
 
         {/* VEIL TOGGLE */}
-        <button
-          className={`veil-toggle ${veilOn ? "glow" : ""}`}
-          onClick={() => setVeilOn(v => !v)}
-          style={{
-            position: "fixed",
-            top: "20px",
-            right: "20px",
-            zIndex: 9999,
-          }}
-        >
-          {veilOn ? "Lower the Veil" : "Lift the Veil"}
-        </button>
 
+        <div className="veil-controls">
+          <button onClick={() => setVeilMode("veil-default")}>Default Veil</button>
+          <button onClick={() => setVeilMode("veil-lift")}>Lift Veil</button>
+          <button onClick={() => setVeilMode("veil-none")}>No Veil</button>
+        </div>
       </div>
     </>
   </Router>
+
+
 );
 
 }

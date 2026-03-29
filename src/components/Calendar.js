@@ -52,9 +52,6 @@ const Calendar =() => {
 
      return (
        <div className={`calendar-wrapper ${seasonClass}`}>
-
-
-
         <h2 className="calendar-title">Summer Reflections, July 2026</h2>
 
         <div className="calendar-container">
