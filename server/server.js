@@ -1,38 +1,29 @@
-// -----------------------------
-// 🌿 Imports (top of file)
-// -----------------------------
+// server/server.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { connectToDb } from "./db.js";
 
-// Database client
-import client from "./db.js";
-
-// Routes
+// Route imports
+import galleryRoutes from "./routes/gallery.js";
+import backgroundRoutes from "./routes/background.js";
+import daysRoutes from "./routes/days.js";
 import uploadRoute from "./routes/upload.js";
-import daysRoute from "./routes/days.js";
-import weatherRoute from "./routes/weather.js";
 
 
-// -----------------------------
-// 🌙 App Setup
-// -----------------------------
-if (process.env.NODE_ENV !== "production") {
-  dotenv.config();
-}
+// Load environment variables
+dotenv.config();
 
 const app = express();
 
-
-// -----------------------------
-// 🌼 CORS (must come BEFORE routes)
-// -----------------------------
+// Middleware
 app.use(
   cors({
     origin: [
       "http://localhost",
       "http://localhost:3000",
-      "https://reflections-in-light.onrender.com"
+      "https://reflections-in-light.onrender.com",
+
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
@@ -41,17 +32,16 @@ app.use(
 
 app.use(express.json());
 
-// -----------------------------
-// 🌺 Route Mounting
-// -----------------------------
+// Routes
+app.use("/api/gallery", galleryRoutes);
+app.use("/api/background", backgroundRoutes);
+app.use("/days", daysRoutes);
 app.use("/upload", uploadRoute);
-app.use("/days", daysRoute);
-app.use("/weather", weatherRoute);
 
 
-// -----------------------------
-// 🌺 Start Server
-// -----------------------------
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Start server AFTER DB connects
+connectToDb().then(() => {
+  app.listen(5000, () => {
+    console.log("Server running on port 5000");
+  });
 });
