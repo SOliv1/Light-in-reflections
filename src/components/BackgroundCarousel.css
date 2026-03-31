@@ -6,11 +6,12 @@
   width: 100%;
   height: 100%;
   z-index: 1;
-  opacity: 0.18; /* was 0.18 — now slightly more visible */
+  opacity: 0.18;
   pointer-events: none;
   overflow: hidden;
 }
 
+.weather-image,
 .bg-image {
   position: absolute;
   inset: 0;
@@ -18,23 +19,30 @@
   height: 100vh;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 10s ease; /* slow, dreamy */
+  transition: opacity 10s ease;
   filter: brightness(0.45) contrast(0.85) saturate(0.7);
 }
 
-.bg-image.active {
-  opacity: 2;
+.weather-image {
+  opacity: 0.6;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-/* BASE OVERLAY — neutral starting point
+.bg-image.active {
+  opacity: 1;
+}
 
-/* DEFAULT VEIL — near-night, rich, luminous */
+/* BASE OVERLAY - neutral starting point
+
+/* DEFAULT VEIL - near-night, rich, luminous */
 .veil-default .twilight-overlay {
-  opacity: 0.45; /* more transparent overall */
+  opacity: 0.45;
   background: radial-gradient(
     circle at 50% 42%,
-    rgba(0, 0, 0, 0.02),   /* glowing centre */
-    rgba(0, 0, 0, 0.90)    /* near-night edges */
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.90)
   );
   mix-blend-mode: soft-light;
 }
@@ -47,7 +55,7 @@
   background: none;
   opacity: 0;
   transition: opacity 0.6s ease;
-  z-index: 3; /* above carousel, below orb */
+  z-index: 3;
 }
 
 /* Default veil */
@@ -78,26 +86,24 @@
   background: none !important;
   mix-blend-mode: normal !important;
 }
+
 #veil.veil-none {
   background: none !important;
   opacity: 0 !important;
 }
 
-/* Lift the veil — keep a hint of atmosphere */
 .veil-lift .twilight-overlay {
   opacity: 0.08 !important;
   background: none !important;
   mix-blend-mode: normal !important;
 }
 
-/* Disable twilight overlay completely in No Veil */
 .veil-none .twilight-overlay {
   opacity: 0 !important;
   background: none !important;
   mix-blend-mode: normal !important;
 }
 
-/* Disable veil element completely in No Veil */
 #veil.veil-none {
   opacity: 0 !important;
   background: none !important;
@@ -108,33 +114,28 @@
   opacity: 1 !important;
 }
 
-.veil-none .bg-image {
+.veil-none .bg-image,
+.veil-none .weather-image {
   filter: none !important;
 }
 
 .veil-toggle,
 button {
   position: relative;
-  z-index: 16; /* above UI, below orb */
+  z-index: 16;
 }
 
-/* Beautiful round shimmering beach stones */
 .veil-controls {
   position: fixed;
   bottom: 26px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 16;
-
   display: flex;
   gap: 10px;
   padding: 6px 12px;
-
   background: rgba(0, 0, 0, 0.08);
-  /* softer, more transparent */
   backdrop-filter: blur(14px);
-  /* more atmospheric */
   border-radius: 18px;
-  /* rounder, smoother */
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }

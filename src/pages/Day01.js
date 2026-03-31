@@ -3,9 +3,10 @@ import React, { useState, useEffect } from "react";
 import PhotoGallery from "../components/PhotoGallery";
 import { Link } from "react-router-dom";
 import { Portal } from "../components/Portal/Portal";
-import { API_BASE_URL } from "../config";
+import { fetchFromApi } from "../api";
 
 const Day01 = () => {
+  const dayDate = "18-03-2026";
   const [favourites, setFavourites] = useState({});
   const [mood, setMood] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -15,7 +16,7 @@ const Day01 = () => {
   const [portalState, setPortalState] = useState("resting");
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/days/18-03-2026`)
+    fetchFromApi(`/days/${dayDate}`)
       .then((res) => res.json())
       .then((data) => {
         setPhotos(data.photos || []);
@@ -24,7 +25,7 @@ const Day01 = () => {
       .catch(() => {
         console.log("No data found for this day yet.");
       });
-  }, []);
+  }, [dayDate]);
 
   useEffect(() => {
     setMacroMood("architectural-water"); // or "macro" depending on your logic
@@ -39,9 +40,10 @@ const Day01 = () => {
 
     const formData = new FormData();
     formData.append("image", selectedFile);
+    formData.append("saveToGallery", "false");
 
 
-    const uploadRes = await fetch(`${API_BASE_URL}/upload`, {
+    const uploadRes = await fetchFromApi("/upload", {
       method: "POST",
       body: formData,
     });
@@ -50,11 +52,11 @@ const Day01 = () => {
 
     console.log("UPLOAD DATA:", uploadData);
 
-    await fetch(`${API_BASE_URL}/days/add-photo`, {
+    await fetchFromApi("/days/add-photo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        date: "18-03-2026",
+        date: dayDate,
         photoUrl: uploadData.photoUrl,
       }),
     });
@@ -72,13 +74,13 @@ const Day01 = () => {
 
   // 2. Remove from database
   try {
-    const res = await fetch(`${API_BASE_URL}/days/delete-photo`, {
+    const res = await fetchFromApi("/days/delete-photo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        date: "18-03-2026",
+        date: dayDate,
         photoUrl: photoUrlToDelete,
       }),
     });
@@ -101,11 +103,11 @@ const Day01 = () => {
 
     setMood(selectedMood);
 
-    await fetch(`${API_BASE_URL}/days/set-mood`, {
+    await fetchFromApi("/days/set-mood", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        date: "18-03-2026",
+        date: dayDate,
         mood: selectedMood,
       }),
     });

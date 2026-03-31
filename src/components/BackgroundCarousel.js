@@ -1,34 +1,46 @@
 import { useEffect, useState } from "react";
 import "./BackgroundCarousel.css";
 
-export default function BackgroundCarousel({ photos, veilMode }) {
+export default function BackgroundCarousel({ photos, veilMode, weatherImage }) {
   const [index, setIndex] = useState(0);
+  const hasPhotos = Array.isArray(photos) && photos.length > 0;
 
   useEffect(() => {
-    if (!photos || photos.length === 0) return;
+    if (!hasPhotos) {
+      setIndex(0);
+      return undefined;
+    }
 
     const interval = setInterval(() => {
       setIndex((i) => (i + 1) % photos.length);
     }, 20000);
 
     return () => clearInterval(interval);
-  }, [photos]);
+  }, [hasPhotos, photos]);
 
-  if (!photos || photos.length === 0) return null;
+  if (!hasPhotos && !weatherImage) {
+    return null;
+  }
 
   return (
     <div className={`background-carousel ${veilMode}`}>
-      {photos.map((src, i) => (
-        <img
-          key={i}
-          src={src}
-          className={`bg-image ${i === index ? "active" : ""}`}
-          alt=""
+      {weatherImage ? (
+        <div
+          className="weather-image"
+          style={{ backgroundImage: `url(${weatherImage})` }}
         />
-      ))}
+      ) : null}
+      {hasPhotos &&
+        photos.map((src, i) => (
+          <img
+            key={i}
+            src={src}
+            className={`bg-image ${i === index ? "active" : ""}`}
+            alt=""
+          />
+        ))}
 
       <div className="twilight-overlay" />
     </div>
   );
 }
-
