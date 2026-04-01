@@ -32,6 +32,11 @@ export default function PhotoTile({
     }, 180);
   };
 
+  const handleImageError = (e) => {
+    e.currentTarget.alt = "Image unavailable";
+    e.currentTarget.closest(".photo-tile")?.classList.add("photo-tile--error");
+  };
+
   return (
     <div
       ref={tileRef}
@@ -67,6 +72,10 @@ export default function PhotoTile({
         src={img.src}
         alt={img.alt}
         className="photo-tile-image"
+        loading="lazy"
+        decoding="async"
+        draggable="false"
+        onError={handleImageError}
       />
 
       <button

@@ -37,6 +37,8 @@ export default function BackgroundCarousel({ photos, veilMode, weatherImage }) {
             src={src}
             className={`bg-image ${i === index ? "active" : ""}`}
             alt=""
+            loading={i === 0 ? "eager" : "lazy"}
+            decoding="async"
           />
         ))}
 
