@@ -1,8 +1,36 @@
-/* const isLocalhost = window.location.hostname === "localhost";
+const LOCAL_API_URL = "http://localhost:5000";
 
-export const API_BASE_URL = isLocalhost
-  ? "http://localhost:5000"
-  : "https://reflections-hcjq.onrender.com";
+function normalizeUrls(rawValue) {
+  return (rawValue || "")
+    .split(",")
+    .map((url) => url.trim())
+    .filter(Boolean);
+}
 
-*/
-export const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+function getRuntimeFallbackUrls() {
+  if (typeof window === "undefined") {
+    return [LOCAL_API_URL];
+  }
+
+  const { hostname, origin } = window.location;
+  const isLocalHost =
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "[::1]";
+
+  if (isLocalHost) {
+    return [LOCAL_API_URL];
+  }
+
+  return origin ? [origin] : [];
+}
+
+const configuredUrls = normalizeUrls(
+  process.env.REACT_APP_API_URLS || process.env.REACT_APP_API_URL
+);
+
+export const API_BASE_URLS = [...new Set([...configuredUrls, ...getRuntimeFallbackUrls()])];
+
+export const API_BASE_URL = API_BASE_URLS[0] || LOCAL_API_URL;
+
+export default API_BASE_URL;

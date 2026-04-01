@@ -1,21 +1,49 @@
 import { useState, useEffect } from "react";
-import { fetchPhotosByWeather } from "../utils/fetchPhotosByWeather";
+import { getWeatherCondition } from "../utils/getWeatherCondition";
+import { fetchFromApi } from "../api";
 
-export default function useWeatherPhotos(weatherCondition) {
-  const [photos, setPhotos] = useState([]);
-  const [mood, setMood] = useState(null);
+export default function useWeatherPhotos() {
+  const [backgroundImage, setBackgroundImage] = useState(null);
 
   useEffect(() => {
-    if (!weatherCondition) return;
+    async function fetchBackground() {
+      try {
+        if (!navigator.geolocation) {
+          return;
+        }
 
-    async function load() {
-      const data = await fetchPhotosByWeather(weatherCondition);
-      setPhotos(data.photos);
-      setMood(data.mood);
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            try {
+              const lat = pos.coords.latitude;
+              const lon = pos.coords.longitude;
+              const weather = await getWeatherCondition(lat, lon);
+              const res = await fetchFromApi(
+                `/api/background?weather=${encodeURIComponent(weather)}`
+              );
+
+              if (!res.ok) {
+                console.warn(`Background request failed with status ${res.status}.`);
+                return;
+              }
+
+              const data = await res.json();
+              setBackgroundImage(data.imageUrl || null);
+            } catch (err) {
+              console.error("Weather background error:", err);
+            }
+          },
+          (geoError) => {
+            console.warn("Geolocation unavailable for weather background:", geoError);
+          }
+        );
+      } catch (err) {
+        console.error("Weather background error:", err);
+      }
     }
 
-    load();
-  }, [weatherCondition]);
+    fetchBackground();
+  }, []);
 
-  return { photos, mood };
+  return backgroundImage;
 }

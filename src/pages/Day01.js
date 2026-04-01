@@ -1,21 +1,25 @@
 // src/pages/Day01.js
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PhotoGallery from "../components/PhotoGallery";
 import { Link } from "react-router-dom";
 import { Portal } from "../components/Portal/Portal";
-import { API_BASE_URL } from "../config";
+import { fetchFromApi } from "../api";
 
 const Day01 = () => {
+  const dayDate = "18-03-2026";
   const [favourites, setFavourites] = useState({});
   const [mood, setMood] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
   const [photos, setPhotos] = useState([]);
   const [macroMood, setMacroMood] = useState(null);
   const [selectedMood, setSelectedMood] = useState("");
   const [portalState, setPortalState] = useState("resting");
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/days/18-03-2026`)
+    fetchFromApi(`/days/${dayDate}`)
       .then((res) => res.json())
       .then((data) => {
         setPhotos(data.photos || []);
@@ -24,43 +28,78 @@ const Day01 = () => {
       .catch(() => {
         console.log("No data found for this day yet.");
       });
-  }, []);
+  }, [dayDate]);
 
   useEffect(() => {
     setMacroMood("architectural-water"); // or "macro" depending on your logic
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
   function handleFileChange(e) {
-    setSelectedFile(e.target.files[0]);
+    const file = e.target.files?.[0] || null;
+
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
+    setSelectedFile(file);
+    setPreviewUrl(file ? URL.createObjectURL(file) : "");
   }
 
   async function handleUpload() {
-    if (!selectedFile) return;
+    if (!selectedFile || isUploading) return;
 
     const formData = new FormData();
     formData.append("image", selectedFile);
+    formData.append("saveToGallery", "false");
 
+    setIsUploading(true);
 
-    const uploadRes = await fetch(`${API_BASE_URL}/upload`, {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const uploadRes = await fetchFromApi("/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-    const uploadData = await uploadRes.json();
+      if (!uploadRes.ok) {
+        throw new Error(`Upload failed with status ${uploadRes.status}`);
+      }
 
-    console.log("UPLOAD DATA:", uploadData);
+      const uploadData = await uploadRes.json();
 
-    await fetch(`${API_BASE_URL}/days/add-photo`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        date: "18-03-2026",
-        photoUrl: uploadData.photoUrl,
-      }),
-    });
+      await fetchFromApi("/days/add-photo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          date: dayDate,
+          photoUrl: uploadData.photoUrl,
+        }),
+      });
 
-    setPhotos((prev) => [...prev, uploadData.photoUrl]);
-    setSelectedFile(null);
+      setPhotos((prev) => [...prev, uploadData.photoUrl]);
+      setSelectedFile(null);
+
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+
+      setPreviewUrl("");
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+    } finally {
+      setIsUploading(false);
+    }
   }
 
   async function handleDeletePhoto(photoUrlToDelete) {
@@ -72,13 +111,13 @@ const Day01 = () => {
 
   // 2. Remove from database
   try {
-    const res = await fetch(`${API_BASE_URL}/days/delete-photo`, {
+    const res = await fetchFromApi("/days/delete-photo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        date: "18-03-2026",
+        date: dayDate,
         photoUrl: photoUrlToDelete,
       }),
     });
@@ -101,11 +140,11 @@ const Day01 = () => {
 
     setMood(selectedMood);
 
-    await fetch(`${API_BASE_URL}/days/set-mood`, {
+    await fetchFromApi("/days/set-mood", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        date: "18-03-2026",
+        date: dayDate,
         mood: selectedMood,
       }),
     });
@@ -137,8 +176,21 @@ const Day01 = () => {
       <div className={`day-page ${mood || ""} ${macroMood || ""}`}>
 
         {/* Upload controls */}
-        <input type="file" accept="image/*" onChange={handleFileChange} />
-        <button onClick={handleUpload}>Upload Photo</button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+        <button onClick={handleUpload} disabled={!selectedFile || isUploading}>
+          {isUploading ? "Uploading..." : "Upload Photo"}
+        </button>
+
+        {previewUrl ? (
+          <div className="upload-preview">
+            <img src={previewUrl} alt="Selected upload preview" />
+          </div>
+        ) : null}
 
         {/* Title */}
         <h2 className="day-title">Day 1 Reflection</h2>

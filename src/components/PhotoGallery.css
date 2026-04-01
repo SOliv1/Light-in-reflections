@@ -17,6 +17,7 @@
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 16px;
   margin-top: 24px;
+  align-items: start;
 }
 
 /* ——— Tiles (Gallery-level hover only) ——— */
@@ -114,6 +115,13 @@
   z-index: 999;
   isolation: isolate;
   backdrop-filter: blur(6px);
+}
+
+@media (max-width: 600px) {
+  .photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
 }
 
 

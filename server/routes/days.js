@@ -1,46 +1,32 @@
-// -----------------------------
-// 🌿 Imports (top of file)
-// -----------------------------
 import express from "express";
-import client from "../db.js";
+import { getDb } from "../db.js";
+import {
+  addPhotoToDay,
+  deletePhotoFromDay,
+  getAllDays,
+  getDayByDate,
+  setDayMood
+} from "../models/Day.js";
 
-// -----------------------------
-// 🌙 Setup
-// -----------------------------
 const router = express.Router();
 
-// -----------------------------
-// 📸 Add a photo to a specific day
-// -----------------------------
 router.post("/add-photo", async (req, res) => {
   try {
-
     const { date, photoUrl } = req.body;
 
     if (!date || !photoUrl) {
       return res.status(400).json({ error: "Missing date or photoUrl" });
     }
 
-    const db = client.db("Sandbox");
-
-    const result = await db.collection("days").updateOne(
-      { date },
-      { $push: { photos: photoUrl } },
-      { upsert: true }
-    );
-
-
-
-    res.json({ message: "Photo saved successfully" });
-  } catch (err) {
-
-    res.status(500).json({ error: err.message });
+    const db = getDb();
+    await addPhotoToDay(db, date, photoUrl);
+    return res.json({ ok: true });
+  } catch (error) {
+    console.error("Day add-photo error:", error);
+    return res.status(500).json({ error: "Failed to add photo to day" });
   }
 });
 
-// -----------------------------
-// 🌤️ Save or update mood for a specific day
-// -----------------------------
 router.post("/set-mood", async (req, res) => {
   try {
     const { date, mood } = req.body;
@@ -49,43 +35,32 @@ router.post("/set-mood", async (req, res) => {
       return res.status(400).json({ error: "Missing date or mood" });
     }
 
-    const db = client.db("Sandbox");
-
-    await db.collection("days").updateOne(
-      { date },
-      { $set: { mood } },
-      { upsert: true }
-    );
-
-    res.json({ message: "Mood saved successfully" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const db = getDb();
+    await setDayMood(db, date, mood);
+    return res.json({ ok: true });
+  } catch (error) {
+    console.error("Day set-mood error:", error);
+    return res.status(500).json({ error: "Failed to save mood" });
   }
 });
 
-// -----------------------------
-// 🌙 Fetch a day by UI date (16-03-26)
-// -----------------------------
 router.get("/:date", async (req, res) => {
   try {
-    const uiDate = req.params.date;
+    const { date } = req.params;
+    const db = getDb();
+    const day = await getDayByDate(db, date);
 
-    const db = client.db("Sandbox");
-    const dayDoc = await db.collection("days").findOne({ date: uiDate });
-
-    if (!dayDoc) {
-      return res.json({ date: uiDate, photos: [], mood: null });
+    if (!day) {
+      return res.json({ date, photos: [], mood: null });
     }
 
-    res.json(dayDoc);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.json(day);
+  } catch (error) {
+    console.error("Day fetch error:", error);
+    return res.status(500).json({ error: "Failed to fetch day" });
   }
 });
 
-// -----------------------------
-// 🌙 Delete a photo from a specific day
-// -----------------------------
 router.post("/delete-photo", async (req, res) => {
   try {
     const { date, photoUrl } = req.body;
@@ -94,41 +69,29 @@ router.post("/delete-photo", async (req, res) => {
       return res.status(400).json({ error: "Missing date or photoUrl" });
     }
 
-    const db = client.db("Sandbox");
+    const db = getDb();
+    await deletePhotoFromDay(db, date, photoUrl);
+    const updatedDay = await getDayByDate(db, date);
 
-    const result = await db.collection("days").updateOne(
-      { date },
-      { $pull: { photos: photoUrl } }
-    );
-
-    const updatedDay = await db.collection("days").findOne({ date });
-
-    res.json({
-      message: "Photo deleted successfully",
-      day: updatedDay || { date, photos: [], mood: null },
+    return res.json({
+      ok: true,
+      day: updatedDay || { date, photos: [], mood: null }
     });
-  } catch (err) {
-
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    console.error("Day delete-photo error:", error);
+    return res.status(500).json({ error: "Failed to delete photo from day" });
   }
 });
 
-// -----------------------------
-// 🌞 Fetch all days (for gallery & homepage)
-// -----------------------------
 router.get("/", async (req, res) => {
   try {
-    const db = client.db("Sandbox");
-    const days = await db.collection("days").find().toArray();
-
-    res.json(days);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const db = getDb();
+    const days = await getAllDays(db);
+    return res.json(days);
+  } catch (error) {
+    console.error("Days fetch error:", error);
+    return res.status(500).json({ error: "Failed to fetch days" });
   }
 });
 
-
-// -----------------------------
-// 🌺 Export
-// -----------------------------
 export default router;

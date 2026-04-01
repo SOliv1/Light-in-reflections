@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import "./DayImageCarousel.css";
+import { fetchFromApi } from "../api";
+
+
 
 const DayImageCarousel = () => {
   const [images, setImages] = useState([]);
 
   const fetchImages = async () => {
-    const response = await fetch("http://localhost:5000/days");
+    const response = await fetchFromApi("/api/gallery");
     const days = await response.json();
 
     // Collect all photos from all days
-    const allPhotos = days.flatMap(day => day.photos || []);
+    const allPhotos = days.map(day => day.photoUrl).filter(Boolean);
 
     setImages(allPhotos);
   };

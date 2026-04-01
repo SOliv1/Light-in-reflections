@@ -3,6 +3,14 @@
 
 ## View the Reflections Project [Here](https://reflections-in-light.onrender.com/)
 
+## Deployment Notes
+
+For stable mobile deployment with a Netlify frontend and Render API:
+
+- Set `REACT_APP_API_URLS` in Netlify to your Render API base URL, for example `https://reflections-api.onrender.com`
+- Set `CORS_ALLOWED_ORIGINS` in Render to your Netlify site URL, plus any preview domains you want to allow
+- Local development can still use `http://localhost:5000`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
