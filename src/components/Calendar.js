@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import "../styles/calendar.css";
 import { Link } from "react-router-dom";
+import { BIRTHDAY_DAY, BIRTHDAY_MONTH } from "../data/birthdayExperience";
 
 const START_MONTH = new Date(2026, 0, 1);
 const END_MONTH = new Date(2027, 11, 1);
@@ -72,7 +73,9 @@ const Calendar = () => {
       <Link
         key={isoDate}
         to={`/day/${isoDate}`}
-        className={`calendar-tile ${isToday ? "today" : ""}`}
+        className={`calendar-tile ${isToday ? "today" : ""} ${
+          month + 1 === BIRTHDAY_MONTH && day === BIRTHDAY_DAY ? "birthday" : ""
+        }`}
       >
         <span className="day-number">{day}</span>
         <span className="day-date-label">

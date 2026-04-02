@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Portal } from "./Portal/Portal";
 import PhotoGallery from "./PhotoGallery";
 import { fetchFromApi } from "../api";
+import BirthdayStageExperience from "./BirthdayStageExperience";
 
 const MOODS = ["calm", "joyful", "stormy", "reflective", "natural"];
 
@@ -12,6 +13,7 @@ export default function PersistentDayPage({
   season = "winter",
   macroMood = "architectural-water",
   title,
+  specialExperience = null,
 }) {
   const [favourites, setFavourites] = useState({});
   const [mood, setMood] = useState(null);
@@ -199,7 +201,9 @@ export default function PersistentDayPage({
 
   function handlePhotoApproach() {
     setPortalState("aware");
-    const randomMood = MOODS[Math.floor(Math.random() * MOODS.length)];
+    const moodSource = lightingPresets.length > 0 ? lightingPresets : MOODS.map((id) => ({ id }));
+    const randomMood =
+      moodSource[Math.floor(Math.random() * moodSource.length)]?.id || null;
     setMood(randomMood);
   }
 
@@ -209,12 +213,23 @@ export default function PersistentDayPage({
       : macroMood === "macro"
         ? "Macro"
         : "";
+  const lightingPresets = specialExperience?.lightingPresets || MOODS.map((id) => ({
+    id,
+    label: id.charAt(0).toUpperCase() + id.slice(1),
+    description: "",
+  }));
+  const moodLabel =
+    lightingPresets.find((preset) => preset.id === mood)?.label || mood;
 
   return (
     <>
       <Link to="/" className="crescent-portal"></Link>
 
-      <div className={`day-page ${mood || ""} ${macroMood || ""}`}>
+      <div
+        className={`day-page ${mood || ""} ${macroMood || ""} ${
+          specialExperience?.variant || ""
+        }`}
+      >
         {errorMessage && (
           <p role="alert" className="upload-error">
             {errorMessage}
@@ -239,6 +254,16 @@ export default function PersistentDayPage({
 
         <h2 className="day-title">{title || `Day ${dayIndex} Reflection`}</h2>
 
+        {specialExperience?.variant === "birthday-stage" ? (
+          <BirthdayStageExperience
+            lightingPresets={lightingPresets}
+            onSelectLighting={(lightingId) => {
+              setMood(lightingId);
+              setSelectedMood(lightingId);
+            }}
+          />
+        ) : null}
+
         {macroMoodLabel && (
           <div className="day-tags">
             <span>{macroMoodLabel}</span>
@@ -260,7 +285,7 @@ export default function PersistentDayPage({
 
           {mood && (
             <div className="portal-mood-tag">
-              Mood: {mood}
+              Mood: {moodLabel}
               {macroMood && ` -> ${macroMoodLabel}`}
             </div>
           )}
@@ -286,23 +311,29 @@ export default function PersistentDayPage({
               }))
             }
             season={season}
+            mood={mood}
+            lightingPresets={lightingPresets}
+            onSelectMood={(nextMood) => {
+              setMood(nextMood);
+              setSelectedMood(nextMood);
+            }}
             onDelete={handleDeletePhoto}
             onApproachPortal={handlePhotoApproach}
           />
         )}
 
-        {mood && <p className="mood-label">Mood: {mood}</p>}
+        {mood && <p className="mood-label">Mood: {moodLabel}</p>}
 
         <div className="mood-selector">
-          {MOODS.map((nextMood) => (
+          {lightingPresets.map((preset) => (
             <button
-              key={nextMood}
+              key={preset.id}
               onClick={() => {
-                setMood(nextMood);
-                setSelectedMood(nextMood);
+                setMood(preset.id);
+                setSelectedMood(preset.id);
               }}
             >
-              {nextMood.charAt(0).toUpperCase() + nextMood.slice(1)}
+              {preset.label}
             </button>
           ))}
 

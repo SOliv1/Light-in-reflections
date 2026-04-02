@@ -12,6 +12,7 @@ import useWeatherPhotos from "./hooks/useWeatherPhotos";
 import { fetchFromApi } from "./api";
 import marbleBackground from "./assets/marble-grey-white.png";
 import DayPage from "./pages/DayPage";
+import { BIRTHDAY_DAY, BIRTHDAY_MONTH } from "./data/birthdayExperience";
 
 function AppShell() {
   const fallbackPhotos = [marbleBackground];
@@ -19,6 +20,11 @@ function AppShell() {
   const [photos, setPhotos] = useState([]);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const birthdayMatch = location.pathname.match(/^\/day\/(\d{4})-(\d{2})-(\d{2})$/);
+  const isBirthdayScene = birthdayMatch
+    ? Number(birthdayMatch[2]) === BIRTHDAY_MONTH &&
+      Number(birthdayMatch[3]) === BIRTHDAY_DAY
+    : false;
 
   useEffect(() => {
     async function loadGallery() {
@@ -75,7 +81,7 @@ function AppShell() {
   return (
     <>
       <div className="sky-wrapper">
-        <Constellation veilOn={veilOn} />
+        <Constellation veilOn={veilOn} birthdayMode={isBirthdayScene} />
         <Portal type="mood" dayIndex={1} season="winter" mood={null} cueText="" />
       </div>
 

@@ -86,6 +86,16 @@
   background: rgba(120, 170, 255, 0.10);
 }
 
+.calendar-tile.birthday {
+  border-color: rgba(255, 210, 125, 0.7);
+  background:
+    radial-gradient(circle at 25% 20%, rgba(255, 247, 214, 0.85), transparent 40%),
+    linear-gradient(145deg, rgba(255, 232, 184, 0.22), rgba(244, 180, 116, 0.18));
+  box-shadow:
+    0 10px 24px rgba(100, 55, 10, 0.15),
+    0 0 18px rgba(255, 215, 150, 0.22);
+}
+
 /* ————————————————————————————————
    SEASONAL TINTING (Spring)
 ——————————————————————————————— */

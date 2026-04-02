@@ -137,6 +137,231 @@ sky-wrapper {
   text-align: center;
 }
 
+.birthday-stage {
+  position: relative;
+  isolation: isolate;
+}
+
+.birthday-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2rem;
+  background:
+    radial-gradient(circle at top center, rgba(255, 232, 198, 0.1), transparent 40%),
+    linear-gradient(180deg, rgba(16, 12, 30, 0.06), rgba(14, 12, 24, 0.02) 40%, transparent 100%);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.45s ease, opacity 0.45s ease;
+}
+
+.birthday-stage > * {
+  position: relative;
+  z-index: 1;
+}
+
+.birthday-stage-card {
+  max-width: 54rem;
+  margin: 1.5rem auto 2rem;
+  padding: 1.75rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 222, 173, 0.22);
+  background:
+    radial-gradient(circle at top left, rgba(255, 236, 188, 0.24), transparent 35%),
+    linear-gradient(145deg, rgba(46, 22, 67, 0.68), rgba(21, 16, 46, 0.74));
+  box-shadow:
+    0 18px 48px rgba(8, 6, 24, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px) saturate(1.05);
+  color: #fff6ec;
+  transition:
+    background 0.45s ease,
+    border-color 0.45s ease,
+    box-shadow 0.45s ease,
+    color 0.45s ease;
+}
+
+.birthday-stage-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 225, 177, 0.78);
+}
+
+.birthday-stage-title {
+  margin: 0.5rem 0 0.85rem;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.08;
+  color: #fff3dd;
+}
+
+.birthday-stage-copy {
+  max-width: 44rem;
+  margin: 0 0 0.95rem;
+  line-height: 1.75;
+  color: rgba(255, 244, 230, 0.88);
+}
+
+.birthday-stage-directions {
+  margin-top: 1.4rem;
+  padding: 1rem 1.1rem;
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 236, 210, 0.12);
+}
+
+.birthday-stage-directions h4 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  color: #ffe8c5;
+}
+
+.birthday-stage-directions p {
+  margin: 0 0 0.75rem;
+  line-height: 1.7;
+  color: rgba(255, 244, 230, 0.84);
+}
+
+.birthday-stage-directions p:last-child {
+  margin-bottom: 0;
+}
+
+.birthday-stage-lights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.4rem;
+}
+
+.birthday-light-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-height: 112px;
+  padding: 1rem 1rem 0.95rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff8ef;
+  text-align: left;
+}
+
+.birthday-light-chip small {
+  color: rgba(255, 244, 230, 0.72);
+  line-height: 1.5;
+}
+
+.birthday-light-warm-spotlight {
+  background: linear-gradient(160deg, rgba(255, 204, 120, 0.38), rgba(140, 72, 32, 0.35));
+}
+
+.birthday-light-blue-hour {
+  background: linear-gradient(160deg, rgba(116, 164, 255, 0.32), rgba(26, 40, 94, 0.45));
+}
+
+.birthday-light-dress-rehearsal {
+  background: linear-gradient(160deg, rgba(220, 188, 255, 0.28), rgba(63, 41, 88, 0.42));
+}
+
+.birthday-light-golden-encore {
+  background: linear-gradient(160deg, rgba(255, 217, 147, 0.42), rgba(109, 69, 28, 0.35));
+}
+
+.birthday-light-velvet-midnight {
+  background: linear-gradient(160deg, rgba(81, 96, 168, 0.38), rgba(18, 22, 55, 0.48));
+}
+
+.birthday-stage.dress-rehearsal .birthday-stage-card {
+  background:
+    radial-gradient(circle at top left, rgba(212, 236, 255, 0.22), transparent 35%),
+    linear-gradient(145deg, rgba(31, 53, 84, 0.58), rgba(19, 28, 56, 0.64));
+  border-color: rgba(189, 223, 255, 0.24);
+}
+
+.birthday-stage.dress-rehearsal::before {
+  background:
+    radial-gradient(circle at top center, rgba(208, 228, 255, 0.12), transparent 42%),
+    linear-gradient(180deg, rgba(38, 51, 93, 0.1), rgba(18, 22, 46, 0.04) 42%, transparent 100%);
+}
+
+.birthday-stage.warm-spotlight .birthday-stage-card {
+  background:
+    radial-gradient(circle at top left, rgba(255, 232, 184, 0.24), transparent 34%),
+    linear-gradient(145deg, rgba(101, 53, 30, 0.58), rgba(58, 26, 24, 0.66));
+  border-color: rgba(255, 216, 168, 0.24);
+}
+
+.birthday-stage.warm-spotlight::before {
+  background:
+    radial-gradient(circle at top center, rgba(255, 221, 170, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(96, 55, 28, 0.1), rgba(36, 22, 18, 0.04) 42%, transparent 100%);
+}
+
+.birthday-stage.velvet-midnight .birthday-stage-card {
+  background:
+    radial-gradient(circle at top left, rgba(176, 189, 255, 0.18), transparent 34%),
+    linear-gradient(145deg, rgba(22, 28, 62, 0.68), rgba(12, 14, 35, 0.74));
+  border-color: rgba(154, 171, 255, 0.2);
+}
+
+.birthday-stage.velvet-midnight::before {
+  background:
+    radial-gradient(circle at top center, rgba(152, 167, 242, 0.1), transparent 42%),
+    linear-gradient(180deg, rgba(24, 28, 62, 0.12), rgba(12, 15, 34, 0.06) 42%, transparent 100%);
+}
+
+.birthday-stage.blue-hour .birthday-stage-card {
+  background:
+    radial-gradient(circle at top left, rgba(228, 213, 255, 0.18), transparent 34%),
+    linear-gradient(145deg, rgba(50, 28, 72, 0.6), rgba(24, 19, 50, 0.68));
+  border-color: rgba(227, 210, 255, 0.2);
+}
+
+.birthday-stage.blue-hour::before {
+  background:
+    radial-gradient(circle at top center, rgba(200, 210, 255, 0.1), transparent 42%),
+    linear-gradient(180deg, rgba(42, 40, 86, 0.1), rgba(20, 20, 40, 0.04) 42%, transparent 100%);
+}
+
+.birthday-stage.golden-encore .birthday-stage-card {
+  background:
+    radial-gradient(circle at top left, rgba(229, 241, 214, 0.18), transparent 34%),
+    linear-gradient(145deg, rgba(39, 52, 37, 0.58), rgba(24, 31, 25, 0.64));
+  border-color: rgba(213, 235, 200, 0.2);
+}
+
+.birthday-stage.golden-encore::before {
+  background:
+    radial-gradient(circle at top center, rgba(255, 235, 188, 0.12), transparent 42%),
+    linear-gradient(180deg, rgba(52, 58, 34, 0.08), rgba(20, 24, 16, 0.03) 42%, transparent 100%);
+}
+
+.birthday-stage .portal-wrapper {
+  transition: filter 0.45s ease, transform 0.45s ease;
+}
+
+.birthday-stage.dress-rehearsal .portal-wrapper {
+  filter: drop-shadow(0 0 20px rgba(150, 206, 255, 0.35));
+}
+
+.birthday-stage.warm-spotlight .portal-wrapper {
+  filter: drop-shadow(0 0 24px rgba(255, 216, 148, 0.38));
+}
+
+.birthday-stage.velvet-midnight .portal-wrapper {
+  filter: drop-shadow(0 0 24px rgba(132, 150, 255, 0.28));
+}
+
+.birthday-stage.blue-hour .portal-wrapper {
+  filter: drop-shadow(0 0 22px rgba(214, 188, 255, 0.28));
+}
+
+.birthday-stage.golden-encore .portal-wrapper {
+  filter: drop-shadow(0 0 20px rgba(204, 232, 172, 0.24));
+}
+
 
 .calendar-container {
   /*background: url('./assets/marble-grey-white.png');*/

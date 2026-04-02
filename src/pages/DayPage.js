@@ -1,6 +1,11 @@
 import React from "react";
 import { Navigate, useParams } from "react-router-dom";
 import PersistentDayPage from "../components/PersistentDayPage";
+import {
+  BIRTHDAY_DAY,
+  BIRTHDAY_MONTH,
+  birthdayLightingPresets,
+} from "../data/birthdayExperience";
 
 function isValidDateString(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value);
@@ -32,6 +37,8 @@ export default function DayPage() {
         : month >= 5 && month <= 7
           ? "summer"
           : "autumn";
+  const isBirthdayScene =
+    jsDate.getMonth() + 1 === BIRTHDAY_MONTH && jsDate.getDate() === BIRTHDAY_DAY;
 
   return (
     <PersistentDayPage
@@ -43,6 +50,14 @@ export default function DayPage() {
         month: "long",
         year: "numeric",
       })}`}
+      specialExperience={
+        isBirthdayScene
+          ? {
+              variant: "birthday-stage",
+              lightingPresets: birthdayLightingPresets,
+            }
+          : null
+      }
     />
   );
 }

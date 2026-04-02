@@ -14,7 +14,7 @@ function getSeason() {
   if (month >= 8 && month <= 10) return "autumn";
 }
 
-export default function Constellation({ veilOn }) {
+export default function Constellation({ veilOn, birthdayMode = false }) {
   const season = getSeason();
 
   const moonPhase = {
@@ -25,7 +25,11 @@ export default function Constellation({ veilOn }) {
   }[season];
 
   return (
-    <div className="constellation-wrapper interactive active">
+    <div
+      className={`constellation-wrapper interactive active ${
+        birthdayMode ? "birthday-mode" : ""
+      }`}
+    >
       <div className={`moon ${moonPhase}`}></div>
 
       {/* Veil now controlled ONLY by App.js */}
@@ -42,14 +46,40 @@ export default function Constellation({ veilOn }) {
 
         <div className="shooting-star"></div>
 
-        <div class="constellation-layer">
-            <span class="star star-1"></span>
-            <span class="star star-2"></span>
-            <span class="star star-3"></span>
+        <div className="constellation-layer">
+            <span className="star star-1"></span>
+            <span className="star star-2"></span>
+            <span className="star star-3"></span>
 
-            <span class="star star-4"></span>
-            <span class="star star-5"></span>
+            <span className="star star-4"></span>
+            <span className="star star-5"></span>
         </div>
+
+        {birthdayMode ? (
+          <>
+            <div className="cancer-constellation">
+              <span className="cancer-star cancer-star-1"></span>
+              <span className="cancer-star cancer-star-2"></span>
+              <span className="cancer-star cancer-star-3"></span>
+              <span className="cancer-star cancer-star-4"></span>
+              <span className="cancer-star cancer-star-5"></span>
+              <span className="cancer-star cancer-star-6"></span>
+              <span className="cancer-line cancer-line-1"></span>
+              <span className="cancer-line cancer-line-2"></span>
+              <span className="cancer-line cancer-line-3"></span>
+              <span className="cancer-line cancer-line-4"></span>
+              <span className="cancer-line cancer-line-5"></span>
+            </div>
+            <div className="planet-saturn">
+              <span className="planet-ring"></span>
+            </div>
+            <div className="planet-orbital"></div>
+            <div className="tiny-rocket">
+              <span className="rocket-window"></span>
+              <span className="rocket-flame"></span>
+            </div>
+          </>
+        ) : null}
 
       </div>
     </div>
