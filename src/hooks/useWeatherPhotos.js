@@ -2,10 +2,15 @@ import { useState, useEffect } from "react";
 import { getWeatherCondition } from "../utils/getWeatherCondition";
 import { fetchFromApi } from "../api";
 
-export default function useWeatherPhotos() {
+export default function useWeatherPhotos(enabled = true) {
   const [backgroundImage, setBackgroundImage] = useState(null);
 
   useEffect(() => {
+    if (!enabled) {
+      setBackgroundImage(null);
+      return undefined;
+    }
+
     async function fetchBackground() {
       try {
         if (!navigator.geolocation) {
@@ -43,7 +48,7 @@ export default function useWeatherPhotos() {
     }
 
     fetchBackground();
-  }, []);
+  }, [enabled]);
 
   return backgroundImage;
 }

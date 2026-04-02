@@ -8,9 +8,18 @@
   padding: 60px 40px;
 }
 
+.calendar-header {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .calendar-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 22px;
 }
 
@@ -26,6 +35,12 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(120, 140, 160, 0.18);
   border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px;
+  text-decoration: none;
   transition:
     transform 0.35s ease,
     box-shadow 0.45s ease,
@@ -43,9 +58,16 @@
 
 /* Day number — calmer typography */
 .day-number {
-  font-size: 1.15rem;
-  font-weight: 500;
+  font-size: 1.35rem;
+  font-weight: 600;
   color: #1a1a1a;
+}
+
+.day-date-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(26, 26, 26, 0.65);
 }
 
 /* Empty tiles (before day 1) */
@@ -136,11 +158,16 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  gap: 0 !important;
   background: rgba(255,255,255,0.08) !important;
   box-shadow: 0 0 6px var(--mode-shadow) !important;
   text-decoration: none !important;
   color: inherit !important;
 }
+
+  .day-date-label {
+    display: none !important;
+  }
 
   .calendar-wrapper.season-spring .calendar-tile {
     background: var(--tint-spring) !important;
