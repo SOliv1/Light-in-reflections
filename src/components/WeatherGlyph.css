@@ -1,0 +1,154 @@
+/* Base orb — soft, planetary, atmospheric */
+.weather-orb {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  pointer-events: none;
+  filter: brightness(1.2) saturate(1.2);
+  
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.12) 40%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border: 1.5px solid rgba(255, 220, 160, 0.28);
+  box-shadow:
+    0 0 12px rgba(255, 200, 120, 0.45),
+    inset 0 0 18px rgba(255, 200, 120, 0.35);
+ 
+  animation: orbBreath 10s ease-in-out infinite;
+  filter: blur(0.4px) brightness(0.85) saturate(0.6);
+}
+
+@keyframes orbBreath {
+  0% { opacity: 0.8; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.8; }
+}
+
+/* Sunny */
+.weather-orb.sunny {
+  background: radial-gradient(
+    circle,
+    rgba(255, 215, 150, 0.92),   /* bright luminous core */
+    rgba(255, 180, 90, 0.78),    /* cinematic amber midtone */
+    rgba(220, 140, 60, 0.55)     /* warm architectural outer glow */
+  );
+
+  box-shadow:
+    0 0 55px rgba(255, 200, 120, 0.88),   /* luminous halo */
+    inset 0 0 60px rgba(255, 190, 110, 0.65), /* warm inner glow */
+    inset 0 0 25px rgba(255, 220, 160, 0.45); /* soft atmospheric bloom */
+}
+
+/* Cloudy */
+.weather-orb.cloudy {
+  background: radial-gradient(
+    circle,
+    rgba(220, 220, 230, 0.25),
+    rgba(200, 200, 210, 0.15),
+    rgba(180, 180, 190, 0.08)
+  );
+  filter: blur(1px);
+}
+
+/* Rainy */
+.weather-orb.rainy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(120, 170, 220, 0.25) 0px,
+    rgba(120, 170, 220, 0.25) 2px,
+    transparent 3px,
+    transparent 6px
+  );
+  animation: rainFall 1.2s linear infinite;
+}
+
+@keyframes rainFall {
+  0% { transform: translateY(-10%); }
+  100% { transform: translateY(10%); }
+}
+
+/* Snowy */
+.weather-orb.snowy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 2px);
+  background-size: 6px 6px;
+  animation: snowDrift 4s ease-in-out infinite;
+}
+
+@keyframes snowDrift {
+  0% { transform: translateY(0px); opacity: 0.8; }
+  50% { transform: translateY(4px); opacity: 1; }
+  100% { transform: translateY(0px); opacity: 0.8; }
+}
+
+/* Stormy */
+.weather-orb.stormy {
+  background: radial-gradient(
+    circle,
+    rgba(150, 120, 200, 0.35),
+    rgba(120, 90, 160, 0.2),
+    rgba(80, 60, 120, 0.1)
+  );
+  animation: stormPulse 6s ease-in-out infinite;
+}
+
+@keyframes stormPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(150,120,200,0.2); }
+  50% { box-shadow: 0 0 20px rgba(150,120,200,0.35); }
+}
+
+/* Windy */
+.weather-orb.windy::after {
+  content: "";
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  animation: swirl 12s linear infinite;
+}
+
+@keyframes swirl {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Wrapper */
+.weather-glyph-wrapper {
+  position: absolute;
+  right: 3rem;
+  top: 14rem;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 1;
+  filter: none;
+  animation: drift 12s ease-in-out infinite;
+}
+
+
+@media (max-width: 768px) {
+  .weather-glyph-wrapper {
+    right: 1.5rem;
+    top: 10rem;
+    transform: scale(0.85);
+  }
+}
+
+@media (max-width: 480px) {
+  .weather-glyph-wrapper {
+    right: 1rem;
+    top: 8rem;
+    transform: scale(0.75);
+    opacity: 0.7;
+  }
+}

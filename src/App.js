@@ -14,6 +14,14 @@ import marbleBackground from "./assets/marble-grey-white.png";
 import DayPage from "./pages/DayPage";
 import { BIRTHDAY_DAY, BIRTHDAY_MONTH } from "./data/birthdayExperience";
 
+
+import WeatherGlyph from './components/WeatherGlyph';
+
+
+
+
+
+
 function AppShell() {
   const fallbackPhotos = [marbleBackground];
   const [mode, setMode] = useState("architectural");
@@ -107,6 +115,11 @@ function AppShell() {
             <button onClick={() => setMode("macro")}>Macro</button>
           </div>
 
+          <div className="weather-glyph-wrapper">
+            <WeatherGlyph condition="sunny" temperature={22} timeOfDay="day" />
+          </div>  
+
+  
           <Routes>
             <Route path="/" element={<Calendar />} />
             <Route path="/day/:date" element={<DayPage />} />
