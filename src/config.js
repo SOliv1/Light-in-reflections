@@ -26,7 +26,13 @@ function getRuntimeFallbackUrls() {
 }
 
 const configuredUrls = normalizeUrls(
-  process.env.REACT_APP_API_URLS || process.env.REACT_APP_API_URL
+  [
+    process.env.REACT_APP_API_BASE_URL,
+    process.env.REACT_APP_API_URLS,
+    process.env.REACT_APP_API_URL,
+  ]
+    .filter(Boolean)
+    .join(",")
 );
 
 export const API_BASE_URLS = [...new Set([...configuredUrls, ...getRuntimeFallbackUrls()])];

@@ -2,7 +2,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { connectToDb } from "./db.js";
+import { connectToDb, getDbStatus } from "./db.js";
 
 // Route imports
 import galleryRoutes from "./routes/gallery.js";
@@ -63,6 +63,32 @@ app.use(
 
 app.use(express.json());
 
+app.get("/", (_req, res) => {
+  res.send("API running");
+});
+
+app.get("/health", async (_req, res) => {
+  try {
+    await connectToDb();
+  } catch (error) {
+    const dbStatus = getDbStatus();
+    return res.status(503).json({
+      app: "ok",
+      db: dbStatus.state,
+      dbError: dbStatus.error || error.message,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  const dbStatus = getDbStatus();
+  return res.json({
+    app: "ok",
+    db: dbStatus.state,
+    dbError: dbStatus.error,
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Routes
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/background", backgroundRoutes);
@@ -71,10 +97,14 @@ app.use("/upload", uploadRoute);
 
 
 // Start server AFTER DB connects
-connectToDb().then(() => {
-  const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  });
+app.listen(port, async () => {
+  console.log(`Server running on port ${port}`);
+
+  try {
+    await connectToDb();
+  } catch (error) {
+    console.error("MongoDB connection failed:", error.message);
+  }
 });

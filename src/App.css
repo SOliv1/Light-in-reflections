@@ -126,6 +126,17 @@ sky-wrapper {
   object-fit: cover;
 }
 
+.upload-error {
+  margin: 1rem auto;
+  padding: 0.85rem 1rem;
+  max-width: 40rem;
+  border: 1px solid rgba(176, 58, 46, 0.35);
+  border-radius: 0.75rem;
+  background: rgba(255, 244, 242, 0.92);
+  color: #7b241c;
+  text-align: center;
+}
+
 
 .calendar-container {
   /*background: url('./assets/marble-grey-white.png');*/

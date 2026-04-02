@@ -1,4 +1,3 @@
-// src/pages/Day01.js
 import React, { useEffect, useRef, useState } from "react";
 import PhotoGallery from "../components/PhotoGallery";
 import { Link } from "react-router-dom";
@@ -17,17 +16,52 @@ const Day01 = () => {
   const [selectedMood, setSelectedMood] = useState("");
   const [portalState, setPortalState] = useState("resting");
   const fileInputRef = useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchFromApi(`/days/${dayDate}`)
-      .then((res) => res.json())
-      .then((data) => {
+    let isMounted = true;
+
+    async function loadDay() {
+      try {
+        setIsLoading(true);
+        setErrorMessage("");
+
+        const res = await fetchFromApi(`/days/${dayDate}`);
+
+        if (!res.ok) {
+          throw new Error(`Could not load gallery (${res.status})`);
+        }
+
+        const data = await res.json();
+
+        if (!isMounted) {
+          return;
+        }
+
         setPhotos(data.photos || []);
         setMood(data.mood || null);
-      })
-      .catch(() => {
-        console.log("No data found for this day yet.");
-      });
+      } catch (error) {
+        if (!isMounted) {
+          return;
+        }
+
+        setErrorMessage(
+          "We couldn't load your saved photos right now because the server or database is unavailable."
+        );
+        console.error("Day load failed:", error);
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadDay();
+
+    return () => {
+      isMounted = false;
+    };
   }, [dayDate]);
 
   useEffect(() => {
@@ -60,21 +94,21 @@ const Day01 = () => {
     formData.append("image", selectedFile);
     formData.append("saveToGallery", "false");
 
-    setIsUploading(true);
-
     try {
+      setIsUploading(true);
+      setErrorMessage("");
       const uploadRes = await fetchFromApi("/upload", {
         method: "POST",
         body: formData,
       });
 
       if (!uploadRes.ok) {
-        throw new Error(`Upload failed with status ${uploadRes.status}`);
+        throw new Error(`Image upload failed (${uploadRes.status})`);
       }
 
       const uploadData = await uploadRes.json();
 
-      await fetchFromApi("/days/add-photo", {
+      const saveRes = await fetchFromApi("/days/add-photo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -83,19 +117,23 @@ const Day01 = () => {
         }),
       });
 
+      if (!saveRes.ok) {
+        throw new Error(
+          "The image uploaded, but the app could not save it to the database."
+        );
+      }
+
       setPhotos((prev) => [...prev, uploadData.photoUrl]);
       setSelectedFile(null);
-
       if (previewUrl) {
         URL.revokeObjectURL(previewUrl);
       }
-
       setPreviewUrl("");
-
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
     } catch (error) {
+      setErrorMessage(error.message);
       console.error("Upload failed:", error);
     } finally {
       setIsUploading(false);
@@ -138,16 +176,26 @@ const Day01 = () => {
   async function saveMood() {
     if (!selectedMood) return;
 
-    setMood(selectedMood);
+    try {
+      setErrorMessage("");
+      setMood(selectedMood);
 
-    await fetchFromApi("/days/set-mood", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        date: dayDate,
-        mood: selectedMood,
-      }),
-    });
+      const res = await fetchFromApi("/days/set-mood", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          date: dayDate,
+          mood: selectedMood,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Mood save failed (${res.status})`);
+      }
+    } catch (error) {
+      setErrorMessage("We couldn't save your mood right now.");
+      console.error("Mood save failed:", error);
+    }
   }
 
   function handlePhotoApproach(photo) {
@@ -174,6 +222,11 @@ const Day01 = () => {
       <Link to="/" className="crescent-portal"></Link>
 
       <div className={`day-page ${mood || ""} ${macroMood || ""}`}>
+        {errorMessage && (
+          <p role="alert" className="upload-error">
+            {errorMessage}
+          </p>
+        )}
 
         {/* Upload controls */}
         <input
@@ -229,21 +282,25 @@ const Day01 = () => {
         </div>
 
         {/* Photos — newest first */}
-        <PhotoGallery
-          images={photos
-            .slice()
-            .reverse()
-            .map((url) => ({
-              id: url,        // stable ID
-              src: url,
-              alt: "Reflection",
-            }))}
-          favourites={favourites}
-          toggleFavourite={toggleFavourite}
-          season="winter"
-          onDelete={handleDeletePhoto}
-          onApproachPortal={handlePhotoApproach}
-        />
+        {isLoading ? (
+          <p>Loading saved photos...</p>
+        ) : (
+          <PhotoGallery
+            images={photos
+              .slice()
+              .reverse()
+              .map((url) => ({
+                id: url,
+                src: url,
+                alt: "Reflection",
+              }))}
+            favourites={favourites}
+            toggleFavourite={toggleFavourite}
+            season="winter"
+            onDelete={handleDeletePhoto}
+            onApproachPortal={handlePhotoApproach}
+          />
+        )}
 
 
         {/* Mood label */}
