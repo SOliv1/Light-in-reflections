@@ -25,7 +25,12 @@ function buildMonthOptions() {
 function getInitialMonth() {
   const now = new Date();
   const clamped =
-    now < START_MONTH ? START_MONTH : now > END_MONTH ? END_MONTH : new Date(now.getFullYear(), now.getMonth(), 1);
+    now < START_MONTH
+      ? START_MONTH
+      : now > END_MONTH
+      ? END_MONTH
+      : new Date(now.getFullYear(), now.getMonth(), 1);
+
   return formatMonthKey(clamped);
 }
 
@@ -36,12 +41,14 @@ function getSeasonClass(month) {
   return "season-autumn";
 }
 
-const Calendar = () => {
+// ⭐ THIS is the ONLY Calendar component — no duplicates
+const Calendar = ({ season, isNight, weatherCondition }) => {
   const monthOptions = useMemo(() => buildMonthOptions(), []);
   const [currentMonthKey, setCurrentMonthKey] = useState(getInitialMonth);
 
   const activeMonth =
-    monthOptions.find((option) => formatMonthKey(option) === currentMonthKey) || monthOptions[0];
+    monthOptions.find((option) => formatMonthKey(option) === currentMonthKey) ||
+    monthOptions[0];
 
   const year = activeMonth.getFullYear();
   const month = activeMonth.getMonth();
@@ -52,10 +59,12 @@ const Calendar = () => {
 
   const tiles = [];
 
+  // Empty tiles before month starts
   for (let i = 0; i < firstDay; i++) {
     tiles.push(<div key={`empty-${i}`} className="calendar-tile empty"></div>);
   }
 
+  // Actual days
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
     const isoDate = [
@@ -91,31 +100,41 @@ const Calendar = () => {
 
   return (
     <div className={`calendar-wrapper ${seasonClass}`}>
-      <div className="calendar-header">
-        <button
-          type="button"
-          onClick={() => setCurrentMonthKey(formatMonthKey(monthOptions[currentIndex - 1]))}
-          disabled={currentIndex === 0}
-        >
-          Previous
-        </button>
-        <h2 className="calendar-title">
-          {activeMonth.toLocaleDateString("en-GB", {
-            month: "long",
-            year: "numeric",
-          })}
-        </h2>
-        <button
-          type="button"
-          onClick={() => setCurrentMonthKey(formatMonthKey(monthOptions[currentIndex + 1]))}
-          disabled={currentIndex === monthOptions.length - 1}
-        >
-          Next
-        </button>
-      </div>
+      <div className={`app ${season} ${isNight ? "night" : "day"} ${weatherCondition}`}>
 
-      <div className="calendar-container">
-        <div className="calendar-grid">{tiles}</div>
+        <div className="calendar-header">
+          <button
+            type="button"
+            onClick={() =>
+              setCurrentMonthKey(formatMonthKey(monthOptions[currentIndex - 1]))
+            }
+            disabled={currentIndex === 0}
+          >
+            Previous
+          </button>
+
+          <h2 className="calendar-title">
+            {activeMonth.toLocaleDateString("en-GB", {
+              month: "long",
+              year: "numeric",
+            })}
+          </h2>
+
+          <button
+            type="button"
+            onClick={() =>
+              setCurrentMonthKey(formatMonthKey(monthOptions[currentIndex + 1]))
+            }
+            disabled={currentIndex === monthOptions.length - 1}
+          >
+            Next
+          </button>
+        </div>
+
+        <div className="calendar-container">
+          <div className="calendar-grid">{tiles}</div>
+        </div>
+
       </div>
     </div>
   );

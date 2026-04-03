@@ -9,13 +9,23 @@
 }
 
 .calendar-header {
+  padding-left: 6vw;   /* cinematic inset */
+  padding-right: 6vw;  /* optional, keeps symmetry*/
   width: 90%;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+} 
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  margin-bottom: 20px;
 }
+
 
 .calendar-grid {
   display: grid;
@@ -31,21 +41,78 @@
    CALM CLARITY TILE BASE STYLE
 ——————————————————————————————— */
 
-.calendar-tile {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(120, 140, 160, 0.18);
-  border-radius: 12px;
+.calendar-title {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 6px;
-  padding: 16px;
-  text-decoration: none;
-  transition:
-    transform 0.35s ease,
-    box-shadow 0.45s ease,
-    background 0.45s ease;
+  align-items: center;
+  text-align: center;
+
+  /* remove all blur, borders, glow, backgrounds */
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  padding: 6px 0;
+  margin: 0 auto;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #000;
+
 }
+
+
+.calendar-title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 50% 120%,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0) 70%
+  );
+  pointer-events: none;
+}
+.calendar-title {
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.12),
+    inset 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+/* SPRING — soft pastels */
+.spring .calendar-title {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 12px rgba(180, 220, 200, 0.25),
+    inset 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+/* SUMMER — warm glow */
+.summer .calendar-title {
+  background: rgba(255, 240, 200, 0.08);
+  box-shadow:
+    0 0 12px rgba(255, 200, 120, 0.25),
+    inset 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+/* AUTUMN — ember tones */
+.autumn .calendar-title {
+  background: rgba(255, 200, 160, 0.08);
+  box-shadow:
+    0 0 12px rgba(255, 150, 80, 0.25),
+    inset 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+/* WINTER — icy blues */
+.winter .calendar-title {
+  background: rgba(200, 220, 255, 0.08);
+  box-shadow:
+    0 0 12px rgba(160, 200, 255, 0.25),
+    inset 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
 
 /* Hover — gentle, airy lift */
 .calendar-tile:hover {
@@ -115,6 +182,8 @@
 ——————————————————————————————— */
 
 .calendar-grid {
+  margin-left: 4vw;   /* matches header + title inset */
+  margin-right: 4vw;  /* keeps right side balanced */
   opacity: 0;
   animation: fadeInCalm 1.4s ease-out forwards;
 }

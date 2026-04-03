@@ -20,8 +20,6 @@ import WeatherGlyph from './components/WeatherGlyph';
 
 
 
-
-
 function AppShell() {
   const fallbackPhotos = [marbleBackground];
   const [mode, setMode] = useState("architectural");
@@ -86,13 +84,30 @@ function AppShell() {
   const [veilMode, setVeilMode] = useState("veil-default");
   const [veilOn, setVeilOn] = useState(true);
 
+
+  const mockTemp = Math.floor(Math.random() * 20) + 5; // 5–25°C
+
+  const month = new Date().getMonth();
+
+  const season =
+        month === 11 || month <= 1 ? "winter" :
+        month >= 2 && month <= 4 ? "spring" :
+        month >= 5 && month <= 7 ? "summer" :
+       "autumn";
+
+  
+  const isNight = hour < 6 || hour >= 18;
+  const weatherCondition = "sunny"; // or your real weather data
+
+
+
   return (
     <>
       <div className="sky-wrapper">
         <Constellation veilOn={veilOn} birthdayMode={isBirthdayScene} />
         <Portal type="mood" dayIndex={1} season="winter" mood={null} cueText="" />
       </div>
-
+      
       <div className={`App mode-${mode} time-${timeOfDay}`}>
         {isHomePage ? (
           <BackgroundCarousel
@@ -103,6 +118,8 @@ function AppShell() {
         ) : null}
 
           <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
+
+         
 
           <div className="content">
             {/* <h1>Today feels {mood}</h1> */}
@@ -115,15 +132,29 @@ function AppShell() {
             <button onClick={() => setMode("macro")}>Macro</button>
           </div>
 
-          <div className="weather-glyph-wrapper">
-            <WeatherGlyph condition="sunny" temperature={22} timeOfDay="day" />
-          </div>  
+          <WeatherGlyph
+            condition={weatherCondition}
+            temperature={isNight}
+            timeOfDay={mockTemp}
+          />
+  
 
   
           <Routes>
-            <Route path="/" element={<Calendar />} />
-            <Route path="/day/:date" element={<DayPage />} />
+            <Route
+             path="/"
+             element={
+               <Calendar
+                 season={season}
+                 isNight={isNight}
+                 weatherCondition={weatherCondition}
+               />
+             }
+           />
+
+           <Route path="/day/:date" element={<DayPage />} />
           </Routes>
+
 
           <div
             className="global-mood-orb"
