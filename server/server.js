@@ -9,6 +9,9 @@ import galleryRoutes from "./routes/gallery.js";
 import backgroundRoutes from "./routes/background.js";
 import daysRoutes from "./routes/days.js";
 import uploadRoute from "./routes/upload.js";
+import weatherRoutes from "./routes/weather.js";
+
+
 
 
 // Load environment variables
@@ -94,7 +97,7 @@ app.use("/api/gallery", galleryRoutes);
 app.use("/api/background", backgroundRoutes);
 app.use("/days", daysRoutes);
 app.use("/upload", uploadRoute);
-
+app.use("/api", weatherRoutes);
 
 // Start server AFTER DB connects
 const port = process.env.PORT || 5000;

@@ -144,6 +144,34 @@
   box-shadow: none;
 }
 
+
+  /* your base day styles here */
+
+/* --- Weather mood tint for TODAY --- */
+.calendar-day.today.sunny {
+  background: rgba(255, 200, 120, 0.12);
+}
+
+.calendar-day.today.snow {
+  background: rgba(180, 200, 255, 0.12);
+}
+
+.calendar-day.today.rain {
+  background: rgba(120, 160, 255, 0.12);
+}
+
+.calendar-day.today.cloudy {
+  background: rgba(200, 200, 200, 0.12);
+}
+
+.calendar-day.today.mist {
+  background: rgba(220, 220, 220, 0.10);
+}
+
+
+
+
+
 /* ————————————————————————————————
    TODAY HIGHLIGHT — Calm, Cool, Present
 ——————————————————————————————— */

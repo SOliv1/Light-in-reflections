@@ -1,11 +1,6 @@
 import React from "react";
 import "./Constellation.css";
 
-const isEvening = () => {
-  const hour = new Date().getHours();
-  return hour >= 18 || hour < 5;
-};
-
 function getSeason() {
   const month = new Date().getMonth();
   if (month === 11 || month === 0 || month === 1) return "winter";

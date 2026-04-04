@@ -17,8 +17,27 @@ import { BIRTHDAY_DAY, BIRTHDAY_MONTH } from "./data/birthdayExperience";
 
 import WeatherGlyph from './components/WeatherGlyph';
 
+function normalizeWeatherClass(condition = "unknown") {
+  const value = String(condition).toLowerCase();
 
+  if (value.includes("clear")) return "sunny";
+  if (value.includes("cloud")) return "cloudy";
+  if (value.includes("drizzle") || value.includes("rain")) return "rain";
+  if (value.includes("snow")) return "snow";
+  if (
+    value.includes("mist") ||
+    value.includes("fog") ||
+    value.includes("haze") ||
+    value.includes("smoke") ||
+    value.includes("dust") ||
+    value.includes("ash")
+  ) {
+    return "mist";
+  }
+  if (value.includes("thunder") || value.includes("storm")) return "storm";
 
+  return "unknown";
+}
 
 function AppShell() {
   const fallbackPhotos = [marbleBackground];
@@ -58,7 +77,34 @@ function AppShell() {
     loadGallery();
   }, []);
 
-  const backgroundImage = useWeatherPhotos(isHomePage);
+  useEffect(() => {
+  async function loadWeather() {
+    try {
+      const res = await fetchFromApi("/api/weather");
+
+      if (!res.ok) {
+        throw new Error(`Weather request failed with status ${res.status}`);
+      }
+
+      const data = await res.json();
+      const rawWeather = String(data.weather?.[0]?.main || "Unknown");
+      const normalizedWeather = normalizeWeatherClass(rawWeather);
+
+      setWeatherData(data);
+      setWeatherDescription(data.weather?.[0]?.description || rawWeather);
+      setWeatherCondition(normalizedWeather);
+
+    } catch (err) {
+      console.error("Failed to load weather:", err);
+      setWeatherDescription("Unknown");
+      setWeatherCondition(normalizeWeatherClass("unknown"));
+      setWeatherData(null);
+    }
+  }
+
+  loadWeather();
+}, []);
+
 
   useEffect(() => {
     let ticking = false;
@@ -83,8 +129,11 @@ function AppShell() {
 
   const [veilMode, setVeilMode] = useState("veil-default");
   const [veilOn, setVeilOn] = useState(true);
-
-
+  // Real weather state
+  const [weatherCondition, setWeatherCondition] = useState(null);
+  const [weatherDescription, setWeatherDescription] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
+  // Mood state based on weather
   const mockTemp = Math.floor(Math.random() * 20) + 5; // 5–25°C
 
   const month = new Date().getMonth();
@@ -95,9 +144,14 @@ function AppShell() {
         month >= 5 && month <= 7 ? "summer" :
        "autumn";
 
-  
+
   const isNight = hour < 6 || hour >= 18;
-  const weatherCondition = "sunny"; // or your real weather data
+
+  const backgroundImage = useWeatherPhotos(isHomePage);
+  const weatherMood = weatherCondition || "neutral";
+
+
+
 
 
 
@@ -107,7 +161,7 @@ function AppShell() {
         <Constellation veilOn={veilOn} birthdayMode={isBirthdayScene} />
         <Portal type="mood" dayIndex={1} season="winter" mood={null} cueText="" />
       </div>
-      
+
       <div className={`App mode-${mode} time-${timeOfDay}`}>
         {isHomePage ? (
           <BackgroundCarousel
@@ -119,12 +173,13 @@ function AppShell() {
 
           <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
 
-         
+
 
           <div className="content">
             {/* <h1>Today feels {mood}</h1> */}
           </div>
           <h1 className="calendar-title">A Month of Light</h1>
+
 
           <div style={{ marginBottom: "20px" }}>
             <button onClick={() => setMode("architectural")}>Architectural</button>
@@ -134,23 +189,41 @@ function AppShell() {
 
           <WeatherGlyph
             condition={weatherCondition}
-            temperature={isNight}
-            timeOfDay={mockTemp}
+            mood={weatherMood}
+            isNight={isNight}
           />
-  
 
-  
+          <div className="weather-description" style={{ marginTop: "1rem", color: "#fff" }}>
+            {weatherData ? (
+              <>
+                <div>Weather: {weatherDescription}</div>
+                <div>
+                  Temperature: {weatherData.main?.temp?.toFixed(1)}°C
+                </div>
+                <div>
+                  Location: {weatherData.name || "Unknown"}
+                </div>
+                <div>
+                  As of: {new Date((weatherData.dt + (weatherData.timezone || 0)) * 1000).toLocaleString()}
+                </div>
+              </>
+            ) : (
+              "Loading weather..."
+            )}
+          </div>
+
           <Routes>
             <Route
-             path="/"
-             element={
-               <Calendar
-                 season={season}
-                 isNight={isNight}
-                 weatherCondition={weatherCondition}
-               />
-             }
-           />
+              path="/"
+              element={
+                <Calendar
+                  season={season}
+                  isNight={isNight}
+                  weatherCondition={weatherCondition}
+                  weatherMood={weatherMood}
+                />
+              }
+            />
 
            <Route path="/day/:date" element={<DayPage />} />
           </Routes>

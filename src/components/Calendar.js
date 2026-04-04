@@ -41,8 +41,8 @@ function getSeasonClass(month) {
   return "season-autumn";
 }
 
-// ⭐ THIS is the ONLY Calendar component — no duplicates
-const Calendar = ({ season, isNight, weatherCondition }) => {
+// ⭐ MAIN CALENDAR COMPONENT
+function Calendar({ season, isNight, weatherCondition, weatherMood }) {
   const monthOptions = useMemo(() => buildMonthOptions(), []);
   const [currentMonthKey, setCurrentMonthKey] = useState(getInitialMonth);
 
@@ -82,9 +82,11 @@ const Calendar = ({ season, isNight, weatherCondition }) => {
       <Link
         key={isoDate}
         to={`/day/${isoDate}`}
-        className={`calendar-tile ${isToday ? "today" : ""} ${
-          month + 1 === BIRTHDAY_MONTH && day === BIRTHDAY_DAY ? "birthday" : ""
-        }`}
+        className={`calendar-tile calendar-day
+          ${isToday ? "today" : ""}
+          ${weatherMood}
+          ${month + 1 === BIRTHDAY_MONTH && day === BIRTHDAY_DAY ? "birthday" : ""}
+        `}
       >
         <span className="day-number">{day}</span>
         <span className="day-date-label">
@@ -92,7 +94,7 @@ const Calendar = ({ season, isNight, weatherCondition }) => {
         </span>
       </Link>
     );
-  }
+  } // ← ⭐ THIS BRACE WAS MISSING IN YOUR FILE
 
   const currentIndex = monthOptions.findIndex(
     (option) => formatMonthKey(option) === formatMonthKey(activeMonth)
@@ -138,6 +140,6 @@ const Calendar = ({ season, isNight, weatherCondition }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Calendar;

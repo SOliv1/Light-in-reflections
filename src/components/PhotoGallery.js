@@ -16,14 +16,7 @@ const PhotoGallery = ({
   const [expandedPhoto, setExpandedPhoto] = useState(null);
   console.log("Gallery images:", images);
 
-  const seasonalTint = {
-  winter: "hue-rotate(180deg) brightness(1.05)",
-  spring: "hue-rotate(320deg) brightness(1.08)",
-  summer: "hue-rotate(40deg) brightness(1.1)",
-  autumn: "hue-rotate(20deg) brightness(1.05)",
-};
-
-const seasonalBorderGlow = {
+  const seasonalBorderGlow = {
   winter: "rgba(127, 200, 255, 0.45)",
   spring: "rgba(255, 143, 177, 0.45)",
   summer: "rgba(255, 215, 0, 0.45)",
