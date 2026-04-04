@@ -48,7 +48,6 @@
   transform-origin: center center;
 }
 
-/* Soft breathing animation */
 @keyframes orb-breathe {
   0% {
     transform: scale(1);
@@ -66,15 +65,17 @@
   }
 }
 
-/* -----------------------------------------------------------
-   CORE ORB LAYERS
------------------------------------------------------------ */
-
 .weather-core {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 20%, #ffffff, #d0e4ff 40%, #6a88c9 75%, #1a2740 100%);
+  background: radial-gradient(
+    circle at 30% 20%,
+    #ffffff 0%,
+    #d0e4ff 40%,
+    #6a88c9 75%,
+    #1a2740 100%
+  );
   box-shadow:
     0 0 24px rgba(255, 255, 255, 0.6),
     0 0 60px rgba(120, 160, 255, 0.55);
@@ -162,7 +163,7 @@
 }
 
 
- -----------------------------------------------------------
+ /*-----------------------------------------------------------
    SUNNY ORB — warm jewel glow
 ----------------------------------------------------------- */
 
