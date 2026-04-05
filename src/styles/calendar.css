@@ -148,24 +148,40 @@
   /* your base day styles here */
 
 /* --- Weather mood tint for TODAY --- */
-.calendar-day.today.sunny {
-  background: rgba(255, 200, 120, 0.12);
+.calendar-tile.calendar-day.today.sunny {
+  background: rgba(255, 200, 120, 0.18);
+  border-color: rgba(255, 200, 120, 0.65);
 }
 
-.calendar-day.today.snow {
-  background: rgba(180, 200, 255, 0.12);
+.calendar-tile.calendar-day.today.snow {
+  background: rgba(180, 200, 255, 0.18);
+  border-color: rgba(160, 190, 255, 0.65);
 }
 
-.calendar-day.today.rain {
-  background: rgba(120, 160, 255, 0.12);
+.calendar-tile.calendar-day.today.rain {
+  background: rgba(120, 160, 255, 0.18);
+  border-color: rgba(120, 160, 255, 0.65);
 }
 
-.calendar-day.today.cloudy {
-  background: rgba(200, 200, 200, 0.12);
+.calendar-tile.calendar-day.today.cloudy {
+  background: rgba(200, 200, 200, 0.18);
+  border-color: rgba(170, 170, 170, 0.65);
 }
 
-.calendar-day.today.mist {
-  background: rgba(220, 220, 220, 0.10);
+.calendar-tile.calendar-day.today.mist {
+  background: rgba(220, 220, 220, 0.14);
+  border-color: rgba(200, 200, 200, 0.55);
+}
+
+.calendar-tile.calendar-day.today.storm {
+  background: rgba(100, 120, 170, 0.20);
+  border-color: rgba(120, 140, 190, 0.75);
+}
+
+.calendar-tile.calendar-day.today.unknown,
+.calendar-tile.calendar-day.today.neutral {
+  background: rgba(140, 160, 190, 0.14);
+  border-color: rgba(140, 160, 190, 0.65);
 }
 
 
@@ -177,8 +193,28 @@
 ——————————————————————————————— */
 
 .calendar-tile.today {
-  border: 2px solid rgba(120, 170, 255, 0.55);
-  background: rgba(120, 170, 255, 0.10);
+  position: relative;
+  border: 2px solid rgba(120, 170, 255, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 18px rgba(120, 170, 255, 0.18),
+    inset 0 0 8px rgba(255, 255, 255, 0.12);
+}
+
+.today-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1d2b4b;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px rgba(120, 170, 255, 0.20);
 }
 
 .calendar-tile.birthday {

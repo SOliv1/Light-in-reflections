@@ -89,6 +89,7 @@ function Calendar({ season, isNight, weatherCondition, weatherMood }) {
         `}
       >
         <span className="day-number">{day}</span>
+        {isToday && <span className="today-label">Today</span>}
         <span className="day-date-label">
           {date.toLocaleDateString("en-GB", { month: "short" })}
         </span>

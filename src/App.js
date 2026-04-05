@@ -16,6 +16,10 @@ import { BIRTHDAY_DAY, BIRTHDAY_MONTH } from "./data/birthdayExperience";
 
 
 import WeatherGlyph from './components/WeatherGlyph';
+import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
+
+
+
 
 function normalizeWeatherClass(condition = "unknown") {
   const value = String(condition).toLowerCase();
@@ -37,6 +41,29 @@ function normalizeWeatherClass(condition = "unknown") {
   if (value.includes("thunder") || value.includes("storm")) return "storm";
 
   return "unknown";
+}
+
+function poeticCondition(conditionValue) {
+  const c = String(conditionValue || "unknown").toLowerCase();
+
+  if (c.includes("overcast")) return "A quiet layer of overcast cloud";
+  if (c.includes("cloud")) return "Soft cloud cover drifting above";
+  if (c.includes("clear")) return "Clear, open skies";
+  if (c.includes("rain")) return "Rain whispering through the air";
+  if (c.includes("snow")) return "Snowlight drifting softly";
+  if (c.includes("mist") || c.includes("fog")) return "Mist settling gently";
+  if (c.includes("storm")) return "A restless storm presence";
+
+  return conditionValue;
+}
+
+function poeticTemperature(temp) {
+  if (temp == null || Number.isNaN(temp)) return "Temperature unknown";
+  if (temp >= 20) return `A warm ${temp}° glow`;
+  if (temp >= 12) return `A gentle ${temp}° warmth`;
+  if (temp >= 6) return `A cool ${temp}°`;
+  if (temp >= 0) return `A crisp ${temp}°`;
+  return `A frosty ${temp}°`;
 }
 
 function AppShell() {
@@ -77,28 +104,85 @@ function AppShell() {
     loadGallery();
   }, []);
 
+  // Weather state declarations
+  const [weatherCondition, setWeatherCondition] = useState(null);
+  const [temperature, setTemperature] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
+  const [weatherError, setWeatherError] = useState(null);
+  const [weatherDescription, setWeatherDescription] = useState(null);
+
   useEffect(() => {
   async function loadWeather() {
     try {
-      const res = await fetchFromApi("/api/weather");
-
-      if (!res.ok) {
-        throw new Error(`Weather request failed with status ${res.status}`);
+      if (!navigator.geolocation) {
+        throw new Error("Geolocation not supported");
       }
 
-      const data = await res.json();
-      const rawWeather = String(data.weather?.[0]?.main || "Unknown");
-      const normalizedWeather = normalizeWeatherClass(rawWeather);
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          try {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            const res = await fetchFromApi(`/api/weather?lat=${lat}&lon=${lon}`);
 
-      setWeatherData(data);
-      setWeatherDescription(data.weather?.[0]?.description || rawWeather);
-      setWeatherCondition(normalizedWeather);
+            if (!res.ok) {
+              throw new Error(`Weather request failed with status ${res.status}`);
+            }
 
+            const data = await res.json();
+            const rawWeather = String(data.weather?.[0]?.main || "Unknown");
+            const normalizedWeather = normalizeWeatherClass(rawWeather);
+
+            setTemperature(data.main?.temp || null);
+
+            setWeatherData(data);
+            setWeatherDescription(data.weather?.[0]?.description || rawWeather);
+            setWeatherCondition(normalizedWeather);
+            setWeatherError(null);
+          } catch (err) {
+            console.error("Failed to load weather:", err);
+            setWeatherError(err.message || "Unknown weather error");
+            setWeatherDescription("Unknown");
+            setWeatherCondition(normalizeWeatherClass("unknown"));
+            setWeatherData(null);
+          }
+        },
+        (geoError) => {
+          console.warn("Geolocation failed for weather:", geoError);
+          // Fallback to default location
+          loadWeatherFallback();
+        }
+      );
     } catch (err) {
-      console.error("Failed to load weather:", err);
-      setWeatherDescription("Unknown");
-      setWeatherCondition(normalizeWeatherClass("unknown"));
-      setWeatherData(null);
+      console.error("Geolocation setup failed:", err);
+      loadWeatherFallback();
+    }
+
+    async function loadWeatherFallback() {
+      try {
+        const res = await fetchFromApi("/api/weather");
+
+        if (!res.ok) {
+          throw new Error(`Weather request failed with status ${res.status}`);
+        }
+
+        const data = await res.json();
+        const rawWeather = String(data.weather?.[0]?.main || "Unknown");
+        const normalizedWeather = normalizeWeatherClass(rawWeather);
+
+        setTemperature(data.main?.temp || null);
+
+        setWeatherData(data);
+        setWeatherDescription(data.weather?.[0]?.description || rawWeather);
+        setWeatherCondition(normalizedWeather);
+        setWeatherError(null);
+      } catch (err) {
+        console.error("Failed to load weather:", err);
+        setWeatherError(err.message || "Unknown weather error");
+        setWeatherDescription("Unknown");
+        setWeatherCondition(normalizeWeatherClass("unknown"));
+        setWeatherData(null);
+      }
     }
   }
 
@@ -129,13 +213,10 @@ function AppShell() {
 
   const [veilMode, setVeilMode] = useState("veil-default");
   const [veilOn, setVeilOn] = useState(true);
-  // Real weather state
-  const [weatherCondition, setWeatherCondition] = useState(null);
-  const [weatherDescription, setWeatherDescription] = useState(null);
-  const [weatherData, setWeatherData] = useState(null);
   // Mood state based on weather
   const mockTemp = Math.floor(Math.random() * 20) + 5; // 5–25°C
 
+  //const hour = new Date().getHours();
   const month = new Date().getMonth();
 
   const season =
@@ -152,12 +233,10 @@ function AppShell() {
 
 
 
-
-
-
   return (
     <>
       <div className="sky-wrapper">
+
         <Constellation veilOn={veilOn} birthdayMode={isBirthdayScene} />
         <Portal type="mood" dayIndex={1} season="winter" mood={null} cueText="" />
       </div>
@@ -189,28 +268,13 @@ function AppShell() {
 
           <WeatherGlyph
             condition={weatherCondition}
-            mood={weatherMood}
+            temperature={temperature}
+            location="Evesham"
+            timestamp={new Date().toISOString()}
+            weatherMood={weatherMood}
             isNight={isNight}
+            weatherDescription={weatherDescription}
           />
-
-          <div className="weather-description" style={{ marginTop: "1rem", color: "#fff" }}>
-            {weatherData ? (
-              <>
-                <div>Weather: {weatherDescription}</div>
-                <div>
-                  Temperature: {weatherData.main?.temp?.toFixed(1)}°C
-                </div>
-                <div>
-                  Location: {weatherData.name || "Unknown"}
-                </div>
-                <div>
-                  As of: {new Date((weatherData.dt + (weatherData.timezone || 0)) * 1000).toLocaleString()}
-                </div>
-              </>
-            ) : (
-              "Loading weather..."
-            )}
-          </div>
 
           <Routes>
             <Route
@@ -226,6 +290,9 @@ function AppShell() {
             />
 
            <Route path="/day/:date" element={<DayPage />} />
+
+            <Route path="/mock-weather" element={<MockWeatherGlyph />} />
+            {/* LOCAL DEV ONLY — DO NOT COMMIT ROUTE FOR PRODUCTION */}
           </Routes>
 
 

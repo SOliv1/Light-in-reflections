@@ -33,7 +33,10 @@ function isAllowedOrigin(origin) {
   if (!origin) {
     return true;
   }
-
+  const allowedLocal = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/i;
+  if (allowedLocal.test(origin)) {
+    return true;
+  }
   if (configuredOrigins.includes(origin) || defaultOrigins.includes(origin)) {
     return true;
   }
