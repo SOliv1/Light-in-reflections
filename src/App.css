@@ -923,3 +923,21 @@ button:hover {
   animation: seasonOrbShift 1.6s ease-out;
 }
 
+/* iPhone SE / small-device refinement */
+@media (max-width: 380px) {
+  .weather-orb {
+    width: 68vw;
+    /* previously ~80–90vw */
+    height: 68vw;
+    margin-top: 1.2rem;
+  }
+
+  .weather-container {
+    padding: 0 1rem;
+  }
+
+  .weather-text {
+    font-size: 0.9rem;
+    line-height: 1.25rem;
+  }
+}
