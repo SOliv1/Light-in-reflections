@@ -7,9 +7,10 @@
 
 # testing
 /coverage
+src/dev-only/
 
 # production
-/build
+.build
 
 # misc
 .DS_Store
