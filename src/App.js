@@ -16,7 +16,7 @@ import { BIRTHDAY_DAY, BIRTHDAY_MONTH } from "./data/birthdayExperience";
 
 
 import WeatherGlyph from './components/WeatherGlyph';
-import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
+// import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
 
 
 
