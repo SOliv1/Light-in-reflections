@@ -941,3 +941,10 @@ button:hover {
     line-height: 1.25rem;
   }
 }
+
+@media (max-width: 380px), (max-height: 700px) {
+  .weather-orb {
+    transform: scale(0.82);
+    transform-origin: center top;
+  }
+}
