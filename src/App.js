@@ -234,85 +234,64 @@ function AppShell() {
 
 
   return (
-    <>
-      <div className="sky-wrapper">
+  <>
+    <div className="sky-wrapper">
+      <Constellation veilOn={veilOn} birthdayMode={isBirthdayScene} />
+      <Portal type="mood" dayIndex={1} season="winter" mood={null} cueText="" />
+    </div>
 
-        <Constellation veilOn={veilOn} birthdayMode={isBirthdayScene} />
-        <Portal type="mood" dayIndex={1} season="winter" mood={null} cueText="" />
+    <div className={`App mode-${mode} time-${timeOfDay}`}>
+      {isHomePage ? (
+        <BackgroundCarousel
+          photos={photos}
+          veilMode={veilMode}
+          weatherImage={backgroundImage}
+        />
+      ) : null}
+
+      <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
+
+      {/* ✨ NEW TOP LAYOUT BLOCK */}
+      <div className="seasonal-header">
+        <h1 className="month-title">A Month of Light</h1>
+        <h2 className="date-subtitle">April 2026</h2>
       </div>
 
-      <div className={`App mode-${mode} time-${timeOfDay}`}>
-        {isHomePage ? (
-          <BackgroundCarousel
-            photos={photos}
-            veilMode={veilMode}
-            weatherImage={backgroundImage}
-          />
-        ) : null}
+      <div style={{ marginBottom: "20px" }}>
+        <button onClick={() => setMode("architectural")}>Architectural</button>
+        <button onClick={() => setMode("water")}>Water</button>
+        <button onClick={() => setMode("macro")}>Macro</button>
+      </div>
 
-          <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
+      <WeatherGlyph
+        condition={weatherCondition}
+        temperature={temperature}
+        location="Evesham"
+        timestamp={new Date().toISOString()}
+        weatherMood={weatherMood}
+        isNight={isNight}
+        weatherDescription={weatherDescription}
+      />
 
-
-
-          <div className="content">
-            {/* <h1>Today feels {mood}</h1> */}
-          </div>
-          <h1 className="calendar-title">A Month of Light</h1>
-
-
-          <div style={{ marginBottom: "20px" }}>
-            <button onClick={() => setMode("architectural")}>Architectural</button>
-            <button onClick={() => setMode("water")}>Water</button>
-            <button onClick={() => setMode("macro")}>Macro</button>
-          </div>
-
-          <WeatherGlyph
-            condition={weatherCondition}
-            temperature={temperature}
-            location="Evesham"
-            timestamp={new Date().toISOString()}
-            weatherMood={weatherMood}
-            isNight={isNight}
-            weatherDescription={weatherDescription}
-          />
-
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Calendar
-                  season={season}
-                  isNight={isNight}
-                  weatherCondition={weatherCondition}
-                  weatherMood={weatherMood}
-                />
-              }
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Calendar
+              season={season}
+              isNight={isNight}
+              weatherCondition={weatherCondition}
+              weatherMood={weatherMood}
+              isHomePage={isHomePage}
             />
+          }
+        />
 
-           <Route path="/day/:date" element={<DayPage />} />
-
-            {/* <Route path="/mock-weather" element={<MockWeatherGlyph />} /> */}
-            {/* LOCAL DEV ONLY — DO NOT COMMIT ROUTE FOR PRODUCTION */}
-          </Routes>
-
-
-          <div
-            className="global-mood-orb"
-            onClick={() => {
-              if (mode === "architectural") setMode("water");
-              else if (mode === "water") setMode("macro");
-              else setMode("architectural");
-            }}
-          ></div>
-
-          <div className="veil-controls">
-            <button onClick={() => setVeilMode("veil-default")}>Default Veil</button>
-            <button onClick={() => setVeilMode("veil-lift")}>Lift Veil</button>
-            <button onClick={() => setVeilMode("veil-none")}>No Veil</button>
-          </div>
-      </div>
-    </>
-  );
+        <Route path="/day/:date" element={<DayPage />} />
+      </Routes>
+    </div>
+  </>
+);
 }
 
 function App() {

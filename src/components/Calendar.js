@@ -42,7 +42,7 @@ function getSeasonClass(month) {
 }
 
 // ⭐ MAIN CALENDAR COMPONENT
-function Calendar({ season, isNight, weatherCondition, weatherMood }) {
+function Calendar({ season, isNight, weatherCondition, weatherMood, isHomePage }) {
   const monthOptions = useMemo(() => buildMonthOptions(), []);
   const [currentMonthKey, setCurrentMonthKey] = useState(getInitialMonth);
 
@@ -95,7 +95,7 @@ function Calendar({ season, isNight, weatherCondition, weatherMood }) {
         </span>
       </Link>
     );
-  } // ← ⭐ THIS BRACE WAS MISSING IN YOUR FILE
+  }
 
   const currentIndex = monthOptions.findIndex(
     (option) => formatMonthKey(option) === formatMonthKey(activeMonth)
@@ -116,12 +116,15 @@ function Calendar({ season, isNight, weatherCondition, weatherMood }) {
             Previous
           </button>
 
-          <h2 className="calendar-title">
-            {activeMonth.toLocaleDateString("en-GB", {
-              month: "long",
-              year: "numeric",
-            })}
-          </h2>
+          {/* ⭐ HIDE MONTH/YEAR ON HOMEPAGE */}
+          {!isHomePage && (
+            <h2 className="calendar-title">
+              {activeMonth.toLocaleDateString("en-GB", {
+                month: "long",
+                year: "numeric",
+              })}
+            </h2>
+          )}
 
           <button
             type="button"
