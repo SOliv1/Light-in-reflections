@@ -291,7 +291,7 @@ function AppShell() {
 
            <Route path="/day/:date" element={<DayPage />} />
 
-            <Route path="/mock-weather" element={<MockWeatherGlyph />} />
+            {/* <Route path="/mock-weather" element={<MockWeatherGlyph />} /> */}
             {/* LOCAL DEV ONLY — DO NOT COMMIT ROUTE FOR PRODUCTION */}
           </Routes>
 
