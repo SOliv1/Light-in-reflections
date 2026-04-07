@@ -1,6 +1,10 @@
 import React from "react";
 import "./Constellation.css";
+import Portal from "./Portal/Portal";
 
+
+
+// Determine season for moon phase
 function getSeason() {
   const month = new Date().getMonth();
   if (month === 11 || month === 0 || month === 1) return "winter";
@@ -9,9 +13,10 @@ function getSeason() {
   if (month >= 8 && month <= 10) return "autumn";
 }
 
-export default function Constellation({ veilOn, birthdayMode = false }) {
+function Constellation({ veilMode, birthdayMode }) {
   const season = getSeason();
 
+  // Determine moon phase by season
   const moonPhase = {
     winter: "full",
     spring: "new",
@@ -25,11 +30,23 @@ export default function Constellation({ veilOn, birthdayMode = false }) {
         birthdayMode ? "birthday-mode" : ""
       }`}
     >
+      {/* Moon */}
       <div className={`moon ${moonPhase}`}></div>
 
-      {/* Veil now controlled ONLY by App.js */}
-      <div className={`constellation-overlay ${veilOn ? "active" : ""}`}></div>
+      {/* Portal receives veilMode correctly */}
+      <Portal
+        type="mood"
+        dayIndex={1}
+        season={season}
+        mood={null}
+        cueText=""
+        veilMode={veilMode}
+      />
 
+      {/* Veil overlay */}
+      <div className={`constellation-overlay ${veilMode === "on" ? "active" : ""}`}></div>
+
+      {/* Stars */}
       <div className="constellation-container">
         <div className="star" style={{ top: "4%", left: "12%" }}></div>
         <div className="star" style={{ top: "6%", left: "28%" }}></div>
@@ -42,15 +59,15 @@ export default function Constellation({ veilOn, birthdayMode = false }) {
         <div className="shooting-star"></div>
 
         <div className="constellation-layer">
-            <span className="star star-1"></span>
-            <span className="star star-2"></span>
-            <span className="star star-3"></span>
-
-            <span className="star star-4"></span>
-            <span className="star star-5"></span>
+          <span className="star star-1"></span>
+          <span className="star star-2"></span>
+          <span className="star star-3"></span>
+          <span className="star star-4"></span>
+          <span className="star star-5"></span>
         </div>
 
-        {birthdayMode ? (
+        {/* Birthday constellation */}
+        {birthdayMode && (
           <>
             <div className="cancer-constellation">
               <span className="cancer-star cancer-star-1"></span>
@@ -59,24 +76,29 @@ export default function Constellation({ veilOn, birthdayMode = false }) {
               <span className="cancer-star cancer-star-4"></span>
               <span className="cancer-star cancer-star-5"></span>
               <span className="cancer-star cancer-star-6"></span>
+
               <span className="cancer-line cancer-line-1"></span>
               <span className="cancer-line cancer-line-2"></span>
               <span className="cancer-line cancer-line-3"></span>
               <span className="cancer-line cancer-line-4"></span>
               <span className="cancer-line cancer-line-5"></span>
             </div>
+
             <div className="planet-saturn">
               <span className="planet-ring"></span>
             </div>
+
             <div className="planet-orbital"></div>
+
             <div className="tiny-rocket">
               <span className="rocket-window"></span>
               <span className="rocket-flame"></span>
             </div>
           </>
-        ) : null}
-
+        )}
       </div>
     </div>
   );
 }
+
+export default Constellation;
