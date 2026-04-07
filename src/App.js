@@ -19,6 +19,11 @@ import WeatherGlyph from './components/WeatherGlyph';
 // import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
 
 
+// Veil controls
+  const veilOn = () => setVeilMode("on");
+  const liftVeil = () => setVeilMode("lift");
+  const veilOff = () => setVeilMode("off");
+
 
 
 function normalizeWeatherClass(condition = "unknown") {
@@ -70,6 +75,12 @@ function AppShell() {
   const fallbackPhotos = [marbleBackground];
   const [mode, setMode] = useState("architectural");
   const [photos, setPhotos] = useState([]);
+  const [veilMode, setVeilMode] = useState("off");
+
+  // Veil controls
+  const veilOn = () => setVeilMode("on");
+  const liftVeil = () => setVeilMode("lift");
+  const veilOff = () => setVeilMode("off");
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const birthdayMatch = location.pathname.match(/^\/day\/(\d{4})-(\d{2})-(\d{2})$/);
@@ -211,10 +222,8 @@ function AppShell() {
   if (hour >= 19 || hour < 5) timeOfDay = "night";
   else if (hour >= 17) timeOfDay = "evening";
 
-  const [veilMode, setVeilMode] = useState("veil-default");
-  const [veilOn, setVeilOn] = useState(true);
   // Mood state based on weather
-  const mockTemp = Math.floor(Math.random() * 20) + 5; // 5–25°C
+  //const mockTemp = Math.floor(Math.random() * 20) + 5; // 5–25°C
 
   //const hour = new Date().getHours();
   const month = new Date().getMonth();
@@ -230,6 +239,9 @@ function AppShell() {
 
   const backgroundImage = useWeatherPhotos(isHomePage);
   const weatherMood = weatherCondition || "neutral";
+
+
+
 
 
 
@@ -250,6 +262,12 @@ function AppShell() {
       ) : null}
 
       <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
+      <div className="veil-controls">
+        <button onClick={veilOn}>Veil On</button>
+        <button onClick={liftVeil}>Lift Veil</button>
+        <button onClick={veilOff}>Veil Off</button>
+      </div>
+
 
       {/* ✨ NEW TOP LAYOUT BLOCK */}
       <div className="seasonal-header">
@@ -263,15 +281,18 @@ function AppShell() {
         <button onClick={() => setMode("macro")}>Macro</button>
       </div>
 
-      <WeatherGlyph
-        condition={weatherCondition}
-        temperature={temperature}
-        location="Evesham"
-        timestamp={new Date().toISOString()}
-        weatherMood={weatherMood}
-        isNight={isNight}
-        weatherDescription={weatherDescription}
-      />
+      {isHomePage && (
+        <WeatherGlyph
+          condition={weatherCondition}
+          temperature={temperature}
+          location="Evesham"
+          timestamp={new Date().toISOString()}
+          weatherMood={weatherMood}
+          isNight={isNight}
+          weatherDescription={weatherDescription}
+        />
+      )}
+
 
       <Routes>
         <Route
