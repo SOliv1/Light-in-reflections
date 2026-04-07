@@ -5,6 +5,7 @@
     filter 0.6s ease;
   position: relative;
   z-index: 15;
+  overflow: visible;
 }
 .app-background {
   position: fixed;
@@ -695,6 +696,12 @@ button:hover {
 
 .day-page.reflective {
   filter: hue-rotate(-20deg) brightness(0.9) saturate(0.8);
+}
+
+.veil-controls {
+  position: relative;
+  z-index: 9999;
+  margin-top: 1rem;
 }
 
 /* ---- APPLY MOOD TINT TO VISIBLE CONTENT ---- */

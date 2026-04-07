@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Portal } from "./Portal/Portal";
+import { Portal } from "./portal/Portal";
 import PhotoGallery from "./PhotoGallery";
 import { fetchFromApi } from "../api";
 import BirthdayStageExperience from "./BirthdayStageExperience";

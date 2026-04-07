@@ -19,12 +19,6 @@ import WeatherGlyph from './components/WeatherGlyph';
 // import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
 
 
-// Veil controls
-  const veilOn = () => setVeilMode("on");
-  const liftVeil = () => setVeilMode("lift");
-  const veilOff = () => setVeilMode("off");
-
-
 
 function normalizeWeatherClass(condition = "unknown") {
   const value = String(condition).toLowerCase();
@@ -75,12 +69,19 @@ function AppShell() {
   const fallbackPhotos = [marbleBackground];
   const [mode, setMode] = useState("architectural");
   const [photos, setPhotos] = useState([]);
-  const [veilMode, setVeilMode] = useState("off");
 
-  // Veil controls
+
+
+
+    // Veil controls
+
   const veilOn = () => setVeilMode("on");
   const liftVeil = () => setVeilMode("lift");
   const veilOff = () => setVeilMode("off");
+  const [veilMode, setVeilMode] = useState("off");
+
+
+
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const birthdayMatch = location.pathname.match(/^\/day\/(\d{4})-(\d{2})-(\d{2})$/);
