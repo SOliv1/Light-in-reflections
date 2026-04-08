@@ -12,17 +12,28 @@ export default function WeatherGlyphPanel({
   weatherDescription,
 }) {
   const [expanded, setExpanded] = useState(false);
-
-  void location;
   void timestamp;
-  void weatherDescription;
 
   const resolvedCondition = condition ?? "unknown";
   const mood = weatherMood ?? "unknown";
+  const resolvedLocation = location || "Local weather";
+  const conditionCopy = weatherDescription || resolvedCondition;
+  const panelMoodClass = `weather-glyph-panel--${mood}`;
 
   function poeticCondition(conditionValue) {
     const c = String(conditionValue ?? "unknown").toLowerCase();
 
+    if (resolvedCondition === "sunny" || c.includes("clear sky")) {
+      return "Bright, clear daylight";
+    }
+    if (c.includes("broken clouds") || c.includes("scattered clouds")) {
+      return "A bright sunny day with cloud drift";
+    }
+    if (c.includes("few clouds")) {
+      return "Peach-gold sunshine with a veil of cloud";
+    }
+    if (c.includes("clear sky")) return "Clear, sunlit skies";
+    if (c.includes("few clouds")) return "Bright light with a passing veil of cloud";
     if (c.includes("overcast")) return "A quiet layer of overcast cloud";
     if (c.includes("cloud")) return "Soft cloud cover drifting above";
     if (c.includes("clear")) return "Clear, open skies";
@@ -51,7 +62,7 @@ export default function WeatherGlyphPanel({
   }
 
   return (
-    <div className="weather-glyph-panel">
+    <div className={`weather-glyph-panel ${panelMoodClass}`}>
       <div
         className={`weather-glyph ${resolvedCondition} mood-${mood} ${
           isNight ? "night" : "day"
@@ -71,8 +82,9 @@ export default function WeatherGlyphPanel({
       </div>
 
       <div className="weather-panel-text">
-        <div className="condition">{poeticCondition(resolvedCondition)}</div>
+        <div className="condition">{poeticCondition(conditionCopy)}</div>
         <div className="temperature">{poeticTemperature(temperature)}</div>
+        <div className="location">{resolvedLocation}</div>
       </div>
     </div>
   );

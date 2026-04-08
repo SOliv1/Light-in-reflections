@@ -1,8 +1,8 @@
 .background-carousel {
-  --veil-center: rgba(255, 255, 255, 0.06);
-  --veil-edge: rgba(6, 10, 20, 0.62);
-  --veil-accent: rgba(162, 190, 255, 0.18);
-  --veil-image-filter: brightness(0.64) contrast(0.96) saturate(1);
+  --veil-center: rgba(255, 255, 255, 0.08);
+  --veil-edge: rgba(18, 24, 40, 0.5);
+  --veil-accent: rgba(162, 190, 255, 0.22);
+  --veil-image-filter: brightness(0.7) contrast(0.98) saturate(1.04);
   --veil-image-opacity: 0.58;
   --weather-image-opacity: 0.7;
   position: fixed;
@@ -14,6 +14,10 @@
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
+  isolation: isolate;
+  contain: layout paint style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .weather-image,
@@ -26,6 +30,9 @@
   opacity: 0;
   transition: opacity 10s ease;
   filter: var(--veil-image-filter);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: opacity;
 }
 
 .weather-image {
@@ -41,11 +48,11 @@
 
 /* DEFAULT VEIL - near-night, rich, luminous */
 .veil-default .twilight-overlay {
-  opacity: 0.45;
+  opacity: 0.62;
   background:
-    radial-gradient(circle at 50% 42%, var(--veil-center), var(--veil-edge)),
-    linear-gradient(180deg, transparent 0%, var(--veil-accent) 100%);
-  mix-blend-mode: soft-light;
+    radial-gradient(circle at 50% 42%, var(--veil-center) 0%, color-mix(in srgb, var(--veil-center) 72%, transparent) 34%, var(--veil-edge) 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--veil-accent) 28%, transparent) 0%, var(--veil-accent) 100%);
+  mix-blend-mode: screen;
 }
 
 /* Base veil element */
@@ -57,23 +64,25 @@
   opacity: 0;
   transition: opacity 0.6s ease;
   z-index: 3;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Default veil */
 .veil-default {
-  opacity: 0.45;
+  opacity: 0.62;
   background:
-    radial-gradient(circle at 50% 42%, var(--veil-center), var(--veil-edge)),
-    linear-gradient(180deg, transparent 0%, var(--veil-accent) 100%);
-  mix-blend-mode: soft-light;
+    radial-gradient(circle at 50% 42%, var(--veil-center) 0%, color-mix(in srgb, var(--veil-center) 72%, transparent) 34%, var(--veil-edge) 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--veil-accent) 28%, transparent) 0%, var(--veil-accent) 100%);
+  mix-blend-mode: screen;
 }
 
 /* Lift veil */
 .veil-lift {
-  opacity: 0.24;
+  opacity: 0.34;
   background:
-    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--veil-center) 84%, rgba(255, 255, 255, 0.06)), color-mix(in srgb, var(--veil-edge) 42%, transparent)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, color-mix(in srgb, var(--veil-accent) 72%, transparent) 100%);
+    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--veil-center) 90%, rgba(255, 255, 255, 0.08)), color-mix(in srgb, var(--veil-edge) 30%, transparent)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, color-mix(in srgb, var(--veil-accent) 78%, transparent) 100%);
   mix-blend-mode: screen;
 }
 
@@ -90,10 +99,10 @@
 }
 
 .veil-lift .twilight-overlay {
-  opacity: 0.22 !important;
+  opacity: 0.3 !important;
   background:
-    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--veil-center) 84%, rgba(255, 255, 255, 0.06)), color-mix(in srgb, var(--veil-edge) 42%, transparent)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, color-mix(in srgb, var(--veil-accent) 72%, transparent) 100%) !important;
+    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--veil-center) 90%, rgba(255, 255, 255, 0.08)), color-mix(in srgb, var(--veil-edge) 30%, transparent)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, color-mix(in srgb, var(--veil-accent) 78%, transparent) 100%) !important;
   mix-blend-mode: screen !important;
 }
 
@@ -123,54 +132,56 @@
   inset: 0;
   pointer-events: none;
   transition: opacity 0.6s ease, background 0.6s ease;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .background-carousel.mood-sunny {
-  --veil-center: rgba(255, 238, 198, 0.18);
-  --veil-edge: rgba(92, 54, 24, 0.42);
-  --veil-accent: rgba(255, 200, 102, 0.24);
-  --veil-image-filter: brightness(0.72) contrast(0.98) saturate(1.12);
+  --veil-center: rgba(255, 236, 186, 0.38);
+  --veil-edge: rgba(125, 73, 24, 0.2);
+  --veil-accent: rgba(255, 191, 92, 0.42);
+  --veil-image-filter: brightness(0.82) contrast(1) saturate(1.16);
 }
 
 .background-carousel.mood-cloudy {
-  --veil-center: rgba(228, 232, 240, 0.12);
-  --veil-edge: rgba(30, 38, 58, 0.52);
-  --veil-accent: rgba(174, 186, 214, 0.18);
-  --veil-image-filter: brightness(0.62) contrast(0.95) saturate(0.92);
+  --veil-center: rgba(224, 230, 242, 0.22);
+  --veil-edge: rgba(52, 68, 102, 0.26);
+  --veil-accent: rgba(196, 208, 228, 0.28);
+  --veil-image-filter: brightness(0.7) contrast(0.97) saturate(0.96);
 }
 
 .background-carousel.mood-rain {
-  --veil-center: rgba(188, 220, 255, 0.12);
-  --veil-edge: rgba(10, 32, 74, 0.58);
-  --veil-accent: rgba(104, 162, 255, 0.22);
-  --veil-image-filter: brightness(0.58) contrast(1) saturate(1.02);
+  --veil-center: rgba(188, 220, 255, 0.2);
+  --veil-edge: rgba(20, 44, 88, 0.3);
+  --veil-accent: rgba(111, 170, 255, 0.34);
+  --veil-image-filter: brightness(0.66) contrast(1) saturate(1.04);
 }
 
 .background-carousel.mood-storm {
-  --veil-center: rgba(192, 206, 255, 0.1);
-  --veil-edge: rgba(8, 14, 42, 0.72);
-  --veil-accent: rgba(110, 126, 212, 0.2);
-  --veil-image-filter: brightness(0.52) contrast(1.08) saturate(0.9);
+  --veil-center: rgba(200, 210, 255, 0.16);
+  --veil-edge: rgba(22, 28, 72, 0.36);
+  --veil-accent: rgba(126, 138, 220, 0.32);
+  --veil-image-filter: brightness(0.6) contrast(1.08) saturate(0.94);
 }
 
 .background-carousel.mood-mist {
-  --veil-center: rgba(242, 246, 250, 0.14);
-  --veil-edge: rgba(56, 64, 84, 0.46);
-  --veil-accent: rgba(212, 220, 234, 0.16);
-  --veil-image-filter: brightness(0.68) contrast(0.92) saturate(0.84);
+  --veil-center: rgba(242, 246, 250, 0.2);
+  --veil-edge: rgba(76, 84, 108, 0.24);
+  --veil-accent: rgba(220, 228, 238, 0.24);
+  --veil-image-filter: brightness(0.74) contrast(0.94) saturate(0.88);
 }
 
 .background-carousel.mood-snow {
-  --veil-center: rgba(244, 249, 255, 0.18);
-  --veil-edge: rgba(50, 72, 116, 0.4);
-  --veil-accent: rgba(180, 216, 255, 0.2);
-  --veil-image-filter: brightness(0.76) contrast(0.94) saturate(0.88);
+  --veil-center: rgba(244, 249, 255, 0.26);
+  --veil-edge: rgba(66, 92, 136, 0.22);
+  --veil-accent: rgba(190, 222, 255, 0.3);
+  --veil-image-filter: brightness(0.82) contrast(0.95) saturate(0.9);
 }
 
 .background-carousel.mood-neutral {
-  --veil-center: rgba(255, 255, 255, 0.08);
-  --veil-edge: rgba(6, 10, 20, 0.62);
-  --veil-accent: rgba(162, 190, 255, 0.18);
+  --veil-center: rgba(255, 255, 255, 0.14);
+  --veil-edge: rgba(22, 30, 50, 0.34);
+  --veil-accent: rgba(176, 198, 232, 0.24);
 }
 
 .background-carousel.season-winter {
@@ -222,5 +233,44 @@ button {
   .weather-image,
   .bg-image {
     height: 100vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .background-carousel {
+    width: 100vw;
+    height: 100svh;
+  }
+
+  .weather-image,
+  .bg-image {
+    width: 100vw;
+    height: 100svh;
+    transition: opacity 6s ease;
+  }
+
+  #veil,
+  #veil .twilight-overlay {
+    transition: opacity 0.45s ease, background 0.45s ease;
+  }
+
+  .veil-default,
+  .veil-default .twilight-overlay {
+    opacity: 0.56;
+  }
+
+  .veil-lift,
+  .veil-lift .twilight-overlay {
+    opacity: 0.26 !important;
+  }
+}
+
+@supports not (height: 100svh) {
+  @media (max-width: 768px) {
+    .background-carousel,
+    .weather-image,
+    .bg-image {
+      height: 100vh;
+    }
   }
 }
