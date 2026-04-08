@@ -1009,3 +1009,100 @@ button:hover {
     transform-origin: center top;
   }
 }
+
+@media (max-width: 380px) {
+  .app-home-logo {
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    left: 12px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .sky-wrapper {
+    min-height: clamp(220px, 34vh, 270px);
+  }
+
+  .seasonal-header {
+    margin-top: 0.4rem;
+  }
+
+  .month-title {
+    font-size: 1.68rem;
+  }
+
+  .date-subtitle {
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 380px), (max-height: 700px) {
+  .sky-wrapper {
+    min-height: clamp(230px, 35vh, 282px);
+  }
+
+  .seasonal-header {
+    margin-top: 0.25rem;
+  }
+}
+
+.home-hero-stack {
+  position: relative;
+  z-index: 18;
+  display: grid;
+  justify-items: center;
+  margin-top: 0.8rem;
+}
+
+.home-hero-stack .seasonal-header {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 38rem);
+  margin-top: -2.7rem;
+  padding: 2.4rem 1.5rem 1.15rem;
+  border-radius: 32px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.home-hero-stack .seasonal-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgba(238, 244, 255, 0.44), rgba(233, 241, 252, 0.18) 56%, rgba(233, 241, 252, 0.02) 100%),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.36), transparent 62%);
+  backdrop-filter: blur(7px) saturate(1.02);
+  -webkit-backdrop-filter: blur(7px) saturate(1.02);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.94) 54%, rgba(0, 0, 0, 0.3) 88%, transparent 100%);
+}
+
+.home-hero-stack .month-title,
+.home-hero-stack .date-subtitle {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .home-hero-stack {
+    margin-top: 0.35rem;
+  }
+
+  .home-hero-stack .seasonal-header {
+    width: min(100%, 24rem);
+    margin-top: -2.2rem;
+    padding: 2rem 1rem 1rem;
+    border-radius: 28px;
+  }
+}
+
+@media (max-width: 380px) {
+  .home-hero-stack .seasonal-header {
+    width: min(100%, 20.5rem);
+    margin-top: -1.95rem;
+    padding: 1.8rem 0.9rem 0.95rem;
+    border-radius: 24px;
+  }
+}

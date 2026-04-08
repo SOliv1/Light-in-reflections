@@ -12,7 +12,7 @@ import { BIRTHDAY_DAY, BIRTHDAY_MONTH } from "./data/birthdayExperience";
 import useWeatherPhotos from "./hooks/useWeatherPhotos";
 import DayPage from "./pages/DayPage";
 import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
-// import Veil from "./components/Veil/Veil";
+import DailyQuote from "./components/DailyQuote";
 
 function normalizeWeatherClass(condition = "unknown") {
   const value = String(condition).toLowerCase();
@@ -255,7 +255,6 @@ function AppShell() {
   const isNight = hour < 6 || hour >= 18;
   const backgroundImage = useWeatherPhotos(isHomePage);
   const weatherMood = weatherCondition || "neutral";
-
   return (
     <>
       <div className="sky-wrapper">
@@ -268,7 +267,6 @@ function AppShell() {
           cueText=""
           weatherMood={weatherMood}
         />
-
       </div>
 
       <div className={`App mode-${mode} time-${timeOfDay}`}>
@@ -296,10 +294,20 @@ function AppShell() {
           <button onClick={veilOff}>Veil Off</button>
         </div>
 
-        <div className="seasonal-header">
-          <h1 className="month-title">A Month of Light</h1>
-          <h2 className="date-subtitle">April 2026</h2>
-        </div>
+        {isHomePage ? (
+          <div className="home-hero-stack">
+            <DailyQuote veilMode={veilMode} weatherMood={weatherMood} />
+            <div className="seasonal-header">
+              <h1 className="month-title">A Month of Light</h1>
+              <h2 className="date-subtitle">April 2026</h2>
+            </div>
+          </div>
+        ) : (
+          <div className="seasonal-header">
+            <h1 className="month-title">A Month of Light</h1>
+            <h2 className="date-subtitle">April 2026</h2>
+          </div>
+        )}
 
         <div style={{ marginBottom: "20px" }}>
           <button
