@@ -1,6 +1,6 @@
 import React from "react";
 import "./Constellation.css";
-//import Portal from "./portal/Portal";
+//import Portal from "./Portal/Portal";
 
 
 // Determine season for moon phase

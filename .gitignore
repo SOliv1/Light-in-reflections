@@ -8,6 +8,8 @@
 # testing
 /coverage
 src/dev-only/
+!src/dev-only/
+!src/dev-only/MockWeatherGlyph.js
 
 # production
 .build

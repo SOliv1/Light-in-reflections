@@ -6,7 +6,7 @@ import logo from "./assets/logo.png";
 import BackgroundCarousel from "./components/BackgroundCarousel";
 import Calendar from "./components/Calendar";
 import Constellation from "./components/Constellation";
-import Portal from "./components/portal/Portal";
+import Portal from "./components/Portal/Portal";
 import WeatherGlyph from "./components/WeatherGlyphPanel";
 import { fetchFromApi } from "./api";
 import { BIRTHDAY_DAY, BIRTHDAY_MONTH } from "./data/birthdayExperience";
