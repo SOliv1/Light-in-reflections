@@ -26,6 +26,19 @@
   margin-bottom: 20px;
 }
 
+.calendar-nav-prev {
+  justify-self: start;
+}
+
+.calendar-nav-next {
+  justify-self: end;
+}
+
+.calendar-title-spacer {
+  width: min(18rem, 100%);
+  min-height: 1px;
+}
+
 
 .calendar-grid {
   display: grid;

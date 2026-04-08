@@ -107,6 +107,7 @@ function Calendar({ season, isNight, weatherCondition, weatherMood, isHomePage }
 
         <div className="calendar-header">
           <button
+            className="calendar-nav calendar-nav-prev"
             type="button"
             onClick={() =>
               setCurrentMonthKey(formatMonthKey(monthOptions[currentIndex - 1]))
@@ -125,8 +126,10 @@ function Calendar({ season, isNight, weatherCondition, weatherMood, isHomePage }
               })}
             </h2>
           )}
+          {isHomePage && <div className="calendar-title-spacer" aria-hidden="true" />}
 
           <button
+            className="calendar-nav calendar-nav-next"
             type="button"
             onClick={() =>
               setCurrentMonthKey(formatMonthKey(monthOptions[currentIndex + 1]))

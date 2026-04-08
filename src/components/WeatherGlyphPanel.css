@@ -1,0 +1,96 @@
+.weather-glyph-panel {
+  --ambient-tint: rgba(255, 240, 200, 0.25);
+  width: min(100%, 22rem);
+  margin: 0 auto 2rem;
+  padding: 1rem 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  background: color-mix(in srgb, var(--ambient-tint) 78%, rgba(255, 255, 255, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 28px;
+  box-shadow:
+    0 16px 40px rgba(11, 18, 38, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px);
+}
+
+.weather-glyph-panel .weather-glyph {
+  box-shadow:
+    0 0 0 1px var(--glyph-mood-ring, rgba(255, 255, 255, 0.16)),
+    0 0 28px var(--glyph-mood-glow, rgba(255, 255, 255, 0.22));
+}
+
+.weather-reading {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.05rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.weather-reading-value {
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow:
+    0 2px 12px rgba(8, 10, 22, 0.4),
+    0 0 18px rgba(255, 255, 255, 0.16);
+}
+
+.weather-reading-unit {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.weather-panel-text {
+  width: 100%;
+  max-width: 18rem;
+  margin: 0 auto;
+  padding: 0.85rem 1rem;
+  border-radius: 18px;
+  background: rgba(9, 14, 30, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(248, 250, 255, 0.92);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
+  text-align: center;
+}
+
+.weather-panel-text .condition {
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.weather-panel-text .temperature {
+  margin-top: 0.35rem;
+  font-size: 0.84rem;
+  color: rgba(234, 240, 255, 0.86);
+  line-height: 1.45;
+}
+
+@media (max-width: 600px) {
+  .weather-glyph-panel {
+    width: min(100%, 18rem);
+    padding: 0.85rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .weather-reading-value {
+    font-size: 1.45rem;
+  }
+
+  .weather-panel-text {
+    padding: 0.75rem 0.85rem;
+  }
+}

@@ -1,7 +1,6 @@
 import React from "react";
 import "./Constellation.css";
-import Portal from "./Portal/portal";
-
+//import Portal from "./portal/Portal";
 
 
 // Determine season for moon phase
@@ -26,14 +25,16 @@ function Constellation({ veilMode, birthdayMode }) {
 
   return (
     <div
-      className={`constellation-wrapper interactive active ${
+      className={`constellation-wrapper interactive active season-${season} veil-${veilMode || "off"} ${
         birthdayMode ? "birthday-mode" : ""
       }`}
     >
+      <div className="constellation-skywash"></div>
       {/* Moon */}
+
       <div className={`moon ${moonPhase}`}></div>
 
-      {/* Portal receives veilMode correctly */}
+      {/* Portal receives veilMode correctly
       <Portal
         type="mood"
         dayIndex={1}
@@ -41,20 +42,20 @@ function Constellation({ veilMode, birthdayMode }) {
         mood={null}
         cueText=""
         veilMode={veilMode}
-      />
+      /> */}
 
       {/* Veil overlay */}
-      <div className={`constellation-overlay ${veilMode === "on" ? "active" : ""}`}></div>
+
 
       {/* Stars */}
       <div className="constellation-container">
-        <div className="star" style={{ top: "4%", left: "12%" }}></div>
-        <div className="star" style={{ top: "6%", left: "28%" }}></div>
-        <div className="star" style={{ top: "5%", left: "45%" }}></div>
-        <div className="star" style={{ top: "7%", left: "62%" }}></div>
-        <div className="star" style={{ top: "9%", left: "78%" }}></div>
-        <div className="star" style={{ top: "12%", left: "35%" }}></div>
-        <div className="star" style={{ top: "14%", left: "70%" }}></div>
+        <div className="star" style={{ top: "16%", left: "12%" }}></div>
+        <div className="star" style={{ top: "18%", left: "28%" }}></div>
+        <div className="star" style={{ top: "17%", left: "45%" }}></div>
+        <div className="star" style={{ top: "20%", left: "62%" }}></div>
+        <div className="star" style={{ top: "22%", left: "78%" }}></div>
+        <div className="star" style={{ top: "25%", left: "35%" }}></div>
+        <div className="star" style={{ top: "28%", left: "70%" }}></div>
 
         <div className="shooting-star"></div>
 
@@ -64,7 +65,37 @@ function Constellation({ veilMode, birthdayMode }) {
           <span className="star star-3"></span>
           <span className="star star-4"></span>
           <span className="star star-5"></span>
+          <span className="star star-6"></span>
+          <span className="star star-7"></span>
+          <span className="star star-8"></span>
+          <span className="star star-9"></span>
+          <span className="star star-10"></span>
+          <span className="star star-11"></span>
+          <span className="star star-12"></span>
+          <span className="star star-13"></span>
+          <span className="star star-14"></span>
+          <span className="star star-15"></span>
         </div>
+
+        <div className="right-constellation">
+          <span className="right-constellation-star right-constellation-star-1"></span>
+          <span className="right-constellation-star right-constellation-star-2"></span>
+          <span className="right-constellation-star right-constellation-star-3"></span>
+          <span className="right-constellation-star right-constellation-star-4"></span>
+          <span className="right-constellation-line right-constellation-line-1"></span>
+          <span className="right-constellation-line right-constellation-line-2"></span>
+          <span className="right-constellation-line right-constellation-line-3"></span>
+        </div>
+
+        <div className="left-celestial-accent">
+          <span className="left-accent-star left-accent-star-1"></span>
+          <span className="left-accent-star left-accent-star-2"></span>
+          <span className="left-accent-star left-accent-star-3"></span>
+        </div>
+
+        <div className="planet-venus"></div>
+        <div className="planet-pluto"></div>
+        <div className="planet-mars"></div>
 
         {/* Birthday constellation */}
         {birthdayMode && (

@@ -2,6 +2,9 @@
    BASE ORB STRUCTURE
 ----------------------------------------------------------- */
 .weather-glyph-wrapper {
+  --ambient-tint: rgba(255, 240, 200, 0.25);
+  --glyph-mood-ring: rgba(255, 255, 255, 0.16);
+  --glyph-mood-glow: rgba(255, 255, 255, 0.22);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,6 +22,9 @@
   border-radius: 50%;
   overflow: visible;
   cursor: pointer;
+  box-shadow:
+    0 0 0 1px var(--glyph-mood-ring),
+    0 0 28px var(--glyph-mood-glow);
 
   /* Floaty, cinematic expansion motion */
   transition:
@@ -474,6 +480,42 @@
 
 .weather-glyph.day {
   --ambient-tint: rgba(255, 240, 200, 0.25);
+}
+
+.weather-glyph.mood-sunny {
+  --glyph-mood-ring: rgba(255, 219, 146, 0.3);
+  --glyph-mood-glow: rgba(255, 198, 110, 0.34);
+}
+
+.weather-glyph.mood-cloudy {
+  --glyph-mood-ring: rgba(212, 220, 236, 0.22);
+  --glyph-mood-glow: rgba(167, 180, 208, 0.24);
+}
+
+.weather-glyph.mood-rain {
+  --glyph-mood-ring: rgba(154, 196, 255, 0.28);
+  --glyph-mood-glow: rgba(94, 152, 255, 0.3);
+}
+
+.weather-glyph.mood-storm {
+  --glyph-mood-ring: rgba(157, 170, 248, 0.24);
+  --glyph-mood-glow: rgba(88, 103, 201, 0.32);
+}
+
+.weather-glyph.mood-mist {
+  --glyph-mood-ring: rgba(226, 230, 240, 0.2);
+  --glyph-mood-glow: rgba(188, 194, 206, 0.22);
+}
+
+.weather-glyph.mood-snow {
+  --glyph-mood-ring: rgba(214, 236, 255, 0.3);
+  --glyph-mood-glow: rgba(171, 214, 255, 0.26);
+}
+
+.weather-glyph.mood-neutral,
+.weather-glyph.mood-unknown {
+  --glyph-mood-ring: rgba(255, 255, 255, 0.16);
+  --glyph-mood-glow: rgba(255, 255, 255, 0.22);
 }
 
 .weather-glyph-wrapper {
