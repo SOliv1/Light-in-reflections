@@ -80,6 +80,7 @@ function formatLocationLabel(data) {
 }
 
 function AppShell() {
+  const modes = ["architectural", "water", "macro"];
   const [mode, setMode] = useState("architectural");
   const [photos, setPhotos] = useState([]);
   const [veilMode, setVeilMode] = useState("off");
@@ -91,6 +92,11 @@ function AppShell() {
   const veilOn = () => setVeilMode("on");
   const liftVeil = () => setVeilMode("lift");
   const veilOff = () => setVeilMode("off");
+  const cycleMode = () => {
+    const currentIndex = modes.indexOf(mode);
+    const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % modes.length;
+    setMode(modes[nextIndex]);
+  };
 
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -296,10 +302,33 @@ function AppShell() {
         </div>
 
         <div style={{ marginBottom: "20px" }}>
-          <button onClick={() => setMode("architectural")}>Architectural</button>
-          <button onClick={() => setMode("water")}>Water</button>
-          <button onClick={() => setMode("macro")}>Macro</button>
+          <button
+            className={mode === "architectural" ? "selected" : ""}
+            onClick={() => setMode("architectural")}
+          >
+            Architectural
+          </button>
+          <button
+            className={mode === "water" ? "selected" : ""}
+            onClick={() => setMode("water")}
+          >
+            Water
+          </button>
+          <button
+            className={mode === "macro" ? "selected" : ""}
+            onClick={() => setMode("macro")}
+          >
+            Macro
+          </button>
         </div>
+
+        <button
+          type="button"
+          className="global-mood-orb"
+          aria-label={`Change visual mode. Current mode: ${mode}`}
+          title={`Mode: ${mode}`}
+          onClick={cycleMode}
+        />
 
         {isHomePage && (
           <WeatherGlyph
