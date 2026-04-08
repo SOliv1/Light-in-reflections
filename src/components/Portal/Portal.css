@@ -56,6 +56,34 @@
     filter 1.4s ease;
 }
 
+.portal--mood {
+  width: 96px;
+  height: 96px;
+  background:
+    radial-gradient(circle at 36% 32%, rgba(255, 255, 255, 0.34), rgba(226, 233, 255, 0.16) 42%, rgba(154, 173, 238, 0.08) 68%, transparent 100%);
+  box-shadow:
+    0 0 18px rgba(255, 255, 255, 0.18),
+    0 0 38px rgba(170, 188, 255, 0.16);
+  backdrop-filter: blur(6px) saturate(1.02);
+}
+
+.portal--mood .portal__core {
+  background:
+    radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.52), rgba(213, 224, 255, 0.24) 42%, rgba(140, 160, 224, 0.14) 68%, rgba(124, 138, 210, 0.06) 100%);
+  box-shadow:
+    0 0 22px rgba(206, 219, 255, 0.2),
+    inset 0 0 24px rgba(255, 255, 255, 0.12);
+}
+
+.portal--mood .portal__crescent {
+  opacity: 0.24;
+  filter: saturate(0.92) brightness(1.04);
+}
+
+.portal--mood .portal__shimmer {
+  opacity: 0.18;
+}
+
 /* Inner core */
 .portal__core {
   position: absolute;
