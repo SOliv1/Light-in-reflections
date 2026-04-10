@@ -349,10 +349,10 @@ function AppShell() {
 
         {/* Drawers */}
         <Drawer isOpen={isReflectionsOpen} onClose={closeReflections}>
-          <ShortReflectionsDrawer />
+          <ShortReflectionsDrawer orbColor={orbColor}  />
         </Drawer>
         <Drawer isOpen={isQuoteOpen} onClose={closeQuoteDrawer}>
-          <QuoteDrawer quote={currentQuote} />
+          <QuoteDrawer quote={currentQuote} orbColor={orbColor} onClose={closeQuoteDrawer} />
         </Drawer>
 
         <div className="seasonal-header">
