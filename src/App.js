@@ -13,6 +13,11 @@ import useWeatherPhotos from "./hooks/useWeatherPhotos";
 import DayPage from "./pages/DayPage";
 import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
 import DailyQuote from "./components/DailyQuote";
+import ShortReflectionsDrawer from "./components/ShortReflectionsDrawer";
+import Drawer from "./components/Drawer";
+import QuoteDrawer from "./components/QuoteDrawer";
+
+
 
 function normalizeWeatherClass(condition = "unknown") {
   const value = String(condition).toLowerCase();
@@ -255,6 +260,29 @@ function AppShell() {
   const isNight = hour < 6 || hour >= 18;
   const backgroundImage = useWeatherPhotos(isHomePage);
   const weatherMood = weatherCondition || "neutral";
+
+  // App.js or HomePage.js
+  const [orbColor, setOrbColor] = useState('#8ab4f8'); // example default
+
+  const [isReflectionsOpen, setReflectionsOpen] = useState(false);
+  const [isQuoteOpen, setQuoteOpen] = useState(false);
+
+  const openReflections = () => setReflectionsOpen(true);
+  const closeReflections = () => setReflectionsOpen(false);
+
+  const openQuoteDrawer = () => setQuoteOpen(true);
+  const closeQuoteDrawer = () => setQuoteOpen(false);
+  const [currentQuote, setCurrentQuote] = useState(null);
+
+
+  // When mode changes:
+  useEffect(() => {
+    if (mode === 'architectural') setOrbColor('#e3b57a');
+    if (mode === 'water') setOrbColor('#7ac6ff');
+    if (mode === 'macro') setOrbColor('#d88cff');
+  }, [mode]);
+
+
   return (
     <>
       <div className="sky-wrapper">
@@ -288,26 +316,49 @@ function AppShell() {
           />
 
         ) : null}
-        <div className="veil-controls">
-          <button onClick={veilOn}>Veil On</button>
-          <button onClick={liftVeil}>Lift Veil</button>
-          <button onClick={veilOff}>Veil Off</button>
+
+        <div className="veil-controls-wrapper">
+          <div className="veil-controls">
+            <button onClick={veilOn}>Veil On</button>
+            <button onClick={liftVeil}>Lift Veil</button>
+            <button onClick={veilOff}>Veil Off</button>
+          </div>
+
+          <div className="top-ui-row">
+            <div className="reflections-trigger">
+              <div className="inspiration-panel">
+                <button className="inspo-btn" onClick={openReflections}>
+                  Reflections
+                </button>
+
+                <button className="inspo-btn" onClick={openQuoteDrawer}>
+                Quote of the Day
+                </button>
+              </div>
+            </div>
+
+            {/* Put DailyQuote RIGHT HERE */}
+            <DailyQuote
+              veilMode={veilMode}
+              weatherMood={weatherMood}
+              onQuoteReady={setCurrentQuote}
+            />
+
+          </div>
         </div>
 
-        {isHomePage ? (
-          <div className="home-hero-stack">
-            <DailyQuote veilMode={veilMode} weatherMood={weatherMood} />
-            <div className="seasonal-header">
-              <h1 className="month-title">A Month of Light</h1>
-              <h2 className="date-subtitle">April 2026</h2>
-            </div>
-          </div>
-        ) : (
-          <div className="seasonal-header">
-            <h1 className="month-title">A Month of Light</h1>
-            <h2 className="date-subtitle">April 2026</h2>
-          </div>
-        )}
+        {/* Drawers */}
+        <Drawer isOpen={isReflectionsOpen} onClose={closeReflections}>
+          <ShortReflectionsDrawer />
+        </Drawer>
+        <Drawer isOpen={isQuoteOpen} onClose={closeQuoteDrawer}>
+          <QuoteDrawer quote={currentQuote} />
+        </Drawer>
+
+        <div className="seasonal-header">
+          <h1 className="month-title">A Month of Light</h1>
+          <h2 className="date-subtitle">April 2026</h2>
+        </div>
 
         <div style={{ marginBottom: "20px" }}>
           <button
@@ -328,6 +379,7 @@ function AppShell() {
           >
             Macro
           </button>
+
         </div>
 
         <button
@@ -367,6 +419,7 @@ function AppShell() {
           <Route path="/day/:date" element={<DayPage />} />
         </Routes>
       </div>
+
     </>
   );
 }

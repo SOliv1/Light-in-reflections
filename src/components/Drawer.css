@@ -1,0 +1,48 @@
+.drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 2000;
+}
+
+.drawer-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.drawer-panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--reflections-gradient, rgba(255, 255, 255, 0.2));
+    backdrop-filter: blur(12px);
+    border-radius: 1.2rem 1.2rem 0 0;
+    padding: 1.5rem;
+    transform: translateY(100%);
+    transition: transform 0.35s ease;
+}
+
+.drawer-overlay.open .drawer-panel {
+    transform: translateY(0);
+}
+
+.drawer-close {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--text-soft, #fff);
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+.drawer-author {
+  opacity: 0.85;
+  letter-spacing: 0.5px;
+}

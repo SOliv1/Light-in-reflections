@@ -20,6 +20,10 @@ const MOOD_CLASS_MAP = {
   unknown: "mood-neutral",
 };
 
+// Cloudinary randomizer
+const randomImage = (folder) =>
+  `https://res.cloudinary.com/dwpvbtoad/image/upload/fl_random/${folder}`;
+
 export default function BackgroundCarousel({
   photos,
   veilMode,
@@ -28,12 +32,19 @@ export default function BackgroundCarousel({
   season,
 }) {
   const [index, setIndex] = useState(0);
+
+  // Multi-layer random atmospheric images
+  const [deepLayer, setDeepLayer] = useState(null);
+  const [midLayer, setMidLayer] = useState(null);
+  const [foregroundLayer, setForegroundLayer] = useState(null);
+
   const hasPhotos = Array.isArray(photos) && photos.length > 0;
 
+  // Rotate DB photos
   useEffect(() => {
     if (!hasPhotos) {
       setIndex(0);
-      return undefined;
+      return;
     }
 
     const interval = setInterval(() => {
@@ -43,9 +54,18 @@ export default function BackgroundCarousel({
     return () => clearInterval(interval);
   }, [hasPhotos, photos]);
 
-  if (!hasPhotos && !weatherImage) {
-    return null;
-  }
+  // Always load Cloudinary atmospheric layers
+  useEffect(() => {
+    // Deep background (soft, blurred)
+    setDeepLayer(randomImage("reflections"));
+
+    // Mid-layer (seasonal or mood folder)
+    const folder = season ? `${season}` : "Sandbox";
+    setMidLayer(randomImage(folder));
+
+    // Foreground shimmer (texture)
+    setForegroundLayer(randomImage("textures"));
+  }, [season, weatherMood]);
 
   const veilClassName = VEIL_CLASS_MAP[veilMode] || VEIL_CLASS_MAP.on;
   const moodClassName = MOOD_CLASS_MAP[weatherMood] || MOOD_CLASS_MAP.neutral;
@@ -53,13 +73,32 @@ export default function BackgroundCarousel({
 
   return (
     <div className={`background-carousel ${veilClassName} ${moodClassName} ${seasonClassName}`}>
-      {weatherImage ? (
+
+      {/* Deep atmospheric layer */}
+      {deepLayer && (
+        <div
+          className="bg-layer deep-layer"
+          style={{ backgroundImage: `url(${deepLayer})` }}
+        />
+      )}
+
+      {/* Mid-layer (seasonal/mood) */}
+      {midLayer && (
+        <div
+          className="bg-layer mid-layer"
+          style={{ backgroundImage: `url(${midLayer})` }}
+        />
+      )}
+
+      {/* Weather image layer */}
+      {weatherImage && (
         <div
           className="weather-image"
           style={{ backgroundImage: `url(${weatherImage})` }}
         />
-      ) : null}
+      )}
 
+      {/* DB photos */}
       {hasPhotos &&
         photos.map((src, i) => (
           <img
@@ -72,7 +111,15 @@ export default function BackgroundCarousel({
           />
         ))}
 
-      {/* Cinematic atmospheric veil */}
+      {/* Foreground shimmer */}
+      {foregroundLayer && (
+        <div
+          className="bg-layer foreground-layer"
+          style={{ backgroundImage: `url(${foregroundLayer})` }}
+        />
+      )}
+
+      {/* Cinematic veil */}
       <Veil moodColor={weatherMood} state={veilMode} season={season} />
     </div>
   );

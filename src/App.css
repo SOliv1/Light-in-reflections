@@ -6,6 +6,7 @@
   position: relative;
   z-index: 15;
   overflow: visible;
+
 }
 .app-background {
   position: fixed;
@@ -27,8 +28,6 @@ a {
 a:hover {
   opacity: 0.85;
 }
-
-
 
 
 body {
@@ -1085,6 +1084,7 @@ button:hover {
   z-index: 1;
 }
 
+
 @media (max-width: 768px) {
   .home-hero-stack {
     margin-top: 0.35rem;
@@ -1104,5 +1104,41 @@ button:hover {
     margin-top: -1.95rem;
     padding: 1.8rem 0.9rem 0.95rem;
     border-radius: 24px;
+  }
+}
+
+/* ---- INSPIRATION PANEL ---- */
+
+.inspiration-panel {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+  z-index: 40;
+}
+
+.inspo-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  background: var(--reflections-gradient);
+  color: var(--text-soft);
+  border: none;
+  font-size: 0.95rem;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .inspiration-panel {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .inspo-btn {
+    width: 80%;
+    text-align: center;
   }
 }
