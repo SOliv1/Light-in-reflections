@@ -13,10 +13,12 @@ import useWeatherPhotos from "./hooks/useWeatherPhotos";
 import DayPage from "./pages/DayPage";
 import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
 import DailyQuote from "./components/DailyQuote";
+import QuietActionsDrawer from "./components/QuietActionsDrawer";
+import "./styles/DrawerUnified.css";
 import ShortReflectionsDrawer from "./components/ShortReflectionsDrawer";
 import Drawer from "./components/Drawer";
 import QuoteDrawer from "./components/QuoteDrawer";
-
+import LightNotesDrawer from "./components/LightNotesDrawer";
 
 
 function normalizeWeatherClass(condition = "unknown") {
@@ -273,7 +275,13 @@ function AppShell() {
   const openQuoteDrawer = () => setQuoteOpen(true);
   const closeQuoteDrawer = () => setQuoteOpen(false);
   const [currentQuote, setCurrentQuote] = useState(null);
+  const [isActionsOpen, setActionsOpen] = useState(false);
+  const openActionsDrawer = () => setActionsOpen(true);
+  const closeActionsDrawer = () => setActionsOpen(false);
 
+  const [isNotesOpen, setNotesOpen] = useState(false);
+  const openNotesDrawer = () => setNotesOpen(true);
+  const closeNotesDrawer = () => setNotesOpen(false);
 
   // When mode changes:
   useEffect(() => {
@@ -284,144 +292,175 @@ function AppShell() {
 
 
   return (
-    <>
-      <div className="sky-wrapper">
-        <Constellation veilMode={veilMode} birthdayMode={isBirthdayScene} />
-        <Portal
-          type="mood"
-          dayIndex={1}
-          season={season}
-          mood={weatherMood}
-          cueText=""
+  <>
+    <div className="sky-wrapper">
+      <Constellation veilMode={veilMode} birthdayMode={isBirthdayScene} />
+      <Portal
+        type="mood"
+        dayIndex={1}
+        season={season}
+        mood={weatherMood}
+        cueText=""
+        weatherMood={weatherMood}
+      />
+    </div>
+
+    <div className={`App mode-${mode} time-${timeOfDay}`}>
+      <Link to="/" className="app-home-logo" aria-label="Return home">
+        <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
+      </Link>
+
+      {!isHomePage ? (
+        <Link
+          to="/"
+          className="crescent-portal app-home-orb"
+          aria-label="Return home"
+        />
+      ) : null}
+
+      {isHomePage ? (
+        <BackgroundCarousel
+          photos={photos}
+          veilMode={veilMode}
+          weatherImage={backgroundImage}
           weatherMood={weatherMood}
+          season={season}
         />
-      </div>
+      ) : null}
 
-      <div className={`App mode-${mode} time-${timeOfDay}`}>
-        <Link to="/" className="app-home-logo" aria-label="Return home">
-          <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
-        </Link>
+      <div className="veil-controls-wrapper">
+        <div className="veil-controls">
+          <button onClick={veilOn}>Veil On</button>
+          <button onClick={liftVeil}>Lift Veil</button>
+          <button onClick={veilOff}>Veil Off</button>
+        </div>
 
-        {!isHomePage ? (
-          <Link to="/" className="crescent-portal app-home-orb" aria-label="Return home" />
-        ) : null}
+        {/* Top UI Row */}
+        <div className="top-ui-row">
+          <div className="reflections-trigger">
+            <div className="inspiration-panel">
+              <button className="inspo-btn" onClick={openReflections}>
+                Reflections
+              </button>
 
-        {isHomePage ? (
-          <BackgroundCarousel
-            photos={photos}
-            veilMode={veilMode}
-            weatherImage={backgroundImage}
-            weatherMood={weatherMood}
-            season={season}
-          />
-
-        ) : null}
-
-        <div className="veil-controls-wrapper">
-          <div className="veil-controls">
-            <button onClick={veilOn}>Veil On</button>
-            <button onClick={liftVeil}>Lift Veil</button>
-            <button onClick={veilOff}>Veil Off</button>
-          </div>
-
-          <div className="top-ui-row">
-            <div className="reflections-trigger">
-              <div className="inspiration-panel">
-                <button className="inspo-btn" onClick={openReflections}>
-                  Reflections
-                </button>
-
-                <button className="inspo-btn" onClick={openQuoteDrawer}>
+              <button className="inspo-btn" onClick={openQuoteDrawer}>
                 Quote of the Day
-                </button>
-              </div>
+              </button>
             </div>
-
-            {/* Put DailyQuote RIGHT HERE */}
-            <DailyQuote
-              veilMode={veilMode}
-              weatherMood={weatherMood}
-              onQuoteReady={setCurrentQuote}
-            />
-
           </div>
-        </div>
 
-        {/* Drawers */}
-        <Drawer isOpen={isReflectionsOpen} onClose={closeReflections}>
-          <ShortReflectionsDrawer orbColor={orbColor}  />
-        </Drawer>
-        <Drawer isOpen={isQuoteOpen} onClose={closeQuoteDrawer}>
-          <QuoteDrawer quote={currentQuote} orbColor={orbColor} onClose={closeQuoteDrawer} />
-        </Drawer>
-
-        <div className="seasonal-header">
-          <h1 className="month-title">A Month of Light</h1>
-          <h2 className="date-subtitle">April 2026</h2>
-        </div>
-
-        <div style={{ marginBottom: "20px" }}>
-          <button
-            className={mode === "architectural" ? "selected" : ""}
-            onClick={() => setMode("architectural")}
-          >
-            Architectural
-          </button>
-          <button
-            className={mode === "water" ? "selected" : ""}
-            onClick={() => setMode("water")}
-          >
-            Water
-          </button>
-          <button
-            className={mode === "macro" ? "selected" : ""}
-            onClick={() => setMode("macro")}
-          >
-            Macro
-          </button>
-
-        </div>
-
-        <button
-          type="button"
-          className="global-mood-orb"
-          aria-label={`Change visual mode. Current mode: ${mode}`}
-          title={`Mode: ${mode}`}
-          onClick={cycleMode}
-        />
-
-        {isHomePage && (
-          <WeatherGlyph
-            condition={weatherCondition}
-            temperature={temperature}
-            location={weatherLocation}
-            timestamp={new Date().toISOString()}
+          <DailyQuote
+            veilMode={veilMode}
             weatherMood={weatherMood}
-            isNight={isNight}
-            weatherDescription={weatherDescription}
+            onQuoteReady={setCurrentQuote}
           />
-        )}
-
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Calendar
-                season={season}
-                isNight={isNight}
-                weatherCondition={weatherCondition}
-                weatherMood={weatherMood}
-                isHomePage={isHomePage}
-              />
-            }
-          />
-          <Route path="/dev/weather-glyph" element={<MockWeatherGlyph />} />
-          <Route path="/day/:date" element={<DayPage />} />
-        </Routes>
+        </div>
       </div>
 
-    </>
-  );
+      {/* Seasonal Header */}
+      <div className="seasonal-header">
+        <h1 className="month-title">A Month of Light</h1>
+        <h2 className="date-subtitle">April 2026</h2>
+      </div>
+
+      {/* Drawers */}
+      <Drawer isOpen={isReflectionsOpen} onClose={closeReflections}>
+        <ShortReflectionsDrawer
+          orbColor={orbColor}
+          weatherMood={weatherMood}
+          season={season}
+          onOpenActions={openActionsDrawer}
+          onOpenNotes={openNotesDrawer}
+          onClose={closeReflections}
+        />
+      </Drawer>
+
+      <Drawer isOpen={isQuoteOpen} onClose={closeQuoteDrawer}>
+        <QuoteDrawer
+          quote={currentQuote}
+          orbColor={orbColor}
+          onClose={closeQuoteDrawer}
+        />
+      </Drawer>
+
+      <Drawer isOpen={isActionsOpen} onClose={closeActionsDrawer}>
+        <QuietActionsDrawer
+          orbColor={orbColor}
+          onClose={closeActionsDrawer}
+        />
+      </Drawer>
+
+      <Drawer isOpen={isNotesOpen} onClose={closeNotesDrawer}>
+        <LightNotesDrawer
+          orbColor={orbColor}
+          onClose={closeNotesDrawer}
+        />
+      </Drawer>
+
+      {/* Mode Buttons */}
+      <div style={{ marginBottom: "20px" }}>
+        <button
+          className={mode === "architectural" ? "selected" : ""}
+          onClick={() => setMode("architectural")}
+        >
+          Architectural
+        </button>
+        <button
+          className={mode === "water" ? "selected" : ""}
+          onClick={() => setMode("water")}
+        >
+          Water
+        </button>
+        <button
+          className={mode === "macro" ? "selected" : ""}
+          onClick={() => setMode("macro")}
+        >
+          Macro
+        </button>
+      </div>
+
+      {/* Global Mood Orb */}
+      <button
+        type="button"
+        className="global-mood-orb"
+        aria-label={`Change visual mode. Current mode: ${mode}`}
+        title={`Mode: ${mode}`}
+        onClick={cycleMode}
+      />
+
+      {/* Weather Glyph */}
+      {isHomePage && (
+        <WeatherGlyph
+          condition={weatherCondition}
+          temperature={temperature}
+          location={weatherLocation}
+          timestamp={new Date().toISOString()}
+          weatherMood={weatherMood}
+          isNight={isNight}
+          weatherDescription={weatherDescription}
+        />
+      )}
+
+      {/* Routes */}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Calendar
+              season={season}
+              isNight={isNight}
+              weatherCondition={weatherCondition}
+              weatherMood={weatherMood}
+              isHomePage={isHomePage}
+            />
+          }
+        />
+        <Route path="/dev/weather-glyph" element={<MockWeatherGlyph />} />
+        <Route path="/day/:date" element={<DayPage />} />
+      </Routes>
+    </div>
+  </>
+);
 }
 
 function App() {

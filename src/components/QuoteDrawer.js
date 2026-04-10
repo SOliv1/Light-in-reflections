@@ -1,14 +1,15 @@
 
 export default function QuoteDrawer({ quote,orbColor, onClose,children }) {
   if (!quote) return null;
+    const orbRGB = orbColor.replace("rgb(", "").replace(")", "");
 
   return (
     <div className="quote-drawer-content">
       <div
-        className="reflections-drawer"
+        className="short-reflections-drawer"
         style={{
           '--orbColor': orbColor,
-          '--orbColorRGB': orbColor.replace('rgb(', '').replace(')', '')
+          '--orbColorRGB': orbRGB
         }}
       >
         {children}

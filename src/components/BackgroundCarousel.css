@@ -311,3 +311,201 @@ button {
     }
   }
 }
+
+/* -----------------------------------------------------------
+   CLOUDINARY BACKGROUND  STYLES
+   /* Base layer styling */
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  transition: opacity 1.8s ease, filter 1.8s ease;
+}
+
+/* When React sets the URL, fade in */
+.bg-layer.loaded {
+  opacity: 1;
+}
+
+/* Deep layer: soft, distant */
+.deep-layer {
+  filter: blur(12px) brightness(0.9);
+  transform: translateY(-2%);
+}
+
+/* Mid layer: moderate blur */
+.mid-layer {
+  filter: blur(6px) brightness(1);
+  transform: translateY(-1%);
+}
+
+/* Foreground layer: crisp, close */
+.foreground-layer {
+  filter: blur(2px) brightness(1.1);
+  transform: translateY(0);
+}
+
+/* Orb tint overlay */
+.background-carousel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: rgba(var(--orbColorRGB), 0.25);
+  mix-blend-mode: soft-light;
+
+  opacity: 0.8;
+  transition: background 0.6s ease, opacity 0.6s ease;
+}
+
+.background-carousel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(var(--orbColorRGB), 0.25);
+  mix-blend-mode: soft-light;
+  opacity: 0.8;
+  transition: background 0.6s ease, opacity 0.6s ease;
+}
+
+/* Sunny / clear → gentle tint */
+.background-carousel.mood-sunny::before {
+  opacity: 0.35;
+  background: rgba(var(--orbColorRGB), 0.18);
+}
+
+/* Cloudy → medium tint */
+.background-carousel.mood-cloudy::before {
+  opacity: 0.55;
+  background: rgba(var(--orbColorRGB), 0.28);
+}
+
+/* Rain → deeper tint */
+.background-carousel.mood-rain::before {
+  opacity: 0.75;
+  background: rgba(var(--orbColorRGB), 0.35);
+}
+
+/* Mist → soft, diffused tint */
+.background-carousel.mood-mist::before {
+  opacity: 0.65;
+  background: rgba(var(--orbColorRGB), 0.22);
+  filter: blur(4px);
+}
+
+/* Snow → cool, pale tint */
+.background-carousel.mood-snow::before {
+  opacity: 0.45;
+  background: rgba(var(--orbColorRGB), 0.15);
+}
+
+/* Storm → dramatic, cinematic tint */
+.background-carousel.mood-storm::before {
+  opacity: 0.95;
+  background: rgba(var(--orbColorRGB), 0.45);
+  mix-blend-mode: overlay;
+}
+
+/* Sunny → warm, bright */
+.background-carousel.mood-sunny .mid-layer,
+.background-carousel.mood-sunny .foreground-layer {
+  filter: hue-rotate(-10deg) brightness(1.1) saturate(1.15);
+}
+
+/* Cloudy → neutral */
+.background-carousel.mood-cloudy .mid-layer,
+.background-carousel.mood-cloudy .foreground-layer {
+  filter: brightness(0.95) saturate(0.9);
+}
+
+/* Rain → cool, blue-shifted */
+.background-carousel.mood-rain .mid-layer,
+.background-carousel.mood-rain .foreground-layer {
+  filter: hue-rotate(20deg) brightness(0.9) saturate(0.85);
+}
+
+/* Mist → soft, desaturated */
+.background-carousel.mood-mist .mid-layer,
+.background-carousel.mood-mist .foreground-layer {
+  filter: brightness(0.85) saturate(0.7) blur(2px);
+}
+
+/* Snow → cool, bright */
+.background-carousel.mood-snow .mid-layer,
+.background-carousel.mood-snow .foreground-layer {
+  filter: hue-rotate(15deg) brightness(1.15) saturate(0.8);
+}
+
+/* Storm → dark, high contrast */
+.background-carousel.mood-storm .mid-layer,
+.background-carousel.mood-storm .foreground-layer {
+  filter: brightness(0.7) contrast(1.2) saturate(1.1);
+}
+
+/* Spring → fresh green tint */
+.background-carousel.season-spring::before {
+  background: linear-gradient(
+    rgba(var(--orbColorRGB), 0.25),
+    rgba(120, 200, 140, 0.25)
+  );
+}
+
+/* Summer → warm golden tint */
+.background-carousel.season-summer::before {
+  background: linear-gradient(
+    rgba(var(--orbColorRGB), 0.25),
+    rgba(255, 200, 120, 0.25)
+  );
+}
+
+/* Autumn → amber tint */
+.background-carousel.season-autumn::before {
+  background: linear-gradient(
+    rgba(var(--orbColorRGB), 0.25),
+    rgba(210, 140, 60, 0.25)
+  );
+}
+
+/* Winter → cool blue tint */
+.background-carousel.season-winter::before {
+  background: linear-gradient(
+    rgba(var(--orbColorRGB), 0.25),
+    rgba(120, 160, 255, 0.25)
+  );
+}
+
+/* Seasonal and weather fog */
+
+/* Orb‑tinted fog layer */
+.background-carousel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: radial-gradient(
+    circle at 50% 60%,
+    rgba(var(--orbColorRGB), 0.22),
+    rgba(var(--orbColorRGB), 0.05) 60%,
+    transparent 100%
+  );
+
+  mix-blend-mode: screen;
+  opacity: 0.45;
+  filter: blur(40px);
+  animation: fog-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes fog-drift {
+  0%   { transform: translateY(0) translateX(0); }
+  100% { transform: translateY(-4%) translateX(2%); }
+}
+
+
+

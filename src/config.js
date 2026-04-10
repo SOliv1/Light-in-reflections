@@ -16,6 +16,7 @@ function getRuntimeFallbackUrls() {
   const isLocalHost =
     hostname === "localhost" ||
     hostname === "127.0.0.1" ||
+    hostname === "74.220.49.0/24" ||
     hostname === "[::1]";
 
   if (isLocalHost) {

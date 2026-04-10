@@ -1,18 +1,47 @@
+import { useState } from "react";
+import ReflectionsPanel from "./ReflectionsPanel";
+import "./Drawer.css";
 
 
-export default function ShortReflectionsDrawer({ orbColor, onClose }) {
+export default function ShortReflectionsDrawer({
+  orbColor,
+  weatherMood,
+  season,
+  onOpenActions,
+  onOpenNotes,
+  onClose
+}) {
+
+  const orbRGB = orbColor.replace("rgb(", "").replace(")", "");
+
   return (
-    <div className="short-reflections-drawer" style={{ '--orbColor': orbColor }}>
-      <button className="drawer-close-btn" onClick={onClose}>
-        Close
-      </button>
+    <div
+      className="short-reflections-drawer"
+      style={{
+        "--orbColor": orbColor,
+        "--orbColorRGB": orbRGB
+      }}
+    >
+      <button className="drawer-close-btn" onClick={onClose}>×</button>
+      <button className="drawer-close-text" onClick={onClose}>Close</button>
 
-      <h2 className="drawer-title">Short Reflections</h2>
+      <h3 className="panel-title">Short Reflections</h3>
+      <ReflectionsPanel weatherMood={weatherMood} season={season} />
 
-      <div className="drawer-buttons">
-        <button className="drawer-btn quiet-actions">Quiet Actions</button>
-        <button className="drawer-btn light-notes">Light Notes</button>
+
+      <div className="drawer-inner-buttons">
+        <button className="drawer-btn" onClick={onOpenActions}>
+          Quiet Actions
+        </button>
+
+        <button className="drawer-btn" onClick={onOpenNotes}>
+          Light Notes
+        </button>
       </div>
+
+
+      {/* Your reflections content here */}
     </div>
   );
 }
+
