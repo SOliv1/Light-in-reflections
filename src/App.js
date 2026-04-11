@@ -91,14 +91,16 @@ function AppShell() {
   const [mode, setMode] = useState("architectural");
   const [photos, setPhotos] = useState([]);
   const [veilMode, setVeilMode] = useState("off");
+  const [autoVeil, setAutoVeil] = useState(false);
   const [weatherCondition, setWeatherCondition] = useState(null);
   const [temperature, setTemperature] = useState(null);
   const [weatherDescription, setWeatherDescription] = useState(null);
   const [weatherLocation, setWeatherLocation] = useState("Local weather");
-
   const veilOn = () => setVeilMode("on");
   const liftVeil = () => setVeilMode("lift");
   const veilOff = () => setVeilMode("off");
+  
+
   const cycleMode = () => {
     const currentIndex = modes.indexOf(mode);
     const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % modes.length;
@@ -333,6 +335,9 @@ function AppShell() {
           <button onClick={veilOn}>Veil On</button>
           <button onClick={liftVeil}>Lift Veil</button>
           <button onClick={veilOff}>Veil Off</button>
+          <button onClick={() => setAutoVeil(!autoVeil)}>
+              {autoVeil ? "Manual Veil" : "Auto Veil"}
+          </button>
         </div>
 
         {/* Top UI Row */}

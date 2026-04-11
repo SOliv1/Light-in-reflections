@@ -100,8 +100,8 @@
 /* -----------------------------------------------------------
    VEIL SYSTEM — MERGED + CLEAN
 ----------------------------------------------------------- */
-
-#veil {
+/* Default twilight veil */
+.veil {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -112,30 +112,17 @@
   transform: translateZ(0);
   backface-visibility: hidden;
 }
-
-#veil .twilight-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  transition: opacity 0.6s ease, background 0.6s ease;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* Default veil */
-.veil-default {
-  opacity: 0.62;
-  background:
-    radial-gradient(circle at 50% 42%, var(--veil-center) 0%, color-mix(in srgb, var(--veil-center) 72%, transparent) 34%, var(--veil-edge) 100%),
-    linear-gradient(180deg, color-mix(in srgb, var(--veil-accent) 28%, transparent) 0%, var(--veil-accent) 100%);
-  mix-blend-mode: screen;
-}
-
 .veil-default .twilight-overlay {
   opacity: 0.62;
   background:
     radial-gradient(circle at 50% 42%, var(--veil-center) 0%, color-mix(in srgb, var(--veil-center) 72%, transparent) 34%, var(--veil-edge) 100%),
     linear-gradient(180deg, color-mix(in srgb, var(--veil-accent) 28%, transparent) 0%, var(--veil-accent) 100%);
+}
+
+/* Blue-hour veil (cooler, deeper) */
+.veil.blue-hour {
+  background: rgba(10, 20, 40, 0.55); /* blue‑black twilight */
+  backdrop-filter: blur(3px);
 }
 
 /* Lift veil */
@@ -154,6 +141,13 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, color-mix(in srgb, var(--veil-accent) 78%, transparent) 100%) !important;
 }
 
+/* Night veil (optional) */
+.veil.night {
+  background: rgba(0, 0, 0, 0.70);
+  backdrop-filter: blur(4px);
+}
+
+
 /* No veil */
 .veil-none {
   opacity: 0 !important;
@@ -161,7 +155,7 @@
   mix-blend-mode: normal !important;
 }
 
-#veil.veil-none {
+.veil.veil-none {
   opacity: 0 !important;
   background: none !important;
   mix-blend-mode: normal !important;
