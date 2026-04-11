@@ -21,11 +21,20 @@ const MOOD_CLASS_MAP = {
 };
 
 // ------------------------------------------------------------
-// CORRECT CLOUDINARY RANDOMIZER
+// BACKEND RANDOMIZER (Express + Cloudinary Search API)
 // ------------------------------------------------------------
-function getRandomCloudinary(folder) {
-  return `https://res.cloudinary.com/dwpvbtoad/image/upload/fl_random/${folder}/`;
+
+async function getRandomFromServer(folder) {
+  try {
+    const res = await fetch(`http://localhost:5000/random-image?folder=${folder}`);
+    const data = await res.json();
+    return data.url || null;
+  } catch (err) {
+    console.error("Randomizer backend error:", err);
+    return null;
+  }
 }
+
 
 export default function BackgroundCarousel({
   photos,
@@ -36,15 +45,15 @@ export default function BackgroundCarousel({
 }) {
   const [index, setIndex] = useState(0);
 
-  // Atmospheric layers
   const [deepLayer, setDeepLayer] = useState(null);
-
   const [midLayer, setMidLayer] = useState(null);
   const [foregroundLayer, setForegroundLayer] = useState(null);
 
   const hasPhotos = Array.isArray(photos) && photos.length > 0;
 
+  // ------------------------------------------------------------
   // Rotate DB photos
+  // ------------------------------------------------------------
   useEffect(() => {
     if (!hasPhotos) {
       setIndex(0);
@@ -58,17 +67,21 @@ export default function BackgroundCarousel({
     return () => clearInterval(interval);
   }, [hasPhotos, photos]);
 
-  // Load Cloudinary atmospheric layers
+  // ------------------------------------------------------------
+  // Load Cloudinary atmospheric layers (via backend)
+  // ------------------------------------------------------------
   useEffect(() => {
-    // Deep background (always reflections)
-    setDeepLayer(getRandomCloudinary("reflections"));
+    async function loadLayers() {
+      const deep = await getRandomFromServer("reflections");
+      const mid = await getRandomFromServer(season ? season.toLowerCase() : "spring");
+      const fg = await getRandomFromServer("textures");
 
-    // Mid-layer (seasonal folder if exists, otherwise spring)
-    const seasonalFolder = season ? season.toLowerCase() : "spring";
-    setMidLayer(getRandomCloudinary(seasonalFolder));
+      setDeepLayer(deep);
+      setMidLayer(mid);
+      setForegroundLayer(fg);
+    }
 
-    // Foreground shimmer (textures)
-    setForegroundLayer(getRandomCloudinary("textures"));
+    loadLayers();
   }, [season, weatherMood]);
 
   const veilClassName = VEIL_CLASS_MAP[veilMode] || VEIL_CLASS_MAP.on;
@@ -82,50 +95,32 @@ export default function BackgroundCarousel({
       {/* Deep atmospheric layer */}
       {deepLayer && (
         <div
-          className="bg-layer deep-layer"
+          className="bg-layer deep-layer loaded"
           style={{ backgroundImage: `url(${deepLayer})` }}
         />
       )}
 
-      <div
-        className={`bg-layer deep-layer ${deepLayer ? "loaded" : ""}`}
-        style={{ backgroundImage: `url(${deepLayer})` }}
-      />
-
       {/* Mid-layer */}
       {midLayer && (
         <div
-          className="bg-layer mid-layer"
+          className="bg-layer mid-layer loaded"
           style={{ backgroundImage: `url(${midLayer})` }}
         />
       )}
 
-      <div
-        className={`mid-layer mid-layer ${midLayer ? "loaded" : ""}`}
-        style={{ backgroundImage: `url(${midLayer})` }}
-      />
-
       {/* Weather image layer */}
       {weatherImage && (
         <div
-          className="weather-image"
+          className="weather-image loaded"
           style={{ backgroundImage: `url(${weatherImage})` }}
         />
       )}
 
-      <div
-        className={`weather-image ${weatherImage ? "loaded" : ""}`}
-        style={{ backgroundImage: `url(${weatherImage})` }}
-      />
       {weatherMood === "rain" && <div className="rain-layer" />}
       {weatherMood === "snow" && <div className="snow-layer" />}
       {weatherMood === "mist" && <div className="mist-layer" />}
       {weatherMood === "storm" && <div className="lightning-flash" />}
       {season === "autumn" && <div className="embers" />}
-
-
-
-
 
       {/* DB photos */}
       {hasPhotos &&
@@ -143,7 +138,7 @@ export default function BackgroundCarousel({
       {/* Foreground shimmer */}
       {foregroundLayer && (
         <div
-          className="bg-layer foreground-layer"
+          className="bg-layer foreground-layer loaded"
           style={{ backgroundImage: `url(${foregroundLayer})` }}
         />
       )}
@@ -153,4 +148,3 @@ export default function BackgroundCarousel({
     </div>
   );
 }
-
