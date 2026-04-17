@@ -13,12 +13,8 @@ import useWeatherPhotos from "./hooks/useWeatherPhotos";
 import DayPage from "./pages/DayPage";
 import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
 import DailyQuote from "./components/DailyQuote";
-import QuietActionsDrawer from "./components/QuietActionsDrawer";
 import "./styles/DrawerUnified.css";
-import ShortReflectionsDrawer from "./components/ShortReflectionsDrawer";
-import Drawer from "./components/Drawer";
-import QuoteDrawer from "./components/QuoteDrawer";
-import LightNotesDrawer from "./components/LightNotesDrawer";
+import UnifiedDrawer from "./components/UnifiedDrawer";
 
 
 function normalizeWeatherClass(condition = "unknown") {
@@ -268,22 +264,13 @@ function AppShell() {
   // App.js or HomePage.js
   const [orbColor, setOrbColor] = useState('#8ab4f8'); // example default
 
-  const [isReflectionsOpen, setReflectionsOpen] = useState(false);
-  const [isQuoteOpen, setQuoteOpen] = useState(false);
-
-  const openReflections = () => setReflectionsOpen(true);
-  const closeReflections = () => setReflectionsOpen(false);
-
-  const openQuoteDrawer = () => setQuoteOpen(true);
-  const closeQuoteDrawer = () => setQuoteOpen(false);
-  const [currentQuote, setCurrentQuote] = useState(null);
-  const [isActionsOpen, setActionsOpen] = useState(false);
-  const openActionsDrawer = () => setActionsOpen(true);
-  const closeActionsDrawer = () => setActionsOpen(false);
-
-  const [isNotesOpen, setNotesOpen] = useState(false);
-  const openNotesDrawer = () => setNotesOpen(true);
-  const closeNotesDrawer = () => setNotesOpen(false);
+  const [isUnifiedDrawerOpen, setUnifiedDrawerOpen] = useState(false);
+  const [drawerInitialTab, setDrawerInitialTab] = useState("reflections");
+  const openUnifiedDrawer = (tab) => {
+    setDrawerInitialTab(tab);
+    setUnifiedDrawerOpen(true);
+  };
+  const closeUnifiedDrawer = () => setUnifiedDrawerOpen(false);
 
   // When mode changes:
   useEffect(() => {
@@ -344,11 +331,11 @@ function AppShell() {
         <div className="top-ui-row">
           <div className="reflections-trigger">
             <div className="inspiration-panel">
-              <button className="inspo-btn" onClick={openReflections}>
+              <button className="inspo-btn" onClick={() => openUnifiedDrawer("reflections")}>
                 Reflections
               </button>
 
-              <button className="inspo-btn" onClick={openQuoteDrawer}>
+              <button className="inspo-btn" onClick={() => openUnifiedDrawer("quote")}>
                 Quote of the Day
               </button>
             </div>
@@ -357,7 +344,6 @@ function AppShell() {
           <DailyQuote
             veilMode={veilMode}
             weatherMood={weatherMood}
-            onQuoteReady={setCurrentQuote}
           />
         </div>
       </div>
@@ -369,38 +355,18 @@ function AppShell() {
       </div>
 
       {/* Drawers */}
-      <Drawer isOpen={isReflectionsOpen} onClose={closeReflections}>
-        <ShortReflectionsDrawer
-          orbColor={orbColor}
-          weatherMood={weatherMood}
-          season={season}
-          onOpenActions={openActionsDrawer}
-          onOpenNotes={openNotesDrawer}
-          onClose={closeReflections}
-        />
-      </Drawer>
-
-      <Drawer isOpen={isQuoteOpen} onClose={closeQuoteDrawer}>
-        <QuoteDrawer
-          quote={currentQuote}
-          orbColor={orbColor}
-          onClose={closeQuoteDrawer}
-        />
-      </Drawer>
-
-      <Drawer isOpen={isActionsOpen} onClose={closeActionsDrawer}>
-        <QuietActionsDrawer
-          orbColor={orbColor}
-          onClose={closeActionsDrawer}
-        />
-      </Drawer>
-
-      <Drawer isOpen={isNotesOpen} onClose={closeNotesDrawer}>
-        <LightNotesDrawer
-          orbColor={orbColor}
-          onClose={closeNotesDrawer}
-        />
-      </Drawer>
+      <UnifiedDrawer
+        isOpen={isUnifiedDrawerOpen}
+        onClose={closeUnifiedDrawer}
+        season={season}
+        weatherMood={weatherMood}
+        veilMode={veilMode}
+        onVeilOn={veilOn}
+        onVeilLift={liftVeil}
+        onVeilOff={veilOff}
+        orbColor={orbColor}
+        initialTab={drawerInitialTab}
+      />
 
       {/* Mode Buttons */}
       <div style={{ marginBottom: "20px" }}>
