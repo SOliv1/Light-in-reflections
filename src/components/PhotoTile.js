@@ -12,6 +12,15 @@ export default function PhotoTile({
 }) {
   const tileRef = useRef(null);
 
+  // ⭐ GIF-safe Cloudinary URL helper
+  const getSafeUrl = (url) => {
+    if (!url) return url;
+    if (url.toLowerCase().endsWith(".gif")) {
+      return url; // preserve animation
+    }
+    return url.replace("/upload/", "/upload/f_auto,q_auto/");
+  };
+
   const seasonalGlow = {
     winter: "#7fc8ff",
     spring: "#ff8fb1",
@@ -41,27 +50,19 @@ export default function PhotoTile({
     <div
       ref={tileRef}
       className="photo-tile"
-
-      // ⭐ HOVER — soft awareness glow + colour invitation
       onMouseEnter={() => {
         if (onApproachPortal) {
           onApproachPortal(photo);
         }
         document.body.classList.add("portal-hovering");
       }}
-
       onMouseLeave={() => {
         document.body.classList.remove("portal-hovering");
       }}
-
-      // ⭐ CLICK — dramatic glow, then modal opens after 350ms
       onClick={(e) => {
-        // First: notify the Portal immediately
         if (onApproachPortal) {
           onApproachPortal(photo);
         }
-
-        // Then: delay the modal so the glow is visible
         if (onClick) {
           setTimeout(() => onClick(e), 350);
         }
@@ -69,7 +70,7 @@ export default function PhotoTile({
     >
 
       <img
-        src={img.src}
+        src={getSafeUrl(img.url || img.src)}   // ⭐ apply safe URL here
         alt={img.alt}
         className="photo-tile-image"
         loading="lazy"
