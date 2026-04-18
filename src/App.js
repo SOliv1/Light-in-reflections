@@ -15,6 +15,11 @@ import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
 import DailyQuote from "./components/DailyQuote";
 import "./styles/DrawerUnified.css";
 import UnifiedDrawer from "./components/UnifiedDrawer";
+import {
+  moodImageFilter,
+  moodImageOverlay,
+  seasonalBorderGlow,
+} from "./utils/seasonalMoodStyles";
 
 
 function normalizeWeatherClass(condition = "unknown") {
@@ -95,7 +100,7 @@ function AppShell() {
   const veilOn = () => setVeilMode("on");
   const liftVeil = () => setVeilMode("lift");
   const veilOff = () => setVeilMode("off");
-  
+
 
   const cycleMode = () => {
     const currentIndex = modes.indexOf(mode);
@@ -261,8 +266,7 @@ function AppShell() {
   const backgroundImage = useWeatherPhotos(isHomePage);
   const weatherMood = weatherCondition || "neutral";
 
-  // App.js or HomePage.js
-  const [orbColor, setOrbColor] = useState('#8ab4f8'); // example default
+  const [orbColor, setOrbColor] = useState("#8ab4f8");
 
   const [isUnifiedDrawerOpen, setUnifiedDrawerOpen] = useState(false);
   const [drawerInitialTab, setDrawerInitialTab] = useState("reflections");
@@ -271,13 +275,21 @@ function AppShell() {
     setUnifiedDrawerOpen(true);
   };
   const closeUnifiedDrawer = () => setUnifiedDrawerOpen(false);
+  const openReflections = () => openUnifiedDrawer("reflections");
+  const openQuoteDrawer = () => openUnifiedDrawer("quote");
 
-  // When mode changes:
   useEffect(() => {
-    if (mode === 'architectural') setOrbColor('#e3b57a');
-    if (mode === 'water') setOrbColor('#7ac6ff');
-    if (mode === 'macro') setOrbColor('#d88cff');
+    if (mode === "architectural") setOrbColor("#e3b57a");
+    if (mode === "water") setOrbColor("#7ac6ff");
+    if (mode === "macro") setOrbColor("#d88cff");
   }, [mode]);
+
+  const inspirationPanelStyle = {
+    "--season-glow": seasonalBorderGlow[season],
+    "--mood-overlay": moodImageOverlay[weatherMood] || "rgba(255, 255, 255, 0.08)",
+    "--mood-filter": moodImageFilter[weatherMood] || "none",
+    "--season-text": "white",
+  };
 
 
   return (
@@ -299,15 +311,15 @@ function AppShell() {
         <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
       </Link>
 
-      {!isHomePage ? (
+      {!isHomePage && (
         <Link
           to="/"
           className="crescent-portal app-home-orb"
           aria-label="Return home"
         />
-      ) : null}
+      )}
 
-      {isHomePage ? (
+      {isHomePage && (
         <BackgroundCarousel
           photos={photos}
           veilMode={veilMode}
@@ -315,7 +327,7 @@ function AppShell() {
           weatherMood={weatherMood}
           season={season}
         />
-      ) : null}
+      )}
 
       <div className="veil-controls-wrapper">
         <div className="veil-controls">
@@ -323,28 +335,28 @@ function AppShell() {
           <button onClick={liftVeil}>Lift Veil</button>
           <button onClick={veilOff}>Veil Off</button>
           <button onClick={() => setAutoVeil(!autoVeil)}>
-              {autoVeil ? "Manual Veil" : "Auto Veil"}
+            {autoVeil ? "Manual Veil" : "Auto Veil"}
           </button>
         </div>
 
         {/* Top UI Row */}
         <div className="top-ui-row">
           <div className="reflections-trigger">
-            <div className="inspiration-panel">
-              <button className="inspo-btn" onClick={() => openUnifiedDrawer("reflections")}>
+            <div
+              className="inspiration-panel"
+              style={inspirationPanelStyle}
+            >
+              <button className="inspiration-btn" onClick={openReflections}>
                 Reflections
               </button>
 
-              <button className="inspo-btn" onClick={() => openUnifiedDrawer("quote")}>
+              <button className="inspiration-btn" onClick={openQuoteDrawer}>
                 Quote of the Day
               </button>
             </div>
           </div>
 
-          <DailyQuote
-            veilMode={veilMode}
-            weatherMood={weatherMood}
-          />
+          <DailyQuote veilMode={veilMode} weatherMood={weatherMood} />
         </div>
       </div>
 
@@ -431,10 +443,10 @@ function AppShell() {
       </Routes>
     </div>
   </>
-);
+  );
 }
 
-function App() {
+export default function App() {
   return (
     <Router>
       <AppShell />
@@ -442,4 +454,3 @@ function App() {
   );
 }
 
-export default App;
