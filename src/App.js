@@ -20,7 +20,7 @@ import {
   moodImageOverlay,
   seasonalBorderGlow,
 } from "./utils/seasonalMoodStyles";
-
+import PortalDisplay from "./components/portal/PortalDisplay";
 
 function normalizeWeatherClass(condition = "unknown") {
   const value = String(condition).toLowerCase();
@@ -267,6 +267,9 @@ function AppShell() {
   const weatherMood = weatherCondition || "neutral";
 
   const [orbColor, setOrbColor] = useState("#8ab4f8");
+  const [portalMood, setPortalMood] = useState("reset");
+
+
 
   const [isUnifiedDrawerOpen, setUnifiedDrawerOpen] = useState(false);
   const [drawerInitialTab, setDrawerInitialTab] = useState("reflections");
@@ -291,19 +294,23 @@ function AppShell() {
     "--season-text": "white",
   };
 
-
   return (
   <>
     <div className="sky-wrapper">
       <Constellation veilMode={veilMode} birthdayMode={isBirthdayScene} />
-      <Portal
-        type="mood"
-        dayIndex={1}
-        season={season}
-        mood={weatherMood}
-        cueText=""
-        weatherMood={weatherMood}
-      />
+        <Portal
+          type="mood"
+          dayIndex={1}
+          season={season}
+          mood={portalMood}        // use the shared mood state
+          setMood={setPortalMood}  // ⭐ this is the missing piece
+          cueText=""
+          weatherMood={weatherMood}
+        >
+          <PortalDisplay mood={portalMood} season={season} />
+        </Portal>
+
+
     </div>
 
     <div className={`App mode-${mode} time-${timeOfDay}`}>
@@ -453,4 +460,3 @@ export default function App() {
     </Router>
   );
 }
-

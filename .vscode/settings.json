@@ -1,0 +1,15 @@
+{
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/build-verify": true,
+    "**/build-verify-carousel": true,
+    "**/build-verify-mobile": true,
+    "**/build-verify-orb": true,
+    "**/build-verify-sun": true,
+    "**/build-verify-weather": true
+  },
+  "files.exclude": {
+    "**/node_modules": true
+  }
+}

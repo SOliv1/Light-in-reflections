@@ -8,6 +8,7 @@
   overflow: visible;
 
 }
+
 .app-background {
   position: fixed;
   inset: 0;
@@ -34,7 +35,8 @@ body {
   margin: 0;
   width: 100%;
   overflow-x: hidden;
-  background: transparent; /* important */
+  background: transparent;
+  /* important */
   z-index: 1;
 }
 
@@ -90,6 +92,17 @@ body {
   overflow: hidden;
   z-index: 6;
   pointer-events: none;
+  isolation: isolate;
+}
+
+.sky-wrapper .portal-container {
+  pointer-events: auto;
+}
+
+.sky-wrapper .portal-container--expanded,
+.sky-wrapper .portal-container--expanded .portal,
+.sky-wrapper .portal-container--expanded .portal__core {
+  z-index: 20050 !important;
 }
 
 .crescent-portal {
@@ -199,7 +212,7 @@ body {
   transition: background 0.45s ease, opacity 0.45s ease;
 }
 
-.birthday-stage > * {
+.birthday-stage>* {
   position: relative;
   z-index: 1;
 }
@@ -878,6 +891,7 @@ button:hover {
 /* ==== MOBILE FIRST ==== */
 
 @media (max-width: 600px) {
+
   .photo-gallery img,
   .photo-gallery * img,
   .photo-grid img,
@@ -1002,7 +1016,8 @@ button:hover {
   }
 }
 
-@media (max-width: 380px), (max-height: 700px) {
+@media (max-width: 380px),
+(max-height: 700px) {
   .weather-orb {
     transform: scale(0.82);
     transform-origin: center top;
@@ -1035,7 +1050,8 @@ button:hover {
   }
 }
 
-@media (max-width: 380px), (max-height: 700px) {
+@media (max-width: 380px),
+(max-height: 700px) {
   .sky-wrapper {
     min-height: clamp(230px, 35vh, 282px);
   }
@@ -1145,12 +1161,10 @@ button:hover {
   left: -120%;
   width: 80%;
   height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.25),
-    transparent
-  );
+  background: linear-gradient(120deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent);
   transform: skewX(-20deg);
   transition: 0.6s;
 }

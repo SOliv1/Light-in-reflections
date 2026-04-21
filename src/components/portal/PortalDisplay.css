@@ -1,0 +1,55 @@
+.portal-display {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    z-index: 20;
+    opacity: 0.98;
+    isolation: isolate;
+}
+
+.portal-display__backdrop {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: min(72%, 76px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            var(--portal-display-backdrop, rgba(214, 224, 255, 0.18)) 0%,
+            rgba(255, 255, 255, 0.08) 42%,
+            rgba(255, 255, 255, 0) 78%);
+    box-shadow:
+        0 0 20px var(--portal-display-ring, rgba(220, 230, 255, 0.18)),
+        inset 0 0 18px rgba(255, 255, 255, 0.06);
+    filter: blur(0.2px);
+    z-index: -1;
+}
+
+.portal-display__time {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.4ch;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.35rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    color: var(--portal-time-color, rgba(255, 255, 255, 0.92));
+    text-align: center;
+    text-shadow:
+        0 0 12px rgba(0, 0, 0, 0.28),
+        0 0 18px color-mix(in srgb, var(--portal-time-color, rgba(255, 255, 255, 0.9)) 28%, rgba(255, 255, 255, 0.12));
+    transition: color 0.45s ease, text-shadow 0.45s ease, font-size 0.45s ease;
+}
+
+.portal--expanded .portal-display__time {
+    font-size: 2.25rem;
+}
+
+.portal--expanded .portal-display__backdrop {
+    width: min(76%, 88px);
+}
