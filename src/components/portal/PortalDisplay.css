@@ -1,4 +1,4 @@
-.portal-display {
+/*.portal-display {
     position: absolute;
     inset: 0;
     display: grid;
@@ -7,6 +7,14 @@
     z-index: 20;
     opacity: 0.98;
     isolation: isolate;
+} */
+
+.portal-display {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
 }
 
 .portal-display__backdrop {

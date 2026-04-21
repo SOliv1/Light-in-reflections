@@ -300,6 +300,7 @@ function AppShell() {
       <Constellation veilMode={veilMode} birthdayMode={isBirthdayScene} />
         <Portal
           type="mood"
+          className="portal--orb"
           dayIndex={1}
           season={season}
           mood={portalMood}        // use the shared mood state

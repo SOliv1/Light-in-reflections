@@ -71,6 +71,7 @@
 
 /* Mobile fallback */
 @supports not (height: 100dvh) {
+
   .weather-image,
   .bg-image {
     height: 100vh;
@@ -78,6 +79,7 @@
 }
 
 @media (max-width: 768px) {
+
   .weather-image,
   .bg-image {
     width: 100vw;
@@ -88,6 +90,7 @@
 
 @supports not (height: 100svh) {
   @media (max-width: 768px) {
+
     .weather-image,
     .bg-image {
       height: 100vh;
@@ -112,6 +115,7 @@
   transform: translateZ(0);
   backface-visibility: hidden;
 }
+
 .veil-default .twilight-overlay {
   opacity: 0.62;
   background:
@@ -121,7 +125,8 @@
 
 /* Blue-hour veil (cooler, deeper) */
 .veil.blue-hour {
-  background: rgba(10, 20, 40, 0.55); /* blue‑black twilight */
+  background: rgba(10, 20, 40, 0.55);
+  /* blue‑black twilight */
   backdrop-filter: blur(3px);
 }
 
@@ -149,31 +154,32 @@
 
 
 /* No veil */
-.veil-none {
+.veil-off {
   opacity: 0 !important;
   background: none !important;
   mix-blend-mode: normal !important;
 }
 
-.veil.veil-none {
+.veil.veil-off .twilight-overlay {
   opacity: 0 !important;
   background: none !important;
   mix-blend-mode: normal !important;
 }
 
-.veil-none.background-carousel {
+.veil-off.background-carousel {
   opacity: 1 !important;
 }
 
 /* Mobile veil transitions */
 @media (max-width: 768px) {
+
   #veil,
   #veil .twilight-overlay {
     transition: opacity 0.45s ease, background 0.45s ease;
   }
 
-  .veil-default,
-  .veil-default .twilight-overlay {
+  .veil-on,
+  .veil-on .twilight-overlay {
     opacity: 0.56;
   }
 
@@ -343,12 +349,10 @@
   inset: 0;
   pointer-events: none;
 
-  background: radial-gradient(
-    circle at 50% 60%,
-    rgba(var(--orbColorRGB), 0.22),
-    rgba(var(--orbColorRGB), 0.05) 60%,
-    transparent 100%
-  );
+  background: radial-gradient(circle at 50% 60%,
+      rgba(var(--orbColorRGB), 0.22),
+      rgba(var(--orbColorRGB), 0.05) 60%,
+      transparent 100%);
 
   mix-blend-mode: screen;
   opacity: 0.45;
@@ -357,8 +361,13 @@
 }
 
 @keyframes fog-drift {
-  0%   { transform: translateY(0) translateX(0); }
-  100% { transform: translateY(-4%) translateX(2%); }
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+
+  100% {
+    transform: translateY(-4%) translateX(2%);
+  }
 }
 
 /* -----------------------------------------------------------
@@ -366,6 +375,7 @@
 ----------------------------------------------------------- */
 
 @supports not (height: 100dvh) {
+
   .weather-image,
   .bg-image {
     height: 100vh;
@@ -390,8 +400,8 @@
     transition: opacity 0.45s ease, background 0.45s ease;
   }
 
-  .veil-default,
-  .veil-default .twilight-overlay {
+  .veil-on,
+  .veil-on .twilight-overlay {
     opacity: 0.56;
   }
 
@@ -403,6 +413,7 @@
 
 @supports not (height: 100svh) {
   @media (max-width: 768px) {
+
     .background-carousel,
     .weather-image,
     .bg-image {

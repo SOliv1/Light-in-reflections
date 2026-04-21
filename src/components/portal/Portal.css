@@ -98,14 +98,23 @@
   overflow: hidden;
 }
 
-.portal__content {
+/*.portal__content {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 16;
+} */
+
+.portal__content {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
 }
+
 
 /* Center the time inside the core orb */
 .portal__core .portal-time {
@@ -132,12 +141,60 @@
 /* Crescent highlight */
 .portal__crescent {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5), transparent 60%);
-  transform: translateX(18%);
+  pointer-events: none;
+
+  /* Centre the glow inside the crescent */
+  background: radial-gradient(circle at 50% 50%,
+      var(--portal-crescent, rgba(255, 255, 255, 0.5)),
+      transparent 60%);
+
   filter: saturate(0.92) brightness(1.04);
 }
+
+/*
+.portal__crescent::before {
+  mask-position: center;
+  -webkit-mask-position: center;
+}*/
+
+.portal--season-spring .portal__crescent {
+  --crescent-hue: rgba(180, 255, 210, 0.55);
+  --crescent-shift: 48% 42%;
+}
+
+.portal--season-summer .portal__crescent {
+  --crescent-hue: rgba(255, 240, 180, 0.55);
+  --crescent-shift: 52% 38%;
+}
+
+.portal--season-autumn .portal__crescent {
+  --crescent-hue: rgba(255, 200, 150, 0.55);
+  --crescent-shift: 46% 44%;
+}
+
+.portal--season-winter .portal__crescent {
+  --crescent-hue: rgba(200, 230, 255, 0.55);
+  --crescent-shift: 50% 50%;
+}
+
+.portal--mood-calm .portal__crescent {
+  --crescent-hue: rgba(180, 220, 255, 0.45);
+}
+
+.portal--mood-natural .portal__crescent {
+  --crescent-hue: rgba(170, 255, 200, 0.55);
+}
+
+.portal--mood-storm .portal__crescent {
+  --crescent-hue: rgba(120, 160, 220, 0.35);
+}
+
 
 /* Shimmer sweep */
 .portal__shimmer {
@@ -744,6 +801,7 @@
   font-style: italic;
   transition: opacity 0.4s ease;
 }
+
 
 
 /* -------------------------------------------------- */

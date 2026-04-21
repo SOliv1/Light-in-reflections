@@ -116,10 +116,28 @@ body {
   pointer-events: auto;
 }
 
+.portal--orb {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: visible;
+}
+
+.portal--orb.portal--seasonal {
+  width: 96px !important;
+  height: 96px !important;
+  border-radius: 50% !important;
+}
+
+.portal--orb.portal--seasonal::before,
+.portal--orb.portal--seasonal .portal__core::after {
+  display: none;
+}
+
+
 .app-home-orb {
   filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.38));
 }
-
 
 
 .crescent-portal:hover {
@@ -480,7 +498,6 @@ body {
 .accent-line {
   border-color: var(--mode-accent);
 }
-
 
 
 button {
