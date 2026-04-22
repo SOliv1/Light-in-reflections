@@ -3,6 +3,8 @@
 
 ## View the Reflections Project [Here](https://reflections-in-light.onrender.com/)
 
+![Inspo home cinematic banner](Inspo-home-cinematic-banner.png)
+
 ## Deployment Notes
 
 For stable mobile deployment with a Netlify frontend and Render API:
