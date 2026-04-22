@@ -14,6 +14,16 @@ src/dev-only/
 # production
 .build
 
+# build snapshot folders (Render builds from source — these are never needed in git)
+build-verify/
+build-verify-*/
+
+# mongodb playground scratch files
+playground-*.mongodb.js
+
+# misnamed vscode folder
+cUserssoliv*
+
 # misc
 .DS_Store
 .env.local
