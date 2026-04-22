@@ -3,6 +3,7 @@
 ## View the Reflections Project [Here](https://reflections-in-light.onrender.com/)
 
 ![Reflections in Light banner](https://github.com/user-attachments/assets/dffedefd-3c06-4268-bcea-8ebad2ac1b56)
+[View the image and others & credit here on Unsplash](https://unsplash.com/photos/an-open-door-in-the-middle-of-a-field-of-flowers-2GjUCqsN3pg)
 
 ## Deployment Notes
 
