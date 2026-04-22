@@ -3,7 +3,7 @@
 
 ## View the Reflections Project [Here](https://reflections-in-light.onrender.com/)
 
-![Inspo home cinematic banner](Inspo-home-cinematic-banner.png)
+![Reflections in Light banner](https://github.com/user-attachments/assets/dffedefd-3c06-4268-bcea-8ebad2ac1b56)
 
 ## Deployment Notes
 
