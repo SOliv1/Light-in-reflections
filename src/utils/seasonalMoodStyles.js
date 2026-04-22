@@ -6,6 +6,7 @@ export const seasonalBorderGlow = {
 };
 
 export const moodImageFilter = {
+  // Personal mood themes (portal / birthday experience)
   "warm-spotlight": "sepia(0.38) saturate(1.24) brightness(1.1) contrast(1.04) hue-rotate(-10deg)",
   "blue-hour": "brightness(0.9) saturate(0.78) contrast(1.08) hue-rotate(-22deg)",
   "dress-rehearsal": "brightness(1.05) saturate(0.9) contrast(0.98) hue-rotate(8deg)",
@@ -16,6 +17,16 @@ export const moodImageFilter = {
   stormy: "brightness(0.82) saturate(0.7) contrast(1.16) hue-rotate(-32deg)",
   reflective: "brightness(0.92) saturate(0.82) hue-rotate(-12deg)",
   natural: "none",
+  // Weather mood dimming filters — applied to bg-image/weather-image when veil is ON
+  // These compensate for bright mood variants so images stay well-toned.
+  sunny:   "brightness(0.84) saturate(1.04)",
+  cloudy:  "brightness(0.90) saturate(0.97) contrast(0.98)",
+  rain:    "brightness(0.87) saturate(1.0)",
+  storm:   "brightness(0.80) saturate(0.88) contrast(1.06)",
+  mist:    "brightness(0.86) saturate(0.90)",
+  snow:    "brightness(0.83) saturate(0.92)",
+  neutral: "brightness(0.88)",
+  unknown: "brightness(0.88)",
 };
 
 export const moodImageOverlay = {

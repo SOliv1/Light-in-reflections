@@ -34,7 +34,7 @@
   border: 1px solid var(--quote-stroke);
 
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 56%),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.22), transparent 56%),
     color-mix(in srgb, var(--orbColor) 22%, var(--quote-glass));
 
   box-shadow:
@@ -70,7 +70,7 @@
 
 /* Veil states */
 .daily-quote.veil-on {
-  opacity: 0.72;
+  opacity: 0.88;
   transform: translateX(-50%) translateY(8px) scale(0.99);
 }
 
@@ -80,8 +80,8 @@
 }
 
 .daily-quote.veil-off {
-  opacity: 0;
-  transform: translateX(-50%) translateY(-10px) scale(0.98);
+  opacity: 0.72;
+  transform: translateX(-50%) translateY(4px) scale(0.99);
 }
 
 /* ------------------------------
@@ -111,8 +111,9 @@
   text-wrap: balance;
 
   text-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.26),
-    0 2px 14px rgba(0, 0, 0, 0.28);
+    0 1px 6px rgba(0, 0, 0, 0.55),
+    0 2px 18px rgba(0, 0, 0, 0.48),
+    0 0 32px rgba(0, 0, 0, 0.22);
 }
 
 /* ------------------------------
@@ -147,8 +148,8 @@
   color: var(--quote-author);
 
   text-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.22),
-    0 0 12px rgba(0, 0, 0, 0.14);
+    0 1px 5px rgba(0, 0, 0, 0.45),
+    0 0 16px rgba(0, 0, 0, 0.28);
 }
 
 /* Soft divider line above author */
@@ -170,11 +171,11 @@
    ------------------------------ */
 .daily-quote.mood-sunny {
   --quote-ambient-tint: rgba(255, 224, 175, 0.42);
-  --quote-glass: rgba(92, 63, 27, 0.34);
+  --quote-glass: rgba(92, 63, 27, 0.52);
   --quote-stroke: rgba(255, 229, 192, 0.34);
-  --quote-shadow: rgba(118, 76, 28, 0.24);
-  --quote-text-surface: rgba(88, 54, 22, 0.58);
-  --quote-author-surface: rgba(77, 48, 20, 0.54);
+  --quote-shadow: rgba(118, 76, 28, 0.32);
+  --quote-text-surface: rgba(88, 54, 22, 0.72);
+  --quote-author-surface: rgba(77, 48, 20, 0.68);
   --quote-author: rgba(255, 247, 231, 0.98);
 }
 
@@ -197,12 +198,14 @@
 /* Lower the entire quote system */
 .daily-quote-stage {
   position: relative;
-  z-index: 20; /* BELOW orb, weather glyph, header */
+  z-index: 20;
+  /* BELOW orb, weather glyph, header */
 }
 
 /* Lower the quote panel */
 .daily-quote.whisper {
-  z-index: 25; /* still above background, but below UI */
+  z-index: 25;
+  /* still above background, but below UI */
 }
 
 /* Lower the author bubble */
@@ -257,18 +260,14 @@
   display: flex;
   align-items: flex-start;
   gap: 1.2rem;
-  padding-left: 1.2rem; /* matches your button offset */
+  padding-left: 1.2rem;
+  /* matches your button offset */
 }
 
 .quote-container {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-}
-/* Completely hide the homepage DailyQuote UI */
-.quote-container,
-.daily-quote {
-  display: none !important;
 }
 
 
@@ -285,5 +284,3 @@
     margin: 0 auto;
   }
 }
-
-

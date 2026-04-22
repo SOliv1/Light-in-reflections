@@ -3,9 +3,9 @@ import "./BackgroundCarousel.css";
 import Veil from "./Veil/Veil";
 
 const VEIL_CLASS_MAP = {
-  on: "veil-default",
+  on: "veil-on",
   lift: "veil-lift",
-  off: "veil-none",
+  off: "veil-off",
 };
 
 const MOOD_CLASS_MAP = {
@@ -42,6 +42,7 @@ export default function BackgroundCarousel({
   weatherImage,
   weatherMood,
   season,
+  moodFilter,
 }) {
   const [index, setIndex] = useState(0);
 
@@ -89,7 +90,10 @@ export default function BackgroundCarousel({
   const seasonClassName = season ? `season-${season}` : "";
 
   return (
-    <div className={`background-carousel ${veilClassName} ${moodClassName} ${seasonClassName}`}>
+    <div
+      className={`background-carousel ${veilClassName} ${moodClassName} ${seasonClassName}`}
+      style={{ "--mood-filter": moodFilter || "brightness(1)" }}
+    >
       <div className="seasonal-drift" />
 
       {/* Deep atmospheric layer */}

@@ -2,9 +2,9 @@
 import React, { useMemo } from "react";
 
 const STATE_CLASS_MAP = {
-  on: "veil-default",
+  on: "veil-on",
   lift: "veil-lift",
-  off: "veil-none",
+  off: "veil-off",
 };
 
 const MOOD_CLASS_MAP = {
@@ -20,16 +20,13 @@ const MOOD_CLASS_MAP = {
 };
 
 export default function Veil({ moodColor = "neutral", state = "on", season = "", autoVeil = false }) {
-  // Auto veil logic
   const computedState = useMemo(() => {
-    if (!autoVeil) return state; // manual mode
+    if (!autoVeil) return state;
 
     const hour = new Date().getHours();
-
-    if (hour >= 5 && hour < 12) return "on";        // morning veil (soft)
-    if (hour >= 12 && hour < 17) return "on";       // twilight veil (your default)
-    if (hour >= 17 && hour < 21) return "lift";     // blue-hour (lighter lift)
-    return "off";                                   // night veil (deep)
+    if (hour >= 5 && hour < 17) return "on";
+    if (hour >= 17 && hour < 21) return "lift";
+    return "off";
   }, [state, autoVeil]);
 
   const veilStateClass = STATE_CLASS_MAP[computedState] || STATE_CLASS_MAP.on;

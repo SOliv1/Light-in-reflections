@@ -9,6 +9,7 @@
   --veil-image-filter: brightness(0.7) contrast(0.98) saturate(1.04);
   --veil-image-opacity: 0.58;
   --weather-image-opacity: 0.7;
+  --mood-filter: brightness(1); /* no-op default; overridden per mood when veil is ON */
 
   position: fixed;
   inset: 0;
@@ -63,10 +64,16 @@
   opacity: var(--veil-image-opacity);
 }
 
-/* Veil-none overrides */
-.veil-none .bg-image,
-.veil-none .weather-image {
-  filter: brightness(0.92) contrast(1.02) saturate(1.05) !important;
+/* Veil-off overrides — restore near-full brightness */
+.veil-off .bg-image,
+.veil-off .weather-image {
+  filter: brightness(0.94) contrast(1.01) saturate(1.03) !important;
+}
+
+/* When veil is ON, apply mood-filter on top of veil-image-filter to dim bright images */
+.veil-on .bg-image,
+.veil-on .weather-image {
+  filter: var(--mood-filter) var(--veil-image-filter);
 }
 
 /* Mobile fallback */
@@ -103,7 +110,8 @@
 /* -----------------------------------------------------------
    VEIL SYSTEM — MERGED + CLEAN
 ----------------------------------------------------------- */
-/* Default twilight veil */
+/* Default - 'ON' - twilight veil
+--------------------------- */
 .veil {
   position: absolute;
   inset: 0;
@@ -116,7 +124,22 @@
   backface-visibility: hidden;
 }
 
-.veil-default .twilight-overlay {
+/* When veil is ON, strengthen mood overlays */
+.veil-on .twilight-overlay {
+  background: rgba(0, 0, 0, 0.45);
+  /* previously ~0.25 */
+}
+
+.veil-on .night-overlay {
+  background: rgba(0, 0, 0, 0.60);
+  /* deeper for night */
+}
+
+.veil-on .storm-overlay {
+  background: rgba(0, 0, 0, 0.50);
+}
+
+.veil-on .twilight-overlay {
   opacity: 0.62;
   background:
     radial-gradient(circle at 50% 42%, var(--veil-center) 0%, color-mix(in srgb, var(--veil-center) 72%, transparent) 34%, var(--veil-edge) 100%),
@@ -129,6 +152,18 @@
   /* blue‑black twilight */
   backdrop-filter: blur(3px);
 }
+
+.twilight-overlay,
+.night-overlay,
+.storm-overlay,
+.veil.blue-hour {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* above background-carousel */
+  pointer-events: none;
+}
+
 
 /* Lift veil */
 .veil-lift {

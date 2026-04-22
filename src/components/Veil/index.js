@@ -1,9 +1,9 @@
 import React from "react";
 
 const STATE_CLASS_MAP = {
-  on: "veil-default",
+  on: "veil-on",
   lift: "veil-lift",
-  off: "veil-none",
+  off: "veil-off",
 };
 
 const MOOD_CLASS_MAP = {

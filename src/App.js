@@ -12,8 +12,8 @@ import { BIRTHDAY_DAY, BIRTHDAY_MONTH } from "./data/birthdayExperience";
 import useWeatherPhotos from "./hooks/useWeatherPhotos";
 import DayPage from "./pages/DayPage";
 import MockWeatherGlyph from "./dev-only/MockWeatherGlyph";
-import DailyQuote from "./components/DailyQuote";
-import "./styles/DrawerUnified.css";
+/* DailyQuote whisper removed — import kept for potential future use */
+// import "./styles/DrawerUnified.css";
 import UnifiedDrawer from "./components/UnifiedDrawer";
 import {
   moodImageFilter,
@@ -87,11 +87,20 @@ function formatLocationLabel(data) {
   return "Local weather";
 }
 
+function hexToRgb(color) {
+  if (!color) return "138, 180, 248";
+  const rgb = color.match(/^rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\s*\)$/);
+  if (rgb) return `${rgb[1]}, ${rgb[2]}, ${rgb[3]}`;
+  const hex = color.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+  if (hex) return `${parseInt(hex[1], 16)}, ${parseInt(hex[2], 16)}, ${parseInt(hex[3], 16)}`;
+  return "138, 180, 248";
+}
+
 function AppShell() {
   const modes = ["architectural", "water", "macro"];
   const [mode, setMode] = useState("architectural");
   const [photos, setPhotos] = useState([]);
-  const [veilMode, setVeilMode] = useState("off");
+  const [veilMode, setVeilMode] = useState("on");
   const [autoVeil, setAutoVeil] = useState(false);
   const [weatherCondition, setWeatherCondition] = useState(null);
   const [temperature, setTemperature] = useState(null);
@@ -265,6 +274,7 @@ function AppShell() {
   const isNight = hour < 6 || hour >= 18;
   const backgroundImage = useWeatherPhotos(isHomePage);
   const weatherMood = weatherCondition || "neutral";
+  const moodFilter = moodImageFilter[weatherMood] || "brightness(1)";
 
   const [orbColor, setOrbColor] = useState("#8ab4f8");
   const [portalMood, setPortalMood] = useState("reset");
@@ -314,7 +324,10 @@ function AppShell() {
 
     </div>
 
-    <div className={`App mode-${mode} time-${timeOfDay}`}>
+    <div className={`App mode-${mode} time-${timeOfDay}`} style={{
+        "--orbColor": orbColor,
+        "--orbColorRGB": hexToRgb(orbColor),
+      }}>
       <Link to="/" className="app-home-logo" aria-label="Return home">
         <img src={logo} className="App-logo" alt="My Reflections Glow logo" />
       </Link>
@@ -334,6 +347,7 @@ function AppShell() {
           weatherImage={backgroundImage}
           weatherMood={weatherMood}
           season={season}
+          moodFilter={moodFilter}
         />
       )}
 
@@ -363,8 +377,8 @@ function AppShell() {
               </button>
             </div>
           </div>
+          {/* DailyQuote whisper removed — quote lives in the Drawer */}
 
-          <DailyQuote veilMode={veilMode} weatherMood={weatherMood} />
         </div>
       </div>
 
