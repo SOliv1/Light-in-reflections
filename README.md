@@ -2,6 +2,8 @@
 [![Jekyll site CI](https://github.com/SOliv1/reflections-in-light/actions/workflows/jekyll-docker.yml/badge.svg)](https://github.com/SOliv1/reflections-in-light/actions/workflows/jekyll-docker.yml)[![CodeQL](https://github.com/SOliv1/reflections-in-light/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SOliv1/reflections-in-light/actions/workflows/github-code-scanning/codeql)[![wakatime](https://wakatime.com/badge/github/SOliv1/reflections-in-light.svg)](https://wakatime.com/badge/github/SOliv1/reflections-in-light) ][![Netlify Status](https://api.netlify.com/api/v1/badges/e706908e-f3c6-4c65-8720-bce30592b0b5/deploy-status)](https://app.netlify.com/projects/reflections-in-lights/deploys)
 ## View the Reflections Project [Here](https://reflections-in-light.onrender.com/)
 
+### Website published at https://reflections-in-light.com
+
 ![Reflections in Light banner](https://github.com/user-attachments/assets/dffedefd-3c06-4268-bcea-8ebad2ac1b56)
 [View the image and others & credit here on Unsplash](https://unsplash.com/photos/an-open-door-in-the-middle-of-a-field-of-flowers-2GjUCqsN3pg)
 
