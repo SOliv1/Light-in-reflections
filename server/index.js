@@ -17,6 +17,8 @@ app.use(
       "http://localhost",
       "http://localhost:3000",
       "https://reflections-in-light.onrender.com",
+      "https://reflections-in-light.com",
+      "https://www.reflections-in-light.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
