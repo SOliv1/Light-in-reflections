@@ -72,6 +72,7 @@ import daysRoutes from "./routes/days.js";
 import uploadRoute from "./routes/upload.js";
 import weatherRoutes from "./routes/weather.js";
 import randomImageRoute from "./routes/randomImage.js";
+import actionsRoutes from "./routes/actions.js";
 
 // ------------------------------------------------------------
 // BASIC ROUTES
@@ -107,6 +108,7 @@ app.get("/health", async (_req, res) => {
 // ------------------------------------------------------------
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/background", backgroundRoutes);
+app.use("/api/actions", actionsRoutes);
 app.use("/days", daysRoutes);
 app.use("/upload", uploadRoute);
 app.use("/api", weatherRoutes);

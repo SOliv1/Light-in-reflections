@@ -159,10 +159,36 @@
 .short-reflections-drawer .todo-input-row input:focus,
 .short-reflections-drawer .journal-area:focus,
 .short-reflections-drawer .daily-reflection-area:focus,
-.short-reflections-drawer .fresh-thought-area:focus {
+.short-reflections-drawer .fresh-thought-area:focus,
+.short-reflections-drawer .drawer-field select:focus {
     outline: none;
     border-color: rgba(var(--orbColorRGB), 0.55);
     background: rgba(var(--orbColorRGB), 0.16);
+}
+
+.short-reflections-drawer .drawer-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.short-reflections-drawer .drawer-field span {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 251, 245, 0.72);
+}
+
+.short-reflections-drawer .drawer-field select {
+    width: 100%;
+    padding: 0.78rem 0.95rem;
+    border-radius: 16px;
+    background: rgba(var(--orbColorRGB), 0.1);
+    border: 1px solid rgba(var(--orbColorRGB), 0.3);
+    color: rgba(255, 251, 245, 0.96);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.98rem;
 }
 
 /* -----------------------------------------------------------
@@ -419,6 +445,52 @@
     display: block;
 }
 
+.todo-input-grid {
+    display: grid;
+    gap: 0.75rem;
+    align-items: end;
+}
+
+.action-add-btn {
+    justify-self: start;
+}
+
+.actions-notification-panel {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(var(--orbColorRGB), 0.16), rgba(255, 255, 255, 0.06));
+    border: 1px solid rgba(var(--orbColorRGB), 0.22);
+}
+
+.actions-notification-copy {
+    margin: 0.15rem 0 0;
+    color: rgba(255, 251, 245, 0.76);
+    line-height: 1.45;
+}
+
+.actions-summary-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.actions-summary-chip {
+    padding: 0.38rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(var(--orbColorRGB), 0.14);
+    border: 1px solid rgba(var(--orbColorRGB), 0.25);
+    color: rgba(255, 251, 245, 0.88);
+    font-size: 0.84rem;
+    letter-spacing: 0.03em;
+}
+
+.actions-notification-btn {
+    justify-self: start;
+}
+
 /* Action item checkbox */
 .short-reflections-drawer .action-checkbox {
     appearance: none;
@@ -462,6 +534,62 @@
     flex: 1;
 }
 
+.short-reflections-drawer .priority-action-card {
+    background: var(--taskPriorityBg);
+    border-color: var(--taskPriorityBorder);
+}
+
+.short-reflections-drawer .priority-action-card:hover {
+    background: var(--taskPriorityBg);
+    border-color: var(--taskPriorityBorder);
+    box-shadow: 0 0 18px rgba(var(--orbColorRGB), 0.16);
+}
+
+.priority-action-content {
+    flex: 1;
+    display: grid;
+    gap: 0.65rem;
+}
+
+.priority-action-meta,
+.priority-action-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+}
+
+.priority-pill,
+.reminder-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.62rem;
+    border-radius: 999px;
+    border: 1px solid var(--taskPriorityBorder);
+    background: var(--taskPriorityBadge);
+    color: var(--taskPriorityText);
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+}
+
+.priority-action-controls .drawer-field.inline {
+    min-width: 8.75rem;
+    flex: 1 1 9rem;
+}
+
+.priority-action-controls .drawer-field.inline span {
+    font-size: 0.7rem;
+}
+
+.priority-action-controls .drawer-field.inline select:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.action-nudge-btn {
+    padding-inline: 0.95rem !important;
+}
+
 /* Section divider between fresh-thought and notes list */
 .short-reflections-drawer .section-divider {
     border: none;
@@ -477,4 +605,47 @@
 .unified-drawer-panel .todo-list {
     margin-bottom: 0;
     padding-bottom: 0.25rem;
+}
+
+@media (min-width: 700px) {
+    .todo-input-grid {
+        grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+    }
+
+    .action-add-btn {
+        justify-self: end;
+    }
+}
+
+/* ── Email reminder settings ── */
+.email-reminder-row {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.email-reminder-input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.email-reminder-input {
+    flex: 1;
+    padding: 0.45rem 0.75rem;
+    border-radius: 10px;
+    border: 1px solid rgba(var(--orbColorRGB), 0.3);
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 251, 245, 0.92);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.email-reminder-input:focus {
+    border-color: rgba(var(--orbColorRGB), 0.65);
+}
+
+.email-save-btn {
+    white-space: nowrap;
+    padding: 0.45rem 1rem;
 }
