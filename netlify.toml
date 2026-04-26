@@ -4,7 +4,7 @@
 
 [build.environment]
   CI = "false"
-  REACT_APP_API_BASE_URL = "https://reflections-in-light.onrender.com"
+  REACT_APP_API_BASE_URL = "https://reflections-hcjq.onrender.com"
 
 [[redirects]]
   from = "/*"
