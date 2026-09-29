@@ -19,6 +19,6 @@
     "express": "^5.2.1",
     "mongodb": "^7.1.0",
     "mongoose": "^9.7.2",
-    "multer": "^2.2.0"
+    "multer": "^2.4.0"
   }
 }
